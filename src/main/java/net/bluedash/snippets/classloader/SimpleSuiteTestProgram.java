@@ -15,7 +15,7 @@ public class SimpleSuiteTestProgram {
             for (int i = 0; ; i++) {
                 ClassLoader aClassLoader
                         = new SimpleClassLoader("target/classes/net/bluedash/snippets/classloader");
-                Class c = aClassLoader.loadClass("TestCase" + i);
+                Class c = aClassLoader.loadClass("net.bluedash.snippets.classloader.TestCase" + i);
                 Method m = null;
                 try {
                     m = c.getMethod("main", formals);
@@ -31,6 +31,7 @@ public class SimpleSuiteTestProgram {
                 }
             }
         } catch (ClassNotFoundException e) {
-        } // testing completed }
+        	System.out.println("no more tests");
+        } 
     }
 }
