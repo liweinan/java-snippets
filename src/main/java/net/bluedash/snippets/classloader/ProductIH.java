@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 class ProductIH implements InvocationHandler {
-	private Product target = null;
+	private Object target = null;
 	static private Class[] productAInterfaces = { Product.class };
 
 	public static Product newInstance(Product obj) {
@@ -15,22 +15,24 @@ class ProductIH implements InvocationHandler {
 				new ProductIH(obj));
 	}
 
-	private ProductIH(Product obj) {
+	private ProductIH(Object obj) {
 		target = obj;
 	}
 
-	public void setTarget(Product x) {
+	public void setTarget(Object x) {
 		target = x;
 	}
 
-	public Product getTarget() {
+	public Object getTarget() {
 		return target;
 	}
 
 	public Object invoke(Object t, Method m, Object[] args) throws Throwable {
 		Object result = null;
 		try {
-			result = m.invoke(target, args);
+//			result = m.invoke(target, args);
+			Method _m = target.getClass().getMethod(m.getName());
+			result = _m.invoke(target);
 		} catch (InvocationTargetException e) {
 			throw e.getTargetException();
 		}

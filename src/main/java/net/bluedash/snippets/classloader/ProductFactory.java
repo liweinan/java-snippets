@@ -34,13 +34,13 @@ public class ProductFactory {
 			Proxy x = (Proxy) ((WeakReference) instances.get(i)).get();
 			if (x != null) {
 				ProductIH aih = (ProductIH) Proxy.getInvocationHandler(x);
-				Product oldObject = aih.getTarget();
-				Product replacement = (Product) implClass.newInstance();
+				Object oldObject = aih.getTarget();
+				Object replacement = implClass.newInstance();				  
 				aih.setTarget(replacement);
 				newInstances.add(new WeakReference(x));
 			}
 		}
+		
 		instances = newInstances;
-
 	}
 }

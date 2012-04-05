@@ -10,18 +10,36 @@ public class SimpleClassLoader extends ClassLoader {
 
 	public SimpleClassLoader(String path) {
 		dirs = path.split(System.getProperty("path.separator"));
+		String[] _dirs = dirs.clone();
+		for (String dir : _dirs) {
+			extendClasspath(dir);
+		}
 	}
 
 	public void extendClasspath(String path) {
-		String[] exDirs = path.split(System.getProperty("path.separator"));
+		String[] segments = path.split("/");
+		String[] exDirs = new String[segments.length];
+		for (int i = 0; i < (segments.length); i++) {
+			exDirs[i] = popd(segments, i);
+		}
+
 		String[] newDirs = new String[dirs.length + exDirs.length];
 		System.arraycopy(dirs, 0, newDirs, 0, dirs.length);
 		System.arraycopy(exDirs, 0, newDirs, dirs.length, exDirs.length);
 		dirs = newDirs;
 	}
 
+	private String popd(String[] pathSegments, int level) {
+		StringBuffer path = new StringBuffer();
+		for (int i = 0; i < level; i++) {
+			path.append(pathSegments[i]).append("/");
+		}
+		return path.toString();
+	}
+
 	public synchronized Class findClass(String name)
 			throws ClassNotFoundException {
+
 		for (String dir : dirs) {
 			byte[] buf = getClassData(dir, name);
 			if (buf != null)
