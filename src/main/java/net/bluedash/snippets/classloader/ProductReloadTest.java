@@ -3,7 +3,7 @@ package net.bluedash.snippets.classloader;
 
 /*
  * mvn install 
- * mvn exec:java -Dexec.mainClass="net.bluedash.snippets.classloader.ProductReloadTest"
+ * mvn -q exec:java -Dexec.mainClass="net.bluedash.snippets.classloader.ProductReloadTest"
  */
 public class ProductReloadTest {
 

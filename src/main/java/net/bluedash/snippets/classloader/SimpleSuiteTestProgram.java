@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 
 /*
  * mvn install
- * mvn exec:java -Dexec.mainClass="net.bluedash.snippets.classloader.SimpleSuiteTestProgram"
+ * mvn -q exec:java -Dexec.mainClass="net.bluedash.snippets.classloader.SimpleSuiteTestProgram"
  */
 public class SimpleSuiteTestProgram {
     static Class[] formals = {String[].class};

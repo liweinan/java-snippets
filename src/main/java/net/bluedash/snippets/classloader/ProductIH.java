@@ -30,7 +30,6 @@ class ProductIH implements InvocationHandler {
 	public Object invoke(Object t, Method m, Object[] args) throws Throwable {
 		Object result = null;
 		try {
-//			result = m.invoke(target, args);
 			Method _m = target.getClass().getMethod(m.getName());
 			result = _m.invoke(target);
 		} catch (InvocationTargetException e) {
