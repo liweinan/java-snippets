@@ -1,8 +1,8 @@
-package threadlocal;
+package net.bluedash.threadlocal;
 
-public class PlayThreadLocal {
+public class PlayMyThreadLocal {
 
-	static final ThreadLocal<Long> threadIdPool = new ThreadLocal<Long>() {
+	static final MyThreadLocal threadIdPool = new MyThreadLocal() {
 		public Long initialValue() {
 			return Long.valueOf(System.nanoTime());
 		}
