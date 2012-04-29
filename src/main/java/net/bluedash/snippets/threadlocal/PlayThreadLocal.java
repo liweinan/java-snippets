@@ -1,4 +1,4 @@
-package net.bluedash.threadlocal;
+package net.bluedash.snippets.threadlocal;
 
 public class PlayThreadLocal {
 

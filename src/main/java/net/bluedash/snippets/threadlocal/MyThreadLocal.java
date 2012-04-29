@@ -1,4 +1,4 @@
-package net.bluedash.threadlocal;
+package net.bluedash.snippets.threadlocal;
 
 import java.util.Collections;
 import java.util.Map;

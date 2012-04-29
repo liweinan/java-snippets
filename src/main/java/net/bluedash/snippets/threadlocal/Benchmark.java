@@ -1,5 +1,9 @@
-package net.bluedash.threadlocal;
+package net.bluedash.snippets.threadlocal;
 
+/*
+ * mvn install
+ * mvn -q exec:java -Dexec.mainClass="net.bluedash.snippets.threadlocal.Benchmark"
+ */
 public class Benchmark {
 
 	private static final double NANO_TIME = 1000000000.0;
@@ -28,7 +32,7 @@ public class Benchmark {
 		}
 	}
 
-	private static final int ROUND = 10;
+	private static final int ROUND = 1000;
 	private static final int TIMES = 1000;
 	private static Thread[] threadPool = new Thread[ROUND];
 
