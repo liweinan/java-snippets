@@ -1,9 +1,9 @@
 package net.bluedash.threadlocal;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Benchmark {
+
+	private static final double NANO_TIME = 1000000000.0;
+
 	static final ThreadLocal<Long> threadIdPool1 = new ThreadLocal<Long>() {
 		public Long initialValue() {
 			return Long.valueOf(System.nanoTime());
@@ -28,21 +28,21 @@ public class Benchmark {
 		}
 	}
 
-	private static final int ROUND = 1000;
+	private static final int ROUND = 10;
 	private static final int TIMES = 1000;
-	private static Thread[] threadPool = new Thread[ROUND]; 
+	private static Thread[] threadPool = new Thread[ROUND];
 
-	public static void main(String[] args) throws InterruptedException {		
-		
+	public static void main(String[] args) throws InterruptedException {
+
 		long sum = 0;
 		for (int j = 0; j < TIMES; j++) {
 			long start = System.nanoTime();
 			for (int i = 0; i < ROUND; i++) {
 				Thread t = new Thread1();
 				threadPool[i] = t;
-				t.start();			
+				t.start();
 			}
-			
+
 			for (Thread t : threadPool) {
 				t.join();
 			}
@@ -50,23 +50,24 @@ public class Benchmark {
 			sum += (end - start);
 		}
 
-		System.out.println("Time of ThreadLocal:" + (sum / TIMES));
+		System.out.println("Time of ThreadLocal:" + (sum / TIMES / NANO_TIME)
+				+ "s");
 
-		
-		/* 
-		 * 清空ThreadPool
+		/*
+		 * Clear ThreadPool
 		 */
 		for (int i = 0; i < ROUND; i++) {
 			threadPool[i] = null;
 		}
-		
+
 		/*
-		 * 回收内存
+		 * Garbage Collection before MyThread testing. Because it may affect the
+		 * result.
 		 */
 		System.gc();
-		
+
 		/*
-		 * 测试MyThread
+		 * Test MyThreadLocal
 		 */
 		sum = 0;
 		for (int j = 0; j < TIMES; j++) {
@@ -83,6 +84,7 @@ public class Benchmark {
 			sum += (end - start);
 		}
 
-		System.out.println("Time of MyThreadLocal:" + (sum / TIMES));
+		System.out.println("Time of MyThreadLocal:" + (sum / TIMES / NANO_TIME)
+				+ "s");
 	}
 }

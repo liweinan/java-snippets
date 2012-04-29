@@ -1,11 +1,11 @@
 package net.bluedash.threadlocal;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 public class MyThreadLocal {
-	private Map values = Collections.synchronizedMap(new HashMap());
+	private Map values = Collections.synchronizedMap(new WeakHashMap());
 
 	public Object get() {
 		Thread curThread = Thread.currentThread();
