@@ -47,7 +47,7 @@ public class SimpleClassLoader extends ClassLoader {
         for (String dir : dirs) {
             byte[] buf = getClassData(dir, name);
             if (buf != null) {
-                System.out.println("Loaded '" + name + "' from: " + dir);
+//                System.out.println("Loaded '" + name + "' from: " + dir);
                 return defineClass(name, buf, 0, buf.length);
             }
         }

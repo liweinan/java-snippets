@@ -14,8 +14,8 @@ public class ClassLoaderNamespaceDemo {
     public static void main(String[] args) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
 
         ClassLoader cl1 = new SimpleClassLoader("target/classes/net/bluedash/snippets/classloader/demos");
-
         Class myClass1 = cl1.loadClass("net.bluedash.snippets.classloader.demos.HelloImpl1");
+        HelloImpl1 hello = (HelloImpl1) myClass1.newInstance();
 
         ClassLoader cl2 = new SimpleClassLoader("target/classes/net/bluedash/snippets/classloader/demos");
 
@@ -26,6 +26,8 @@ public class ClassLoaderNamespaceDemo {
 
 
         System.out.println(myClass1 == myClass2);
+
+
 
     }
 }
