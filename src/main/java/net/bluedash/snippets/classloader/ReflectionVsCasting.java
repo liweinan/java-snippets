@@ -9,25 +9,20 @@ import java.lang.reflect.Method;
 */
 public class ReflectionVsCasting {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, NoSuchMethodException, InstantiationException, InvocationTargetException {
         ClassLoader aClassLoader
                 = new SimpleClassLoader("target/classes/net/bluedash/snippets/classloader");
+
+        Class clazz = aClassLoader.loadClass("net.bluedash.snippets.classloader.Red");
+        Method m = clazz.getMethod("show");
+        m.invoke(clazz.newInstance());
+
         try {
-            Class clazz = aClassLoader.loadClass("net.bluedash.snippets.classloader.Red");
-            Method m = clazz.getMethod("show");
-            m.invoke(clazz.newInstance());
-            // This will produce java.lang.reflect.InvocationTargetException:
-            // Color c = (Color) clazz.newInstance();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            clazz = aClassLoader.loadClass("net.bluedash.snippets.classloader.Red");
+            Red c = (Red) clazz.newInstance(); // produces exception
+        } catch (RuntimeException e) {
+            System.out.println(e);
         }
+
     }
 }
