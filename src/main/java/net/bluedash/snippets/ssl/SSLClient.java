@@ -1,45 +1,159 @@
 package net.bluedash.snippets.ssl;
 
-import javax.net.SocketFactory;
-import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.*;
 
-public class SSLClient {
-
-    private static String CLIENT_KEY_STORE = "/Users/weli/projs/java-snippets/src/main/resources/demo_ks";
+public class SSLClient extends Thread {
 
     public static void main(String[] args) throws Exception {
-        // Set the key store to use for validating the server cert.
-        System.setProperty("javax.net.ssl.trustStore", CLIENT_KEY_STORE);
-        System.setProperty("javax.net.debug", "ssl,handshake");
+        List<SSLClient> threads = new ArrayList<SSLClient>();
 
-        SSLClient client = new SSLClient();
-        SSLSocket s = (SSLSocket) client.clientWithoutCert();
-        io(s);
-        s.close();
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 1000; i++) {
+            SSLClient client = new SSLClient();
+            client.start();
+            threads.add(client);
+        }
 
-        SSLClient client2 = new SSLClient();
-        SSLSocket s2 = (SSLSocket) client2.clientWithoutCert();
-        io(s2);
-        s2.close();
+        for (SSLClient client : threads) {
+            client.join();
+        }
+
+        SocketPool.reset();
+
+        System.out.println("***Time consumed: " + (System.currentTimeMillis() - start));
     }
 
-    private static void io(SSLSocket socket) throws IOException {
-        PrintWriter writer = new PrintWriter(socket.getOutputStream());
-        BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    private Socket getSocket() throws Exception {
+        Socket socket = null;
+        boolean fire = true;
+        while (fire) {
+            try {
+                socket = SocketPool.getSocket();
+                fire = false;
+            } catch (ConcurrentModificationException e) {
+                //retry
+            }
+        }
+        return socket;
+    }
+
+    private PrintWriter writer = null;
+    private BufferedReader reader = null;
+
+    public void write(Socket socket) throws Exception {
+        writer = new PrintWriter(socket.getOutputStream());
         writer.println("hello");
         writer.flush();
-        System.out.println(reader.readLine());
-        System.out.println(socket.getSession());
     }
 
-    private Socket clientWithoutCert() throws Exception {
-        SocketFactory sf = SSLSocketFactory.getDefault();
-        return sf.createSocket("localhost", 8443);
+    private String response;
+
+    public void read(Socket socket) throws Exception {
+        reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        response = reader.readLine();
+        reader.close(); // Very important to close reader before socket is returned to pool.
+        SocketPool.returnSocket(socket);
+        new Thread() {
+            public void run() {
+                System.out.println(response);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
+
+    public void run() {
+
+        Socket socket = null;
+        try {
+            socket = getSocket();
+
+            write(socket);
+            read(socket);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+                if (writer != null)
+                    writer.close();
+                SocketPool.returnSocket(socket);
+            } catch (Exception e) {
+                SocketPool.returnSocket(socket);
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    private static class SocketPool {
+        private static final String CLIENT_KEY_STORE = "/Users/weli/projs/tcprest/src/main/resources/client_ks";
+
+        private static final LinkedList<Socket> socketPool = new LinkedList<Socket>();
+        private static final ArrayList<Socket> usedSocketPool = new ArrayList<Socket>();
+
+        private static int limit = 30;
+
+        public static Socket getSocket() throws Exception {
+            Socket sc;
+            synchronized (SocketPool.class) {
+                if (usedSocketPool.size() == limit) {
+                    throw new ConcurrentModificationException(); // no more socket in pool.
+                }
+                try {
+                    sc = socketPool.pop();
+                    if (sc.isClosed()) {
+                        throw new NoSuchElementException();
+                    }
+                    usedSocketPool.add(sc);
+                    return sc;
+                } catch (NoSuchElementException e) {
+                    return createSocket();
+                }
+
+            }
+        }
+
+        public static void returnSocket(Socket sc) {
+            if (sc != null) {
+                synchronized (SocketPool.class) {
+                    usedSocketPool.remove(sc);
+                    if (!sc.isClosed())
+                        socketPool.push(sc);
+                }
+            }
+        }
+
+        public static void reset() {
+            try {
+                for (Socket sc : socketPool) {
+                    sc.close();
+                }
+                for (Socket sc : usedSocketPool) {
+                    sc.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+
+        private static Socket createSocket() throws Exception {
+            System.setProperty("javax.net.ssl.trustStore", "/Users/weli/projs/tcprest/src/main/resources/client_ks");
+            Socket sc = SSLSocketFactory.getDefault().createSocket("localhost", 8443);
+            usedSocketPool.add(sc);
+            return sc;
+        }
+    }
+
 }

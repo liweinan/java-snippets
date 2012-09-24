@@ -21,6 +21,11 @@
                 </exclusion>
             </exclusions> -->
         </dependency>
+        <dependency>
+            <groupId>org.jboss.netty</groupId>
+            <artifactId>netty</artifactId>
+            <version>3.2.7.Final</version>
+        </dependency>
     </dependencies>
     <name>Archetype - pieces</name>
     <url>http://maven.apache.org</url>
