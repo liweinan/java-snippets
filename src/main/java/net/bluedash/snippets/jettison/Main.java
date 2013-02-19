@@ -6,10 +6,6 @@ import org.codehaus.jettison.badgerfish.BadgerFishXMLStreamReader;
 import org.codehaus.jettison.badgerfish.BadgerFishXMLStreamWriter;
 import org.codehaus.jettison.json.JSONObject;
 import org.codehaus.jettison.mapped.MappedNamespaceConvention;
-import org.codehaus.jettison.mapped.MappedXMLStreamReader;
-import org.codehaus.jettison.mapped.MappedXMLStreamWriter;
-
-import javax.xml.stream.XMLStreamReader;
 import java.io.StringWriter;
 
 /**
