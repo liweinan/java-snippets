@@ -1,6 +1,9 @@
 {
-    "name" : { "first" : "Joe", "last" : "Sixpack" },
-    "gender" : "MALE",
-    "verified" : false,
-    "userImage" : "Rm9vYmFyIQ=="
+    "name": {
+        "first": "Tom",
+        "last": "Sawyer"
+    },
+    "gender": "MALE",
+    "userImage": "Rm9vYmFyIQ==",
+    "verified": false
 }

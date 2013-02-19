@@ -7,6 +7,15 @@ public class User {
     public enum Gender {MALE, FEMALE};
 
     public static class Name {
+        public Name() {
+
+        }
+
+        public Name(String first, String last) {
+            this._first = first;
+            this._last = last;
+        }
+
         private String _first, _last;
 
         public String getFirst() {
