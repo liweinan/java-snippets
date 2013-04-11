@@ -1,3 +1,5 @@
+package net.bluedash.snippets.classloader;
+
 import net.bluedash.snippets.classloader.SimpleClassLoader;
 import org.junit.Test;
 

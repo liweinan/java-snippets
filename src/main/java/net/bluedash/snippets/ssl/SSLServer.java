@@ -34,7 +34,7 @@ public class SSLServer extends Thread {
                     } catch (Exception e) {
                         writer.close();
                         socket.close();
-                        System.out.println(e.getClass().toString());
+                        e.printStackTrace();
                         System.out.println("Client disconnected.");
                         break;
                     }
@@ -55,13 +55,13 @@ public class SSLServer extends Thread {
         // trust store is for verifying incoming certs
         // key store is to provide cert to clients
         // We use same file for trust store and key store for SSLServer
-        System.setProperty("javax.net.ssl.trustStore", PATH + SERVER_KEY_STORE);
+//        System.setProperty("javax.net.ssl.trustStore", PATH + SERVER_KEY_STORE);
 
 
         SSLContext context = SSLContext.getInstance("TLS");
 
         KeyStore ks = KeyStore.getInstance("jceks");
-        ks.load(new FileInputStream(PATH + SERVER_KEY_STORE), null);
+        ks.load(new FileInputStream("/Users/weli/projs/tcprest/src/main/resources/server_ks"), null);
         KeyManagerFactory kf = KeyManagerFactory.getInstance("SunX509");
         kf.init(ks, SERVER_KEY_STORE_PASSWORD.toCharArray());
 
