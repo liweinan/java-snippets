@@ -26,7 +26,6 @@ public class SimpleClassLoaderSmokeTest {
 
     }
 
-
     @Test
     public void testMultipleLevelClassLoading() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException {
         ClassLoader cl = new SimpleClassLoader("target/classes/net/bluedash/snippets/classloader/impl2");
