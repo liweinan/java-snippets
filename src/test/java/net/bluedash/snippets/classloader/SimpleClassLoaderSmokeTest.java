@@ -1,5 +1,6 @@
 package net.bluedash.snippets.classloader;
 
+import junit.framework.Assert;
 import net.bluedash.snippets.classloader.SimpleClassLoader;
 import org.junit.Test;
 
@@ -31,7 +32,7 @@ public class SimpleClassLoaderSmokeTest {
         ClassLoader cl = new SimpleClassLoader("target/classes/net/bluedash/snippets/classloader/impl2");
         Class clazz = cl.loadClass("net.bluedash.snippets.classloader.impl2.ProductImpl");
         assertNotNull(clazz);
-        Method method = clazz.getMethod("show");
-		method.invoke(clazz.newInstance(), null);
+        Method method = clazz.getMethod("getName");
+        Assert.assertEquals("ProductImpl2", method.invoke(clazz.newInstance(), null));
     }
 }
