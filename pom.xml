@@ -16,6 +16,7 @@
         <dep.jetty.version>3.2.9.Final</dep.jetty.version>
         <dep.jettison.version>1.3.3</dep.jettison.version>
         <dep.jaxb-impl.version>2.2.6</dep.jaxb-impl.version>
+        <dep.jgroups.version>3.3.4.Final</dep.jgroups.version>
     </properties>
 
     <dependencies>
@@ -58,6 +59,11 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>${dep.log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jgroups</groupId>
+            <artifactId>jgroups</artifactId>
+            <version>${dep.jgroups.version}</version>
         </dependency>
     </dependencies>
 </project>
