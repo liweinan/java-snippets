@@ -2,8 +2,6 @@ package net.bluedash.snippets.jgroup;
 
 import org.jgroups.JChannel;
 import org.jgroups.Message;
-import org.jgroups.ReceiverAdapter;
-import org.jgroups.View;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
