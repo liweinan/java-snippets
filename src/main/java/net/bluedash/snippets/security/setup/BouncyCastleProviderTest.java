@@ -1,4 +1,4 @@
-package net.bluedash.snippets.security;
+package net.bluedash.snippets.security.setup;
 
 import java.security.Provider;
 import java.security.Security;
@@ -8,6 +8,8 @@ import java.security.Security;
  */
 public class BouncyCastleProviderTest {
     public static void main(String[] args) {
+//        Security.addProvider(new BouncyCastleProvider());
+
         String providerName = "BC";
         for (Provider provider : Security.getProviders()) {
             System.out.println(provider.getName());

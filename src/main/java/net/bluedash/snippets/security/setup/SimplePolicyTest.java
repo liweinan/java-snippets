@@ -1,4 +1,4 @@
-package net.bluedash.snippets.security;
+package net.bluedash.snippets.security.setup;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
