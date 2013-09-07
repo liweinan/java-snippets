@@ -20,5 +20,10 @@ public class InetAddressPlayer {
 
         System.out.println(java.net.InetAddress.getByName(oreillyAddress.getHostAddress()));
         System.out.println(java.net.InetAddress.getByName(oreillyAddress.getHostName()));
+
+        for (InetAddress appleAddresses : InetAddress.getAllByName("www.apple.com")) {
+            System.out.println(appleAddresses);
+        }
+
     }
 }

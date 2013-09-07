@@ -1,0 +1,3 @@
+grant Principal io.res.jaas.SimplePrincipal "weli" {
+    permission java.io.FilePermission
+}

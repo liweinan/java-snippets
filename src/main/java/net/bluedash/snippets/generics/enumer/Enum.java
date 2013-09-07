@@ -26,6 +26,6 @@ public abstract class Enum<E extends Enum<E>> implements Comparable<E> {
     }
 
     public final int compareTo(E o) {
-        return ordinal - o.ordinal;
+        return ordinal - o.ordinal();
     }
 }
