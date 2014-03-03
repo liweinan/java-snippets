@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * mvn -q exec:java -Dexec.mainClass="net.bluedash.snippets.io.OutputToFile"
+ * mvn -q exec:rmi -Dexec.mainClass="net.bluedash.snippets.io.OutputToFile"
  */
 public class OutputToFile {
 

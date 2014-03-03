@@ -3,7 +3,7 @@ package net.bluedash.snippets.io;
 import java.io.IOException;
 
 /**
- * mvn -q exec:java -Dexec.mainClass="net.bluedash.snippets.io.Hello"
+ * mvn -q exec:rmi -Dexec.mainClass="net.bluedash.snippets.io.Hello"
  */
 public class Hello {
 	public static void main(String[] args) throws IOException {

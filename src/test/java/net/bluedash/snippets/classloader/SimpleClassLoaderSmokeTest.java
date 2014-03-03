@@ -12,7 +12,7 @@ import static junit.framework.Assert.assertNotNull;
 
 public class SimpleClassLoaderSmokeTest {
 
-    private static String PATH = "/Users/weli/projs/java-snippets/target/classes";
+    private static String PATH = "/Users/weli/projs/rmi-snippets/target/classes";
     private static final String PREFIX = "target/classes/";
 
     @Test

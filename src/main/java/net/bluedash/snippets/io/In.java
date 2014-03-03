@@ -5,7 +5,7 @@ import java.io.Console;
 public class In {
 
 	/*
-	 * mvn -q exec:java -Dexec.mainClass="net.bluedash.snippets.io.In" 
+	 * mvn -q exec:rmi -Dexec.mainClass="net.bluedash.snippets.io.In"
 	 */
 	public static void main(String[] args) {
 		Console console = System.console(); // get current console

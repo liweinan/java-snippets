@@ -2,7 +2,7 @@ package net.bluedash.snippets.pieces;
 
 /*
  * mvn install
- * mvn -q exec:java -Dexec.mainClass="net.bluedash.snippets.pieces.ClassLoadingMethods"
+ * mvn -q exec:rmi -Dexec.mainClass="net.bluedash.snippets.pieces.ClassLoadingMethods"
  */
 public class ClassLoadingMethods {
 

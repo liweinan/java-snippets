@@ -3,7 +3,7 @@ package net.bluedash.snippets.classloader.demos;
 /*
  * mvn install
  * cd target/classes
- * java net/bluedash/snippets/classloader/demos/UseClassLoader
+ * rmi net/bluedash/snippets/classloader/demos/UseClassLoader
  */
 public class UseClassLoader {
 

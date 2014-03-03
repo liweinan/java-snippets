@@ -9,7 +9,7 @@ import java.io.InputStream;
  * User: weli
  * Date: 5/24/13
  * Time: 4:46 PM
- * mvn -q exec:java -Dexec.mainClass="net.bluedash.snippets.log4j.Loader"
+ * mvn -q exec:rmi -Dexec.mainClass="net.bluedash.snippets.log4j.Loader"
  */
 public class Loader {
     public static void main(String args[]) throws Exception {

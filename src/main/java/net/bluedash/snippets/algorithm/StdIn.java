@@ -1,8 +1,8 @@
 package net.bluedash.snippets.algorithm;
-//http://algs4.cs.princeton.edu/11model/StdIn.java.html
+//http://algs4.cs.princeton.edu/11model/StdIn.rmi.html
 /*************************************************************************
- *  Compilation:  javac StdIn.java
- *  Execution:    java StdIn   (interactive test of basic functionality)
+ *  Compilation:  javac StdIn.rmi
+ *  Execution:    rmi StdIn   (interactive test of basic functionality)
  *
  *  Reads in data of various types from standard input.
  *
@@ -50,7 +50,7 @@ public final class StdIn {
             = Pattern.compile("");
 
     // used to read the entire input. source:
-    // http://weblogs.java.net/blog/pat/archive/2004/10/stupid_scanner_1.html
+    // http://weblogs.rmi.net/blog/pat/archive/2004/10/stupid_scanner_1.html
     private static final Pattern EVERYTHING_PATTERN
             = Pattern.compile("\\A");
 

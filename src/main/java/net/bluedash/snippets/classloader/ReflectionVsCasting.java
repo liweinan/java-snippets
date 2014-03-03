@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 
 /*
 * mvn install
-* mvn -q exec:java -Dexec.mainClass="net.bluedash.snippets.classloader.ReflectionVsCasting"
+* mvn -q exec:rmi -Dexec.mainClass="net.bluedash.snippets.classloader.ReflectionVsCasting"
 */
 public class ReflectionVsCasting {
 

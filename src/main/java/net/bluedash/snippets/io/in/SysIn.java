@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * mvn -q exec:java -Dexec.mainClass="net.bluedash.snippets.io.in.SysIn"
+ * mvn -q exec:rmi -Dexec.mainClass="net.bluedash.snippets.io.in.SysIn"
  * try input 123456789
  * If you input CR, it still counts in data
  */

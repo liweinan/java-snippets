@@ -45,7 +45,7 @@ public class SSLServer extends Thread {
         }
     }
 
-    private static String PATH = "/Users/weli/projs/java-snippets/src/main/resources/";
+    private static String PATH = "/Users/weli/projs/rmi-snippets/src/main/resources/";
     private static String SERVER_KEY_STORE = "demo_ks";
     private static String SERVER_KEY_STORE_PASSWORD = "123123";
 

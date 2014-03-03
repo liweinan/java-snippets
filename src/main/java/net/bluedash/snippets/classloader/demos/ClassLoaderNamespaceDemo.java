@@ -7,7 +7,7 @@ import java.io.IOException;
 
 /*
  * mvn install
- * mvn -q exec:java -Dexec.mainClass="net.bluedash.snippets.classloader.demos.ClassLoaderNamespaceDemo"
+ * mvn -q exec:rmi -Dexec.mainClass="net.bluedash.snippets.classloader.demos.ClassLoaderNamespaceDemo"
  */
 public class ClassLoaderNamespaceDemo {
 

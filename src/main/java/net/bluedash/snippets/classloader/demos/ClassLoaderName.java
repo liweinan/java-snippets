@@ -2,7 +2,7 @@ package net.bluedash.snippets.classloader.demos;
 
 /*
  * mvn install
- * mvn -q exec:java -Dexec.mainClass="net.bluedash.snippets.classloader.demos.ClassLoaderName"
+ * mvn -q exec:rmi -Dexec.mainClass="net.bluedash.snippets.classloader.demos.ClassLoaderName"
  */
 public class ClassLoaderName {
     public static void main(String[] args) {

@@ -24,7 +24,7 @@ public abstract class HelloProvider {
     public abstract String getMessage();
 
     /*
-     * mvn exec:java -Dexec.mainClass="net.bluedash.snippets.serviceloader.HelloProvider"
+     * mvn exec:rmi -Dexec.mainClass="net.bluedash.snippets.serviceloader.HelloProvider"
      */
     public static void main(String[] ignored) {
         HelloProvider provider = HelloProvider.getDefault();

@@ -11,7 +11,7 @@ import java.io.InputStream;
  * 09 23 2012
  *
  * mvn install
- * mvn -q exec:java -Dexec.mainClass="net.bluedash.snippets.jaxb.ParseWithStax"
+ * mvn -q exec:rmi -Dexec.mainClass="net.bluedash.snippets.jaxb.ParseWithStax"
  * @author <a href="mailto:l.weinan@gmail.com">Weinan Li</a>
  */
 public class ParseWithStax {

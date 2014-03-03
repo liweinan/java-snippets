@@ -3,7 +3,7 @@ package net.bluedash.snippets.io;
 import java.io.IOException;
 
 /**
- * mvn -q exec:java -Dexec.mainClass="net.bluedash.snippets.io.AsciiChartArray"
+ * mvn -q exec:rmi -Dexec.mainClass="net.bluedash.snippets.io.AsciiChartArray"
  */
 public class AsciiChartArray {
     public static void main(String[] args) throws IOException {

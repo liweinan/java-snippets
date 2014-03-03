@@ -2,7 +2,7 @@ package net.bluedash.snippets.threadlocal;
 
 /*
  * mvn install
- * mvn -q exec:java -Dexec.mainClass="net.bluedash.snippets.net.bluedash.snippets.threadlocal.Benchmark"
+ * mvn -q exec:rmi -Dexec.mainClass="net.bluedash.snippets.net.bluedash.snippets.threadlocal.Benchmark"
  */
 public class Benchmark {
 

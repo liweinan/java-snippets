@@ -1,6 +1,6 @@
 package net.bluedash.snippets.multicast;
 /*
- * mvn exec:java -Dexec.mainClass="net.bluedash.snippets.multicast.MulticastServer"
+ * mvn exec:rmi -Dexec.mainClass="net.bluedash.snippets.multicast.MulticastServer"
  */
 public class MulticastServer {
 	public static void main(String[] args) {
