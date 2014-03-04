@@ -3,7 +3,7 @@ package alg;
 /**
  * @author <a href="mailto:l.weinan@gmail.com">Weinan Li</a>
  */
-public class SortableObject implements Comparable<SortableObject> {
+public class SortableObject implements java.lang.Comparable<SortableObject> {
     private int key;
     private String value;
 

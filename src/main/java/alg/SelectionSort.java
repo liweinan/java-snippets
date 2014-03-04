@@ -6,24 +6,32 @@ package alg;
 public class SelectionSort extends BaseSort {
 
     @Override
-    public void sort(Comparable[] sortableObjects) {
-        int N = sortableObjects.length;
+    public void sort(Comparable[] comparable) {
+        int N = comparable.length;
         for (int i = 0; i < N; i++) {
             int min = i;
             for (int j = i + 1; j < N; j++) {
-                if (less(sortableObjects[j], sortableObjects[min]))
+                if (less(comparable[j], comparable[min]))
                     min = j;
             }
-            swap(sortableObjects, i, min);
+            swap(comparable, i, min);
         }
     }
 
     public static void main(String[] args) {
         SelectionSort sort = new SelectionSort();
         SortableObject[] data = DataProvider.unsortedObjects();
-        DataProvider.printSortableObjects(data, false);
-        System.out.println("\n");
+        DataProvider.printData(data, false);
+
         sort.sort(data);
-        DataProvider.printSortableObjects(data, false);
+        DataProvider.printData(data, false);
+        SortHelper helper = new SortHelper(sort);
+
+        System.out.println(helper.isSorted(data));
+        helper.printCounter();
+
+        helper.setComparingData(data);
+        System.out.println(helper.isSortedFastImpl(0));
+        helper.printCounter();
     }
 }

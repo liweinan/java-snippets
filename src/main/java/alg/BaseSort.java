@@ -4,7 +4,7 @@ package alg;
  * @author <a href="mailto:l.weinan@gmail.com">Weinan Li</a>
  */
 public abstract class BaseSort implements SortInterface {
-    protected boolean less(Comparable v, Comparable w) {
+    public boolean less(Comparable v, Comparable w) {
         return (v.compareTo(w) < 0);
     }
 
@@ -13,4 +13,5 @@ public abstract class BaseSort implements SortInterface {
         a[i] = a[j];
         a[j] = _swap;
     }
+
 }

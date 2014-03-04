@@ -24,7 +24,7 @@ public class DataProvider {
 
     }
 
-    public static void printSortableObjects(SortableObject[] data, boolean isDebug) {
+    public static void printData(SortableObject[] data, boolean isDebug) {
 
         for (SortableObject so : data) {
             if (isDebug) {
@@ -33,5 +33,6 @@ public class DataProvider {
                 System.out.print(so.getValue());
             }
         }
+        System.out.println("");
     }
 }
