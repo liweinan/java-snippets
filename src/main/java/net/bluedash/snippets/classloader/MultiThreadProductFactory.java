@@ -1,12 +1,8 @@
 package net.bluedash.snippets.classloader;
 
-import org.jboss.netty.handler.codec.serialization.WeakReferenceMap;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,10 +11,8 @@ import java.util.Map;
  * Time: 7:28 PM
  * To change this template use File | Settings | File Templates.
  */
-public class MemoryLeakMultiThreadProductFactory extends ProductFactory {
-    // FIXME memory leak
-    // Use weakreference map instead
-    static protected Map<Long, Proxy> productProxies = new HashMap<Long, Proxy>(); // in multi-thread environment, we need to store each threads' proxy independently.
+public class MultiThreadProductFactory extends ProductFactory {
+    static protected WeakHashMap<Long, Proxy> productProxies = new WeakHashMap<Long, Proxy>(); // in multi-thread environment, we need to store each threads' proxy independently.
 
     public static Product newInstance() throws InstantiationException,
             IllegalAccessException {
@@ -33,7 +27,7 @@ public class MemoryLeakMultiThreadProductFactory extends ProductFactory {
         return productProxy;
     }
 
-    public static Product reload(String productClassPath) throws ClassNotFoundException,
+    public static void reload(String productClassPath) throws ClassNotFoundException,
             InstantiationException, IllegalAccessException,
             NoSuchMethodException, InvocationTargetException {
         cl = new SimpleClassLoader(PREFIX + productClassPath);
@@ -43,12 +37,11 @@ public class MemoryLeakMultiThreadProductFactory extends ProductFactory {
         Proxy productProxy = productProxies.get(Thread.currentThread().getId());
 
         if (productProxy == null) {
-            return newInstance(productImplClass);
+            newInstance(productImplClass);
         } else {
             ProductInvocationHandler productInvocationHandler = (ProductInvocationHandler) Proxy.getInvocationHandler(productProxy);
             Product replacement = (Product) productImplClass.newInstance();
             productInvocationHandler.setProductInstance(replacement);
-            return (Product) productProxy;
         }
     }
 }

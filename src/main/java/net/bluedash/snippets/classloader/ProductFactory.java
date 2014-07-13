@@ -17,7 +17,7 @@ public class ProductFactory {
 
     protected static final String PREFIX = "target/classes/";
 
-    public static Product reload(String productClassPath) throws ClassNotFoundException,
+    public static synchronized void reload(String productClassPath) throws ClassNotFoundException,
             InstantiationException, IllegalAccessException,
             NoSuchMethodException, InvocationTargetException {
         cl = new SimpleClassLoader(PREFIX + productClassPath);
@@ -31,6 +31,5 @@ public class ProductFactory {
             productInvocationHandler.setProductInstance(replacement);
             ProductFactory.productProxy = productProxy;
         }
-        return (Product) productProxy;
     }
 }

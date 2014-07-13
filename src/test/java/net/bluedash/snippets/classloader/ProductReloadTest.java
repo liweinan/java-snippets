@@ -20,7 +20,7 @@ public class ProductReloadTest {
 
     @Test
     public void testMultiThreadProductFactory() throws Exception {
-        Product product = MemoryLeakMultiThreadProductFactory.newInstance();
+        Product product = MultiThreadProductFactory.newInstance();
         Assert.assertEquals("ProductImpl", product.getName());
 
         Thread t1 = createThread("+");
@@ -34,27 +34,30 @@ public class ProductReloadTest {
 
         Assert.assertFalse(ERROR);
         Thread.sleep(100);
-        Assert.assertEquals(3, MemoryLeakMultiThreadProductFactory.productProxies.size());
+        Assert.assertEquals(3, MultiThreadProductFactory.productProxies.size());
     }
 
     private Thread createThread(final String mark) {
         return new Thread() {
             public void run() {
                 try {
+                    Product product = MultiThreadProductFactory.newInstance(); // each thread can reload its classes independently
                     for (int i = 0; i < 20; i++) {
                         Thread.sleep(100);
                         System.out.print(mark);
                         if (i / 2 == 0) {
-                            Product product = MemoryLeakMultiThreadProductFactory.reload("net/bluedash/snippets/classloader/impl2/impl3");
+                            MultiThreadProductFactory.reload("net/bluedash/snippets/classloader/impl2/impl3");
                             if (!"ProductImpl3".equals(product.getName())) {
                                 synchronized (ERROR) {
+                                    System.out.print("X");
                                     ERROR = true;
                                 }
                             }
                         } else {
-                            Product product = MemoryLeakMultiThreadProductFactory.reload("net/bluedash/snippets/classloader/impl2");
+                            MultiThreadProductFactory.reload("net/bluedash/snippets/classloader/impl2");
                             if (!"ProductImpl2".equals(product.getName())) {
                                 synchronized (ERROR) {
+                                    System.out.print("X");
                                     ERROR = true;
                                 }
                             }
@@ -63,6 +66,7 @@ public class ProductReloadTest {
                     }
                 } catch (Exception e) {
                     synchronized (ERROR) {
+                        System.out.print("E");
                         ERROR = true;
                     }
                 }
