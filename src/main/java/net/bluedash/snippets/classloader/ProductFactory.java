@@ -18,7 +18,7 @@ public class ProductFactory {
 
     protected static final String PREFIX = "target/classes/";
 
-    public static synchronized void reload(String productClassPath) throws ClassNotFoundException,
+    public static void reload(String productClassPath) throws ClassNotFoundException,
             InstantiationException, IllegalAccessException,
             NoSuchMethodException, InvocationTargetException {
         cl = new SimpleClassLoader(PREFIX + productClassPath);
