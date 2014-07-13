@@ -9,27 +9,29 @@ public class SimpleClassLoader extends ClassLoader {
     String[] dirs;
 
     public SimpleClassLoader(String path) {
+        // we support multiple paths
+        // for example: /usr:/tmp
         dirs = path.split(System.getProperty("path.separator"));
         String[] _dirs = dirs.clone();
-        for (String dir : _dirs) {
-            extendClasspath(dir);
+        for (String _dir : _dirs) {
+            extendClasspath(_dir);
         }
     }
 
     public void extendClasspath(String path) {
         String[] segments = path.split("/");
-        String[] exDirs = new String[segments.length];
+        String[] subDirs = new String[segments.length];
         for (int i = 0; i < (segments.length); i++) {
-            exDirs[i] = popd(segments, i);
+            subDirs[i] = combineSegments(segments, i);
         }
 
-        String[] newDirs = new String[dirs.length + exDirs.length];
+        String[] newDirs = new String[dirs.length + subDirs.length];
         System.arraycopy(dirs, 0, newDirs, 0, dirs.length);
-        System.arraycopy(exDirs, 0, newDirs, dirs.length, exDirs.length);
+        System.arraycopy(subDirs, 0, newDirs, dirs.length, subDirs.length);
         dirs = newDirs;
     }
 
-    private String popd(String[] pathSegments, int level) {
+    private String combineSegments(String[] pathSegments, int level) {
         StringBuffer path = new StringBuffer();
         for (int i = 0; i < level; i++) {
             path.append(pathSegments[i]).append("/");
@@ -71,5 +73,10 @@ public class SimpleClassLoader extends ClassLoader {
             return null;
         }
         return buf;
+    }
+
+    public static void main(String[] args) {
+        SimpleClassLoader cl = new SimpleClassLoader("/usr/share/java");
+
     }
 }
