@@ -20,9 +20,6 @@ public class ProductReloadTest {
 
     @Test
     public void testMultiThreadProductFactory() throws Exception {
-        Product product = MultiThreadProductFactory.newInstance();
-        Assert.assertEquals("ProductImpl", product.getName());
-
         Thread t1 = createThread("+");
         Thread t2 = createThread(".");
 
@@ -33,15 +30,13 @@ public class ProductReloadTest {
         t2.join();
 
         Assert.assertFalse(ERROR);
-        Thread.sleep(100);
-        Assert.assertEquals(3, MultiThreadProductFactory.productProxies.size());
     }
 
     private Thread createThread(final String mark) {
         return new Thread() {
             public void run() {
                 try {
-                    Product product = MultiThreadProductFactory.newInstance(); // each thread can reload its classes independently
+                    Product product = MultiThreadProductFactory.newInstance();
                     for (int i = 0; i < 20; i++) {
                         Thread.sleep(100);
                         System.out.print(mark);

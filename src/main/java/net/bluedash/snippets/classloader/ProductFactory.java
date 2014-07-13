@@ -3,6 +3,7 @@ package net.bluedash.snippets.classloader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
 
+@NotThreadSafe
 public class ProductFactory {
     static protected ClassLoader cl = null;
     static protected Object productProxy; // we store this because we want to get invocation handler from proxy later
