@@ -12,7 +12,7 @@ public class SymmetricExample {
 
 
 
-        BouncyCastleProvider.start();
+        BouncyCastleProvider.load();
         SecretKeySpec keySpec = new SecretKeySpec(Common.KEY192BITS, "AES");
         Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding", "BC");
         System.out.println("input text: " + Utils.toHex(Common.DATA16BYTES));

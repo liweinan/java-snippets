@@ -7,7 +7,7 @@ import java.security.Security;
  */
 public class BouncyCastleProvider {
 
-    public static void start() {
+    public static void load() {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
     }
 }
