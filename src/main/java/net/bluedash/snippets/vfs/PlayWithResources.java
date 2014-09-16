@@ -1,5 +1,11 @@
 package net.bluedash.snippets.vfs;
 
+import org.jboss.vfs.VFS;
+import org.jboss.vfs.VirtualFile;
+import org.jboss.vfs.VirtualFileVisitor;
+import org.jboss.vfs.util.FilterVirtualFileVisitor;
+import org.jboss.vfs.util.SuffixMatchFilter;
+
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -29,24 +35,7 @@ public class PlayWithResources {
         System.out.println(PlayWithResources.class.getClass());
         System.out.println(PlayWithResources.class.getClass().getClass());
 
+
     }
-
-    public static URL[] search(ClassLoader cl, String prefix, String suffix) throws IOException {
-        Enumeration[] e = new Enumeration[]{
-                cl.getResources(prefix),
-                cl.getResources(prefix + "MANIFEST.MF")
-        };
-
-        Set all = new LinkedHashSet();
-        URL url;
-        URLConnection conn;
-        JarFile jarFile;
-
-        for (int i = 0, s = e.length; i < s; ++i) {
-
-        }
-        return null;
-    }
-
 
 }
