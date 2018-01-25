@@ -12,7 +12,7 @@ public class PlayWithDefaultThreadFactory {
         // 同一个thread group里面的thread执行没结束的时候，main thread不会退出，会被block住。
         Thread t = factory.newThread(() -> {
             try {
-                sleep(3000);
+                sleep(1000 * 60);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
