@@ -1,4 +1,4 @@
-package concurrent.completable;
+package concurrent.future;
 
 import java.util.concurrent.*;
 
