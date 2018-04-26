@@ -35,7 +35,6 @@ public class EchoServer {
             while (true) {
                 line = is.readLine();
                 os.println(line);
-                os.close();
             }
         } catch (IOException e) {
             System.out.println(e);
