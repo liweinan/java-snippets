@@ -11,7 +11,7 @@ public class SourceMapDemo {
                 emitter.onNext("Gamma");
                 emitter.onNext("Delta");
                 emitter.onNext("Epsilon");
-                emitter.onComplete();
+//                emitter.onComplete();
             } catch (Throwable e) {
                 emitter.onError(e);
             }

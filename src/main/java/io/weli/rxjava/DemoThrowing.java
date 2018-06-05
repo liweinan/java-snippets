@@ -15,7 +15,9 @@ public class DemoThrowing {
 
         source.subscribe(result -> System.out.println("RECEIVED: " + result),
                 e -> {
+                    System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-=-");
                     System.out.println("ERROR: " + e.getMessage());
+                    System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-=-");
                 });
     }
 }
