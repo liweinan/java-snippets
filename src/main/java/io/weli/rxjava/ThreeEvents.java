@@ -13,12 +13,14 @@ public class ThreeEvents {
         System.out.println(Math.log(1));
         System.out.println(Math.log(-1));
 
+        int d = 0;
+
         Observable<String> source =
-                Observable.just("Alpha", "Beta", "Gamma", "Delta", "Epsilon", String.valueOf(Math.tan(Math.PI / 2)));
+                Observable.just("Alpha", "Beta", "Gamma", "Delta", "Epsilon");
 
         source.map(String::length).filter(i -> i >= 5)
                 .subscribe(i -> System.out.println("RECEIVED: " + i),
-                        e -> System.out.println(e),
+                        e ->  System.out.println("ERROR: " + e.getClass()),
                         () -> System.out.println("Done!"));
     }
 }
