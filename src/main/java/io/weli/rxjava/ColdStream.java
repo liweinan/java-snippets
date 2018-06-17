@@ -2,6 +2,7 @@ package io.weli.rxjava;
 
 import io.reactivex.Observable;
 
+// Cold stream对每一个subscriber都会replay
 public class ColdStream {
     public static void main(String[] args) {
         Observable<String> source =
