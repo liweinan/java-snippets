@@ -24,7 +24,7 @@ public class EchoServer {
         } catch (IOException e) {
             System.out.println(e);
         }
-// Create a socket object from the ServerSocket to listen and accept
+// Create a socket object from the ServerSocket to listen and setup
 // connections.
 // Open input and output streams
         try {

@@ -14,7 +14,7 @@ public class Play {
         // supplying different kinds of visitors to interact with the elements based on the
         // dynamic types of both the elements and the visitors.
         CarVisitor visitor = new DefaultCarVisitorImpl();
-        car.accept(visitor); // object can 'accept' visitor.
+        car.accept(visitor); // object can 'setup' visitor.
 
         CarVisitor alternateVisitor = new AlternateCarVisitorImpl();
         car.accept(alternateVisitor);
