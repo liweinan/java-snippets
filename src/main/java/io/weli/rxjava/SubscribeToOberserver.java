@@ -7,6 +7,7 @@ import io.reactivex.disposables.Disposable;
 
 public class SubscribeToOberserver {
     public static void main(String[] args) {
+        // Observable提供数据流，供Obeserver观察。
         Observable<String> source =
                 Observable.just("Alpha", "Beta", "Gamma", "Delta",
                         "Epsilon");
