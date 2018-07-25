@@ -15,6 +15,7 @@ public class JavaToXsd {
         JAXBContext context = JAXBContext.newInstance(ListType.class);
         SchemaOutputResolver resolver = new MyResolver();
         context.generateSchema(resolver);
+
     }
 
     private static class MyResolver extends SchemaOutputResolver {
