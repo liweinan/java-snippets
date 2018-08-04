@@ -3,6 +3,7 @@ package wadl;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import wadl.jaxb.Grammars;
+import wadl.jaxb.Include;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -39,6 +40,8 @@ public class TryUnmarshaller {
         return resultClass.cast(result);
     }
 
+    private static String FILENAME = "/tmp/application-grammars.xml";
+
     public static void main(String[] args) throws Exception {
         JAXBContext ctx = JAXBContext.newInstance(Grammars.class);
         Marshaller marshaller = ctx.createMarshaller();
@@ -47,18 +50,24 @@ public class TryUnmarshaller {
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
         Grammars grammars = new Grammars();
+
+        Include include = new Include();
+        include.setHref("schema.xsd");
+
+        grammars.getInclude().add(include);
         marshaller.marshal(grammars, writer);
         System.out.println(stringWriter.toString());
 
-        FileWriter fileWriter = new FileWriter("/tmp/schema.xml");
+        FileWriter fileWriter = new FileWriter(FILENAME);
         writer = new PrintWriter(fileWriter);
         marshaller.marshal(grammars, writer);
         writer.flush();
 
 
         Unmarshaller unmarshaller = ctx.createUnmarshaller();
-        Grammars out = (Grammars) unmarshaller.unmarshal(new File("/tmp/schema.xml"));
+        Grammars out = (Grammars) unmarshaller.unmarshal(new File(FILENAME));
         System.out.println(out);
+        System.out.println(out.getInclude());
 
     }
 }
