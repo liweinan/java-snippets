@@ -1,14 +1,7 @@
-package net.bluedash.snippets.serviceloader;
+package io.weli.serviceloader;
 
 import java.util.ServiceLoader;
 
-/**
- * Created with IntelliJ IDEA.
- * User: weli
- * Date: 8/8/13
- * Time: 9:40 PM
- * To change this template use File | Settings | File Templates.
- */
 public abstract class HelloProvider {
     public static HelloProvider getDefault() {
         ServiceLoader<HelloProvider> ldr = ServiceLoader.load(HelloProvider.class);
@@ -17,12 +10,7 @@ public abstract class HelloProvider {
             return provider;
         }
         throw new Error("No HelloProvider registered");
-
-
     }
 
     public abstract String getMessage();
-
-
-
 }
