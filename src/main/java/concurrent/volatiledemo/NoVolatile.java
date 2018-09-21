@@ -31,6 +31,7 @@ public class NoVolatile {
     }
 
     public static void main(String[] args) {
+
         new NoVolatile().test();
     }
 
