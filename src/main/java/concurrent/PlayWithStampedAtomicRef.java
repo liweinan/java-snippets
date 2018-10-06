@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicStampedReference;
 public class PlayWithStampedAtomicRef {
     static int stampVal = 1;
     static AtomicStampedReference<Person> s = new AtomicStampedReference<Person>(new Person(20), stampVal);
+    static int random = (int) (3 * Math.random() + 1);
 
     public static void main(String[] args) throws InterruptedException {
         Thread t1 = new Thread(new Runnable() {
@@ -14,6 +15,11 @@ public class PlayWithStampedAtomicRef {
                 for (int i = 1; i <= 3; i++) {
                     System.out.println("stamp value for first thread:" + stampVal);
                     s.compareAndSet(s.getReference(), new Person(s.getReference().age + 10), stampVal, ++stampVal);
+                    try {
+                        Thread.sleep(random * 1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     System.out.println("Atomic Check by first thread: " + Thread.currentThread().getName() + " is " + s.getReference().age);
                 }
             }
@@ -25,6 +31,11 @@ public class PlayWithStampedAtomicRef {
                 for (int i = 1; i <= 3; i++) {
                     System.out.println("stamp value for second thread:" + stampVal);
                     s.compareAndSet(s.getReference(), new Person(s.getReference().age + 10), stampVal, ++stampVal);
+                    try {
+                        Thread.sleep(random * 1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     System.out.println("Atomic Check by second thread : " + Thread.currentThread().getName() + " is " + s.getReference().age);
                 }
             }
@@ -41,6 +52,7 @@ public class PlayWithStampedAtomicRef {
 
     static class Person {
         int age;
+
         public Person(int i) {
             age = i;
         }
