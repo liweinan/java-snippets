@@ -56,6 +56,10 @@ public class MarshalDemo {
          customer.setName("Tom");
 
          marshaller.marshal(customer, System.out);
+
+         // <ns2:customer xmlns="http://www.example.org/property" xmlns:ns2="http://www.example.org/package" id="1">
+         //    <name>Tom</name>
+         //</ns2:customer>
       }
 
    }
