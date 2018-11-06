@@ -6,9 +6,7 @@ import org.codehaus.jettison.mapped.MappedXMLStreamWriter;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.stream.XMLStreamWriter;
-import java.io.File;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.HashMap;
