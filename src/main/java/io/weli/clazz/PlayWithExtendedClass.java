@@ -9,7 +9,7 @@ public class PlayWithExtendedClass {
 
    }
 
-   public static void main(String[] args) throws Exception {
+   public static void main(String[] args) {
       B b = new B();
       foo(b);
    }
