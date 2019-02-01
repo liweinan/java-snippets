@@ -24,22 +24,7 @@ hdfs namenode -format
 
 echo 'export PATH="/usr/local/sbin:/usr/local/Cellar/hadoop/3.1.1/libexec/etc/hadoop/:$PATH"' >> ~/.bash_profile
 
-cat << EOF > ${HADOOP_PWD}/libexec/etc/hadoop/mapred-site.xml
-<configuration>
-	<property>
-	        <name>mapreduce.framework.name</name>
-	        <value>yarn</value>
-	    </property>
-	    <property>
-	        <name>mapreduce.jobhistory.address</name>
-	        <value>localhost:10020</value>
-	    </property>
-	    <property>
-	        <name>mapreduce.jobhistory.webapp.address</name>
-	        <value>localhost:19888</value>
-	    </property>
-</configuration>
-EOF
+cp -f mapred-site.xml ${HADOOP_PWD}/libexec/etc/hadoop/mapred-site.xml
 
 cp ${HADOOP_PWD}/libexec/share/hadoop/tools/sls/sample-conf/yarn-site.xml ${HADOOP_PWD}/libexec/etc/hadoop/yarn-site.xml
 
