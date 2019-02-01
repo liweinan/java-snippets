@@ -14,14 +14,11 @@ EOF
 
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/known_hosts
 
-cat << EOF > ${HADOOP_PWD}/libexec/etc/hadoop/core-site.xml
-<configuration>
-    <property>
-        <name>fs.defaultFS</name>
-        <value>hdfs://localhost:9000</value>
-    </property>
-</configuration>
-EOF
+cp -f core-site.xml ${HADOOP_PWD}/libexec/etc/hadoop/core-site.xml
+
+mkdir ~/hadoop
+
+cp -f hdfs-site.xml ${HADOOP_PWD}/libexec/etc/hadoop/hdfs-site.xml
 
 hdfs namenode -format
 
@@ -52,7 +49,7 @@ export PATH="/usr/local/sbin:${HADOOP_PWD}/libexec/etc/hadoop/:${PATH}"
 
 start-dfs.sh
 
-hadoop dfsadmin -safemode leave
+hdfs dfsadmin -safemode leave
 
 hdfs dfs -mkdir -p `echo ~`/input
 
