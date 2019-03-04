@@ -10,8 +10,6 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 
-import static org.junit.Assert.assertEquals;
-
 /**
  * Basic example using the KeyGenerator class and
  * showing how to create a SecretKeySpec from an encoded key.

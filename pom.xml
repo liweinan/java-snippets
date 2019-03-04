@@ -21,17 +21,27 @@
     </build>
 
     <properties>
-        <dep.log4j.version>1.2.17</dep.log4j.version>
         <dep.jackson-core.version>2.1.3</dep.jackson-core.version>
         <dep.jackson-databind.version>2.1.3</dep.jackson-databind.version>
-        <dep.junit.version>4.11</dep.junit.version>
         <dep.jetty.version>3.2.9.Final</dep.jetty.version>
-        <dep.jettison.version>1.3.3</dep.jettison.version>
         <dep.jaxb-impl.version>2.2.6</dep.jaxb-impl.version>
         <dep.jgroups.version>3.3.4.Final</dep.jgroups.version>
         <dep.bouncycastle.version>1.46</dep.bouncycastle.version>
         <rx.java.jdbc.version>0.7.11</rx.java.jdbc.version>
+        <springboot.version>2.1.3.RELEASE</springboot.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-parent</artifactId>
+                <version>${springboot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -39,20 +49,10 @@
             <artifactId>jackson-core</artifactId>
             <version>${dep.jackson-core.version}</version>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>com.fasterxml.jackson.core</groupId>-->
-        <!--<artifactId>jackson-annotations</artifactId>-->
-        <!--<version>2.1.3</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${dep.jackson-databind.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${dep.junit.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.netty</groupId>
@@ -60,19 +60,9 @@
             <version>${dep.jetty.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.jettison</groupId>
-            <artifactId>jettison</artifactId>
-            <version>${dep.jettison.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
             <version>${dep.jaxb-impl.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>${dep.log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jgroups</groupId>
@@ -111,63 +101,21 @@
             <version>3.0.13.Final</version>
         </dependency>
         <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-core</artifactId>
-            <version>1.1.8.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-core</artifactId>
-            <version>1.1.8.Final</version>
-        </dependency>
-        <dependency>
             <groupId>org.bytedeco</groupId>
             <artifactId>javacpp</artifactId>
             <version>1.4.1</version>
         </dependency>
-
         <dependency>
-            <groupId>io.reactivex.rxjava2</groupId>
-            <artifactId>rxjava</artifactId>
-            <version>2.1.3</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>
-            <groupId>io.reactivex</groupId>
-            <artifactId>rxjava-math</artifactId>
-            <version>1.0.0</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13-beta-2</version>
+            <scope>test</scope>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-core -->
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-core</artifactId>
-            <version>1.2.1</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-common -->
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-common</artifactId>
-            <version>3.1.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.reactivex</groupId>
-            <artifactId>rxjava-string</artifactId>
-            <version>1.1.1</version>
-        </dependency>
-        <!--<dependency>-->
-        <!--<groupId>org.jboss.arquillian.extension</groupId>-->
-        <!--<artifactId>arquillian-drone-webdriver-depchain</artifactId>-->
-        <!--<type>pom</type>-->
-        <!--<scope>test</scope>-->
-        <!--<version>1.1.8.Final</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.jboss.arquillian.extension</groupId>-->
-        <!--<artifactId>arquillian-warp-jsf</artifactId>-->
-        <!--<scope>test</scope>-->
-        <!--<version>1.1.8.Final</version>-->
-        <!--</dependency>-->
     </dependencies>
 </project>

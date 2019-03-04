@@ -1,6 +1,0 @@
-<ns:customer
-        xmlns="http://www.example.org/property"
-        xmlns:ns="http://www.example.org/package"
-        id="123">
-    <name>Jane Doe</name>
-</ns:customer>
