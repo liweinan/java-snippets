@@ -10,6 +10,11 @@ class BeeperControl {
    private final ScheduledExecutorService scheduler =
          Executors.newScheduledThreadPool(1);
 
+   public static void main(String[] args) {
+      new BeeperControl().beepForAnHour();
+      new BeeperControl().sameRate();
+   }
+
    public void beepForAnHour() {
       final Runnable beeper = () -> System.out.println("beep");
       final ScheduledFuture<?> beeperHandle =
@@ -21,7 +26,10 @@ class BeeperControl {
       }, 60 * 60, SECONDS);
    }
 
-   public static void main(String[] args) {
-      new BeeperControl().beepForAnHour();
+   public void sameRate() {
+      final Runnable aaa = () -> System.out.println("AAA");
+      final Runnable bbb = () -> System.out.println("BBB");
+      scheduler.scheduleAtFixedRate(aaa, 1, 1, SECONDS);
+      scheduler.scheduleAtFixedRate(bbb, 1, 1, SECONDS);
    }
 }
