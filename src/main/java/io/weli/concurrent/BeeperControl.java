@@ -7,8 +7,6 @@ import java.util.concurrent.ScheduledFuture;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 class BeeperControl {
-   private final ScheduledExecutorService scheduler =
-         Executors.newScheduledThreadPool(1);
 
    public static void main(String[] args) {
       new BeeperControl().beepForAnHour();
@@ -26,9 +24,29 @@ class BeeperControl {
       }, 60 * 60, SECONDS);
    }
 
+   private final ScheduledExecutorService scheduler =
+         Executors.newScheduledThreadPool(1);
+
+
    public void sameRate() {
-      final Runnable aaa = () -> System.out.println("AAA");
-      final Runnable bbb = () -> System.out.println("BBB");
+      final Runnable aaa = new Thread(() -> {
+         try {
+            Thread.sleep(500);
+            System.out.println("AAA");
+         } catch (InterruptedException e) {
+            e.printStackTrace();
+         }
+      });
+
+      final Runnable bbb = new Thread(() -> {
+         try {
+            Thread.sleep(500);
+            System.out.println("BBB");
+         } catch (InterruptedException e) {
+            e.printStackTrace();
+         }
+      });
+
       scheduler.scheduleAtFixedRate(aaa, 1, 1, SECONDS);
       scheduler.scheduleAtFixedRate(bbb, 1, 1, SECONDS);
    }
