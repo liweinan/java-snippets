@@ -97,15 +97,58 @@ public class OptionalTest {
       assertFalse(is2017);
    }
 
-   
+   public boolean priceIsInRange1(Modem modem) {
+      boolean isInRange = false;
+
+      if (modem != null && modem.getPrice() != null
+            && (modem.getPrice() >= 10
+            && modem.getPrice() <= 15)) {
+
+         isInRange = true;
+      }
+      return isInRange;
+   }
+
+   @Test
+   public void whenFiltersWithoutOptional_thenCorrect() {
+      assertTrue(priceIsInRange1(new Modem(10.0)));
+      assertFalse(priceIsInRange1(new Modem(9.9)));
+      assertFalse(priceIsInRange1(new Modem(null)));
+      assertFalse(priceIsInRange1(new Modem(15.5)));
+      assertFalse(priceIsInRange1(null));
+   }
+
+   public boolean priceIsInRange2(Modem modem2) {
+      return Optional.ofNullable(modem2)
+            .map(Modem::getPrice)
+            .filter(p -> p >= 10)
+            .filter(p -> p <= 15)
+            .isPresent();
+   }
+
+   @Test
+   public void whenFiltersWithOptional_thenCorrect() {
+      assertTrue(priceIsInRange2(new Modem(10.0)));
+      assertFalse(priceIsInRange2(new Modem(9.9)));
+      assertFalse(priceIsInRange2(new Modem(null)));
+      assertFalse(priceIsInRange2(new Modem(15.5)));
+      assertFalse(priceIsInRange2(null));
+   }
+
    public class Modem {
       private Double price;
 
       public Modem(Double price) {
          this.price = price;
       }
-      // standard getters and setters
-   }
 
+      public Double getPrice() {
+         return price;
+      }
+
+      public void setPrice(Double price) {
+         this.price = price;
+      }
+   }
 
 }
