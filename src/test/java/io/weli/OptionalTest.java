@@ -2,6 +2,7 @@ package io.weli;
 
 import org.junit.Test;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.jgroups.util.Util.assertTrue;
@@ -67,5 +68,44 @@ public class OptionalTest {
       assertEquals("john", name);
    }
 
+   @Test(expected = IllegalArgumentException.class)
+   public void whenOrElseThrowWorks_thenCorrect() {
+      String nullName = null;
+      Optional.ofNullable(nullName).orElseThrow(IllegalArgumentException::new);
+   }
+
+   @Test
+   public void givenOptional_whenGetsValue_thenCorrect() {
+      Optional<String> opt = Optional.of("baeldung");
+      String name = opt.get();
+      assertEquals("baeldung", name);
+   }
+
+   @Test(expected = NoSuchElementException.class)
+   public void givenOptionalWithNull_whenGetThrowsException_thenCorrect() {
+      Optional<String> opt = Optional.ofNullable(null);
+      opt.get();
+   }
+
+   @Test
+   public void whenOptionalFilterWorks_thenCorrect() {
+      Integer year = 2016;
+      Optional<Integer> yearOptional = Optional.of(year);
+      boolean is2016 = yearOptional.filter(y -> y == 2016).isPresent();
+      assertTrue(is2016);
+      boolean is2017 = yearOptional.filter(y -> y == 2017).isPresent();
+      assertFalse(is2017);
+   }
+
    
+   public class Modem {
+      private Double price;
+
+      public Modem(Double price) {
+         this.price = price;
+      }
+      // standard getters and setters
+   }
+
+
 }
