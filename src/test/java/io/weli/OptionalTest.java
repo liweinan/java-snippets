@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import static org.jgroups.util.Util.assertTrue;
 import static org.junit.Assert.assertEquals;
@@ -101,8 +103,8 @@ public class OptionalTest {
       boolean isInRange = false;
 
       if (modem != null && modem.getPrice() != null
-            && (modem.getPrice() >= 10
-            && modem.getPrice() <= 15)) {
+              && (modem.getPrice() >= 10
+              && modem.getPrice() <= 15)) {
 
          isInRange = true;
       }
@@ -120,10 +122,10 @@ public class OptionalTest {
 
    public boolean priceIsInRange2(Modem modem2) {
       return Optional.ofNullable(modem2)
-            .map(Modem::getPrice)
-            .filter(p -> p >= 10)
-            .filter(p -> p <= 15)
-            .isPresent();
+              .map(Modem::getPrice)
+              .filter(p -> p >= 10)
+              .filter(p -> p <= 15)
+              .isPresent();
    }
 
    @Test
@@ -168,6 +170,61 @@ public class OptionalTest {
       public void setPrice(Double price) {
          this.price = price;
       }
+   }
+
+   private Optional<String> getEmpty() {
+      return Optional.empty();
+   }
+
+   private Optional<String> getHello() {
+      return Optional.of("hello");
+   }
+
+   private Optional<String> getBye() {
+      return Optional.of("bye");
+   }
+
+   private Optional<String> createOptional(String input) {
+      if (input == null || "".equals(input) || "empty".equals(input)) {
+         return Optional.empty();
+      }
+      return Optional.of(input);
+   }
+
+   @Test
+   public void givenThreeOptionals_whenChaining_thenFirstNonEmptyIsReturned() {
+      Optional<String> found = Stream.of(getEmpty(), getHello(), getBye())
+              .filter(Optional::isPresent)
+              .map(Optional::get)
+              .findFirst();
+
+      assertEquals(getHello(), found);
+   }
+
+   @Test
+   public void givenThreeOptionals_whenChaining_thenFirstNonEmptyIsReturnedAndRestNotEvaluated() {
+      Optional<String> found =
+              Stream.<Supplier<Optional<String>>>of(this::getEmpty, this::getHello, this::getBye)
+                      .map(Supplier::get)
+                      .filter(Optional::isPresent)
+                      .map(Optional::get)
+                      .findFirst();
+
+      assertEquals(getHello(), found);
+   }
+
+   @Test
+   public void givenTwoOptionalsReturnedByOneArgMethod_whenChaining_thenFirstNonEmptyIsReturned() {
+      Optional<String> found = Stream.<Supplier<Optional<String>>>of(
+              () -> createOptional("empty"),
+              () -> createOptional("hello")
+      )
+              .map(Supplier::get)
+              .filter(Optional::isPresent)
+              .map(Optional::get)
+              .findFirst();
+
+      assertEquals(createOptional("hello"), found);
    }
 
 }
