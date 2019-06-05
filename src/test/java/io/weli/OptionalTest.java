@@ -4,9 +4,11 @@ import org.junit.Test;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.jgroups.util.Util.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -148,7 +150,7 @@ public class OptionalTest {
 
       System.out.println("Using orElseGet:");
       String defaultText
-            = Optional.ofNullable(text).orElseGet(this::getMyDefault);
+              = Optional.ofNullable(text).orElseGet(this::getMyDefault);
       assertEquals("Text present", defaultText);
 
       System.out.println("Using orElse:");
@@ -227,4 +229,21 @@ public class OptionalTest {
       assertEquals(createOptional("hello"), found);
    }
 
+
+   @Test
+   public void givenOptional_whenPresent_thenShouldExecuteProperCallback() {
+      // given
+      Optional<String> value = Optional.of("properValue");
+      AtomicInteger successCounter = new AtomicInteger(0);
+      AtomicInteger onEmptyOptionalCounter = new AtomicInteger(0);
+
+      // when
+      value.ifPresentOrElse(
+              v -> successCounter.incrementAndGet(),
+              onEmptyOptionalCounter::incrementAndGet);
+
+      // then
+      assertThat(successCounter.get()).isEqualTo(1);
+      assertThat(onEmptyOptionalCounter.get()).isEqualTo(0);
+   }
 }
