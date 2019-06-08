@@ -98,5 +98,15 @@ public class PlayAsync {
 
          assertEquals("Hello, Stranger!", completableFuture.get());
       }
+
+      {
+         CompletableFuture<String> completableFuture
+                 = CompletableFuture.supplyAsync(() -> "Hello");
+
+         CompletableFuture<String> future = completableFuture
+                 .thenApplyAsync(s -> s + " World");
+
+         assertEquals("Hello World", future.get());
+      }
    }
 }
