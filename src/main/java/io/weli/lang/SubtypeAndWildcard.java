@@ -19,4 +19,10 @@ public class SubtypeAndWildcard {
 //        lst.add(3.14); <-- type not safe
 
     }
+
+   public static class BlaBlaBlaProperty {
+      public static void main(String[] args) {
+         System.setProperty("FOOBAR", "blablabla");
+      }
+   }
 }
