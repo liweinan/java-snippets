@@ -6,18 +6,41 @@ import java.util.function.Function;
 public class ReturnLambda {
 
     Function<Integer, String> getMyFunction() {
-        return new Function<Integer, String>() {
-            @Override
-            public String apply(Integer integer) {
-                for (var i = 0; i < integer; i++) {
-                    System.out.print(".");
-                }
-                return "DONE";
+        return counter -> {
+            for (var i = 0; i < counter; i++) {
+                System.out.print(".");
             }
+            return "DONE";
         };
     }
 
+    // https://www.baeldung.com/java-8-lambda-expressions-tips
+    private String buildString(String parameter) {
+        String result = "Something " + parameter;
+        return result;
+    }
+
+
+    @FunctionalInterface
+    public interface Foo {
+        String method(String string);
+    }
+
+    public String add(String string, Foo foo) {
+        return foo.method(string);
+    }
+
     public static void main(String[] args) {
-        System.out.println(new ReturnLambda().getMyFunction().apply(3));
+        new ReturnLambda().run();
+    }
+
+    private void run() {
+        getMyFunction().apply(3);
+
+        {
+            Foo foo = param -> buildString(param);
+            String out = foo.method("Hello, world!");
+            System.out.println(out);
+        }
     }
 }
