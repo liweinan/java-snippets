@@ -3,7 +3,7 @@ package io.weli.lang;
 //https://stackoverflow.com/questions/3403909/get-generic-type-of-class-at-runtime
 public class GenericMethodInfo {
     static class Foo<T> {
-        private Class<T> type;
+        private final Class<T> type;
 
         private T bar;
 
