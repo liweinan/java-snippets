@@ -17,7 +17,7 @@ public class GenericMethodInfo {
     }
 
     public static void main(String[] args) {
-        var foo = new Foo<String>(String.class);
+        var foo = new Foo<>(String.class);
         assert foo.getType() == String.class;
 
     }
