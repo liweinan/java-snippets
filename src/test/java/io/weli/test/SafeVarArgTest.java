@@ -2,6 +2,9 @@ package io.weli.test;
 
 import org.testng.annotations.Test;
 
+import java.lang.reflect.Type;
+import java.util.List;
+
 //https://www.baeldung.com/java-safevarargs
 public class SafeVarArgTest {
 
@@ -18,9 +21,43 @@ public class SafeVarArgTest {
         String[] plants = broken("seed"); // ClassCastException
     }
 
+    public <T> Object[] safe(List<T> elements) {
+        return elements.toArray();
+    }
+
+    public <T> Object[] solid(T seed, Class clazzToCheck) {
+        Object[] plants = safe(List.of(seed, seed, seed));
+        // type safety check
+        for (Object p : plants) {
+            assert (p.getClass() == clazzToCheck);
+        }
+        return plants;
+    }
+
+    public void bury() {
+        String s = "seed";
+        Object[] safeTypedSeeds = solid(s, s.getClass());
+    }
+
+    public void brokenBury() {
+        String s = "seed";
+        Object[] seeds = solid(s, Integer.class);
+    }
+
     @Test(expectedExceptions = {ClassCastException.class})
     public void testPlant() {
         plant();
     }
+
+    @Test
+    public void testBury() {
+        bury();
+    }
+
+    @Test(expectedExceptions = {AssertionError.class})
+    public void testBrokenBury() {
+        brokenBury();
+    }
+
 
 }
