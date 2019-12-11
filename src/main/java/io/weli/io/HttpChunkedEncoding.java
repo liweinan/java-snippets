@@ -1,6 +1,7 @@
 package io.weli.io;
 
 import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.HttpURLConnection;
@@ -8,10 +9,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.util.Random;
+import java.util.concurrent.CountDownLatch;
 
 // https://alvinalexander.com/java/jwarehouse/openjdk-8/jdk/test/java/net/URLConnection/ChunkedEncoding.java.shtml
 public class HttpChunkedEncoding implements Runnable {
     ServerSocket ss;
+    CountDownLatch latch;
 
     /*
      * Our "http" server to return a chunked response
@@ -100,10 +103,26 @@ public class HttpChunkedEncoding implements Runnable {
 
     HttpChunkedEncoding() throws Exception {
 
+        latch = new CountDownLatch(1);
+
+        startServer();
+
+        latch.await(); // 等待服务端启动。
+
+        sendRequest();
+    }
+
+    private void startServer() throws IOException {
         /* start the server */
         ss = new ServerSocket(0);
-        (new Thread(this)).start();
+        Thread t = (new Thread(this));
+        t.start();
+        while (!t.isAlive()) ; // 等待线程启动。
+        latch.countDown(); // 允许client开始执行。
 
+    }
+
+    private void sendRequest() throws Exception {
         /* establish http connection to server */
         String uri = "http://localhost:" +
                 Integer.toString(ss.getLocalPort()) +
@@ -160,7 +179,6 @@ public class HttpChunkedEncoding implements Runnable {
         }
 
         http.disconnect();
-
     }
 
     public static void main(String args[]) throws Exception {
