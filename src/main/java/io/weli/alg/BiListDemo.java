@@ -2,6 +2,9 @@ package io.weli.alg;
 
 import net.jcip.annotations.NotThreadSafe;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -47,7 +50,7 @@ public class BiListDemo {
         T get(int idx);
     }
 
-    @NotThreadSafe
+//    @NotThreadSafe
     static class BiListImpl<T> implements BiList<T> {
 
 
@@ -57,15 +60,20 @@ public class BiListDemo {
                 return null;
             if (idx < 0 || idx > store.size() - 1)
                 return null;
-            return store.get(idx);
+            return (T) store.get(idx);
         }
 
         @Override
         public List copyStore() {
-            return List.of(store.toArray());
+//            return List.of(store.toArray());
+            List lst = new ArrayList();
+            for (Object o : store.toArray()) {
+                lst.add(o);
+            }
+            return lst;
         }
 
-        private List<T> store = new ArrayList<>();
+        private List<Object> store = new ArrayList<>();
 
         public BiListImpl(T obj, BiList<T> subList) {
             store = subList.copyStore();
@@ -77,7 +85,7 @@ public class BiListDemo {
             this.rpush(obj);
         }
 
-        public BiListImpl(List<T> subList) {
+        public BiListImpl(List<Object> subList) {
             store = subList;
         }
 
@@ -94,21 +102,25 @@ public class BiListDemo {
         public T lpop() {
             if (store.size() == 0)
                 return null;
-            T obj = store.get(0);
+            T obj = (T) store.get(0);
             store.remove(0);
             return obj;
         }
 
         @Override
         public void rpush(T obj) {
-            store.add(obj);
+            try {
+                store.add(obj);
+            } catch (UnsupportedOperationException e) {
+                // System.out.println(e);
+            }
         }
 
         @Override
         public T rpop() {
             if (store.size() == 0)
                 return null;
-            T obj = store.get(store.size() - 1);
+            T obj = (T) store.get(store.size() - 1);
             store.remove(store.size() - 1);
             return obj;
         }
@@ -155,7 +167,7 @@ public class BiListDemo {
             if (end > store.size()) {
                 end = store.size();
             }
-            var lst = new BiListImpl<>(store.subList(start, end));
+            var lst = new BiListImpl(store.subList(start, end));
             return lst;
         }
 
@@ -176,10 +188,10 @@ public class BiListDemo {
 
         @Override
         public void dump() {
-            System.out.print(":::DUMP::: ");
+            // System.out.print(":::DUMP::: ");
             for (Object obj : store) {
-                System.out.print(obj.toString());
-                System.out.print(", ");
+                // System.out.print(obj.toString());
+                // System.out.print(", ");
             }
         }
     }
@@ -192,22 +204,22 @@ public class BiListDemo {
         lst.lpush("x");
         lst.rpush("y");
         lst.dump();
-        System.out.println(lst.lpop());
+        // System.out.println(lst.lpop());
         lst.dump();
-        System.out.println(lst.rpop());
+        // System.out.println(lst.rpop());
         lst.dump();
         lst.lpush("bar");
         lst.lpush("foo");
         lst.dump();
         Optional result = lst.reduce((x, y) -> (String) x + y);
-        System.out.println(result.get());
-        System.out.println(lst.length());
+        // System.out.println(result.get());
+        // System.out.println(lst.length());
         var lst2 = lst.slice(2, 3);
         lst2.dump();
-        System.out.println(lst2.lpop());
-        System.out.println(lst2.lpop());
-        System.out.println(lst2.rpop());
-        System.out.println(lst2.rpop());
+        // System.out.println(lst2.lpop());
+        // System.out.println(lst2.lpop());
+        // System.out.println(lst2.rpop());
+        // System.out.println(lst2.rpop());
 
         lst.dump();
         lst.slice(0, 5).dump();
@@ -218,10 +230,10 @@ public class BiListDemo {
         lst3.lpush("x");
         lst3.lpush("x");
         lst3.lpush("x");
-        System.out.println(lst3.every(x -> {
-            System.out.println("_x: " + x);
+        lst3.every(x -> {
+            // System.out.println("_x: " + x);
             return x.toString().equals("x");
-        }));
+        });
 
         int[] _data = {-57, 9, -72, -72, -62, 45, -97, 24, -39, 35, -82, -4, -63, 1, -93, 42, 44, 1, -75, -25, -87, -16, 9, -59, 20};
 
@@ -231,20 +243,32 @@ public class BiListDemo {
         }
         lst4.dump();
 
-        System.out.println(maxSubArray(lst4));
+        // System.out.println(maxSubArray(lst4));
+
+        int[] bigdata = Helper.read("/tmp/10000-ints-array.txt");
+        BiList<Integer> lst5 = new BiListImpl();
+        for (int i : bigdata) {
+            lst5.push(i);
+        }
+        lst5.dump();
+        // System.out.println();
+        long start = System.currentTimeMillis();
+        int r = maxSubArray(lst5);
+        System.out.println(System.currentTimeMillis() - start);
+        System.out.println(r);
     }
 
     static BiList<Integer> loop(BiList<Integer> nums, Just<Integer> maxSum) {
-        System.out.println("------------------loop nums: ");
+        // System.out.println("------------------loop nums: ");
         nums.dump();
-        System.out.println("------max sum: " + maxSum.getObj());
+        // System.out.println("------max sum: " + maxSum.getObj());
         // step 1: trim all negative numbers in head
         var num = nums.shift();
         while (num <= 0 && nums.length() > 0) {
             num = nums.shift();
         }
         nums.unshift(num);
-        System.out.println("left trimmed: ");
+        // System.out.println("left trimmed: ");
         nums.dump();
         // step 2: trim all negative numbers in tail
         num = nums.pop();
@@ -252,7 +276,7 @@ public class BiListDemo {
             num = nums.pop();
         }
         nums.push(num);
-        System.out.println("right trimmed: ");
+        // System.out.println("right trimmed: ");
         nums.dump();
 
         var left = 0;
@@ -265,19 +289,19 @@ public class BiListDemo {
         }
         if (n != null) nums.unshift(n);
         if (left > 0) nums.unshift(left);
-        System.out.println("left added: ");
+        // System.out.println("left added: ");
         nums.dump();
         maxSum.setObj(Math.max(left, maxSum.getObj()));
 
         if (n != null) {
-            System.out.println("// n must be < 0: " + n);
+            // System.out.println("// n must be < 0: " + n);
             if (left + n > 0) {
                 nums = new BiListImpl<>(left + n, nums.slice(2));
             } else {
                 nums = nums.slice(2);
             }
         }
-        System.out.println("left calc nums: ");
+        // System.out.println("left calc nums: ");
         nums.dump();
         // step 4: sum right nums
         n = nums.pop();
@@ -289,14 +313,14 @@ public class BiListDemo {
         if (right > 0) nums.push(right);
         maxSum.setObj(Math.max(right, maxSum.getObj()));
         if (n != null) {
-            System.out.println("// n must be < 0: " + n);
+            // System.out.println("// n must be < 0: " + n);
             if (right + n > 0) {
                 nums = new BiListImpl<>(nums.slice(0, nums.length() - 2), right + n);
             } else {
                 nums = nums.slice(0, nums.length() - 2);
             }
         }
-        System.out.println("right calc nums: ");
+        // System.out.println("right calc nums: ");
         nums.dump();
         return nums;
     }
@@ -327,11 +351,32 @@ public class BiListDemo {
         while (nums.length() > 1) {
             nums = loop(nums, maxSum);
         }
-        System.out.println("---FINAL---");
+        // System.out.println("---FINAL---");
 
         int _final = Math.max(nums.get(0), maxSum.getObj());
-        System.out.println(_final);
+        // System.out.println(_final);
         return _final;
     }
 
+
+    public static class Helper {
+
+        public static int[] read(String filename) {
+            try {
+                BufferedReader in = new BufferedReader(new FileReader(filename));
+                StringBuffer sb = null;
+                while (in.ready()) {
+                    sb = (new StringBuffer(in.readLine()));
+                }
+                in.close();
+                if (sb != null) {
+                    return Arrays.stream(sb.toString().split(",")).mapToInt(s -> Integer.parseInt(s)).toArray();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            return null;
+        }
+
+    }
 }
