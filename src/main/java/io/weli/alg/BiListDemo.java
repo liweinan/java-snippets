@@ -25,6 +25,10 @@ public class BiListDemo {
 
         BiList<T> slice(int start, int end);
 
+        BiList<T> slice(int start);
+
+        BiList<T> slice();
+
         void dump();
     }
 
@@ -82,8 +86,27 @@ public class BiListDemo {
 
         @Override
         public BiList<T> slice(int start, int end) {
-            var lst = new BiListImpl<T>(store.subList(start, end));
+            if (store.size() == 0) {
+                return new BiListImpl<T>();
+            }
+            if (start > store.size()) {
+                return new BiListImpl<T>();
+            }
+            if (end > store.size()) {
+                end = store.size();
+            }
+            var lst = new BiListImpl<>(store.subList(start, end));
             return lst;
+        }
+
+        @Override
+        public BiList<T> slice(int start) {
+            return slice(start, store.size());
+        }
+
+        @Override
+        public BiList<T> slice() {
+            return slice(0);
         }
 
         @Override
@@ -116,5 +139,10 @@ public class BiListDemo {
         System.out.println(lst2.lpop());
         System.out.println(lst2.rpop());
         System.out.println(lst2.rpop());
+
+        lst.dump();
+        lst.slice(0, 5).dump();
+        lst.slice(0).dump();
+        lst.slice(6, 6).dump();
     }
 }
