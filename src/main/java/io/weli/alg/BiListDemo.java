@@ -32,14 +32,30 @@ public class BiListDemo {
 
         boolean every(Predicate p);
 
+        List copyStore();
+
         void dump();
     }
 
     @NotThreadSafe
     static class BiListImpl<T> implements BiList<T> {
 
+        @Override
+        public List copyStore() {
+            return List.of(store.toArray());
+        }
+
         private List<T> store = new ArrayList<>();
 
+        public BiListImpl(T obj, BiList<T> subList) {
+            store = subList.copyStore();
+            this.lpush(obj);
+        }
+
+        public BiListImpl(BiList<T> subList, T obj) {
+            store = subList.copyStore();
+            this.rpush(obj);
+        }
 
         public BiListImpl(List<T> subList) {
             store = subList;
