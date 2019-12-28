@@ -5,10 +5,15 @@ import net.jcip.annotations.NotThreadSafe;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BinaryOperator;
 import java.util.function.Predicate;
 
@@ -50,7 +55,7 @@ public class BiListDemo {
         T get(int idx);
     }
 
-//    @NotThreadSafe
+    //    @NotThreadSafe
     static class BiListImpl<T> implements BiList<T> {
 
 
@@ -256,6 +261,43 @@ public class BiListDemo {
         int r = maxSubArray(lst5);
         System.out.println(System.currentTimeMillis() - start);
         System.out.println(r);
+
+        BiList<Integer> lst6 = new BiListImpl();
+        for (int i : _data) {
+            lst6.push(i);
+        }
+        lst6.dump();
+        System.out.println(maxSubArrary2(lst6));
+
+        BiList<Integer> lst7 = new BiListImpl();
+        for (int i : _data) {
+            lst7.push(i);
+        }
+        lst7.dump();
+        System.out.println(maxSubArrary3(lst7));
+
+
+        BiList<Integer> lst8 = new BiListImpl();
+        for (int i : bigdata) {
+            lst8.push(i);
+        }
+        lst8.dump();
+        System.out.println("::::::多线程实现:::::::");
+        start = System.currentTimeMillis();
+        System.out.println(maxSubArrary3(lst8));
+        System.out.println("::::::::" + (System.currentTimeMillis() - start));
+
+
+        BiList<Integer> lst9 = new BiListImpl();
+        for (int i : bigdata) {
+            lst9.push(i);
+        }
+        lst9.dump();
+        System.out.println("::::::单线程实现:::::::");
+        start = System.currentTimeMillis();
+        System.out.println(maxSubArrary2(lst9));
+        System.out.println("::::::::" + (System.currentTimeMillis() - start));
+
     }
 
     static BiList<Integer> loop(BiList<Integer> nums, Just<Integer> maxSum) {
@@ -356,6 +398,73 @@ public class BiListDemo {
         int _final = Math.max(nums.get(0), maxSum.getObj());
         // System.out.println(_final);
         return _final;
+    }
+
+    static int maxSubArrary2(BiList<Integer> nums) {
+        int length = 0;
+        Just<Integer> maxSum = new Just<>();
+        maxSum.setObj(Integer.MIN_VALUE);
+
+        while (length <= nums.length()) {
+            new MaxFinder(nums, length, maxSum).findMax();
+            length++;
+        }
+        return maxSum.getObj();
+    }
+
+    static int maxSubArrary3(BiList<Integer> nums) {
+        int length = 0;
+        List<Just<Integer>> maxSumPool = new ArrayList<>();
+
+        ForkJoinPool pool = ForkJoinPool.commonPool();
+
+        while (length <= nums.length()) {
+            Just<Integer> maxSum = new Just<>();
+            maxSum.setObj(Integer.MIN_VALUE);
+            maxSumPool.add(maxSum);
+            pool.execute(new MaxFinder(nums, length, maxSum));
+            length++;
+        }
+
+        pool.shutdown();
+
+        try {
+            pool.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+        } catch (InterruptedException e) {
+            //
+        }
+
+        System.out.println(maxSumPool.toArray().toString());
+        var max = Arrays.stream(maxSumPool.toArray()).max(Comparator.comparingInt(x -> (int) ((Just) x).getObj())).get();
+        return (int) ((Just) max).getObj();
+    }
+
+    static class MaxFinder extends Thread {
+        private BiList<Integer> nums;
+        private int length;
+        private Just<Integer> maxSum;
+
+        public MaxFinder(BiList<Integer> nums, int length, Just<Integer> maxSum) {
+            this.nums = nums;
+            this.length = length;
+            this.maxSum = maxSum;
+        }
+
+
+        @Override
+        public void run() {
+            findMax();
+        }
+
+        private void findMax() {
+            for (var i = 0; i <= nums.length() - length; i++) {
+                var subarray = nums.slice(i, i + length);
+                if (subarray.length() > 0) {
+                    var sum = subarray.reduce((a, c) -> (int) a + (int) c);
+                    if ((int) sum.get() > maxSum.getObj()) maxSum.setObj((int) sum.get());
+                }
+            }
+        }
     }
 
 
