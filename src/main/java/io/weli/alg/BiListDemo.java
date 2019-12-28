@@ -1,5 +1,7 @@
 package io.weli.alg;
 
+import net.jcip.annotations.NotThreadSafe;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +28,7 @@ public class BiListDemo {
         void dump();
     }
 
+    @NotThreadSafe
     static class BiListImpl<T> implements BiList<T> {
 
         private List<T> store = new ArrayList<>();
