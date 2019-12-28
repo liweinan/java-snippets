@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BinaryOperator;
+import java.util.function.Predicate;
 
 public class BiListDemo {
 
@@ -28,6 +29,8 @@ public class BiListDemo {
         BiList<T> slice(int start);
 
         BiList<T> slice();
+
+        boolean every(Predicate p);
 
         void dump();
     }
@@ -110,6 +113,11 @@ public class BiListDemo {
         }
 
         @Override
+        public boolean every(Predicate p) {
+            return Arrays.stream(store.toArray()).allMatch(p);
+        }
+
+        @Override
         public void dump() {
             System.out.println(":::DUMP::: " + store.toString());
         }
@@ -144,5 +152,14 @@ public class BiListDemo {
         lst.slice(0, 5).dump();
         lst.slice(0).dump();
         lst.slice(6, 6).dump();
+
+        var lst3 = new BiListImpl<>();
+        lst3.lpush("x");
+        lst3.lpush("x");
+        lst3.lpush("x");
+        System.out.println(lst3.every(x -> {
+            System.out.println("_x: " + x);
+            return x.toString().equals("x");
+        }));
     }
 }
