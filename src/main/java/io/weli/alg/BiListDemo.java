@@ -49,6 +49,8 @@ public class BiListDemo {
 
         @Override
         public T lpop() {
+            if (store.size() == 0)
+                return null;
             T obj = store.get(0);
             store.remove(0);
             return obj;
@@ -61,6 +63,8 @@ public class BiListDemo {
 
         @Override
         public T rpop() {
+            if (store.size() == 0)
+                return null;
             T obj = store.get(store.size() - 1);
             store.remove(store.size() - 1);
             return obj;
@@ -106,7 +110,11 @@ public class BiListDemo {
         Optional result = lst.reduce((x, y) -> (String) x + y);
         System.out.println(result.get());
         System.out.println(lst.length());
-        var lst2 = lst.slice(2,3);
+        var lst2 = lst.slice(2, 3);
         lst2.dump();
+        System.out.println(lst2.lpop());
+        System.out.println(lst2.lpop());
+        System.out.println(lst2.rpop());
+        System.out.println(lst2.rpop());
     }
 }
