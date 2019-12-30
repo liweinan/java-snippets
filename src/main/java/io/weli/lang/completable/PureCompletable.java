@@ -29,7 +29,20 @@ public class PureCompletable {
 
             System.out.println("-=-=-=-=-=-=-=-=-=-=-=-");
             f.get(1, TimeUnit.SECONDS);
-
         }
+
+        {
+
+            var c = CompletableFuture.supplyAsync(() -> {
+                throw new RuntimeException("boom");
+            }).handle((o, e) -> {
+                System.out.println(e);
+                return o;
+            });
+
+            System.out.println(c.get());
+        }
+
+
     }
 }
