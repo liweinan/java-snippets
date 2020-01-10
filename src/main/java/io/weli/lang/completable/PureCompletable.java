@@ -42,7 +42,5 @@ public class PureCompletable {
 
             System.out.println(c.get());
         }
-
-
     }
 }
