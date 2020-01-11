@@ -43,5 +43,11 @@ public class Play {
             System.out.print(course2);
             System.out.print(courseEntity);
         }
+
+        {
+            Student s = new Student();
+            PropertyUtils.setProperty(s, "name", "tom");
+            System.out.println(s);
+        }
     }
 }
