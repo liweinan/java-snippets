@@ -7,24 +7,38 @@ import java.util.concurrent.Executors;
 public class PlayWithCachedThreadPool {
     private static ExecutorService pool = Executors.newCachedThreadPool();
 
-    public static void main(String[] args) {
-        pool.submit(new Thread(() -> {
+    @FunctionalInterface
+    interface Work {
+        void work() throws Exception;
+    }
+
+    static class MyTask implements Runnable {
+        private Work work;
+
+        public MyTask(Work work) {
+            this.work = work;
+        }
+
+        @Override
+        public void run() {
             try {
-                Thread.sleep(1000);
-                System.out.println("TASK 1");
-            } catch (InterruptedException e) {
+                work.work();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static void main(String[] args) {
+        pool.submit(new MyTask(() -> {
+            Thread.sleep(1000);
+            System.out.println("TASK 1");
+        }));
+        pool.submit(new MyTask(() -> {
+            Thread.sleep(500);
+            System.out.println("TASK 2");
         }));
 
-        pool.submit(new Thread(() -> {
-            try {
-                Thread.sleep(500);
-                System.out.println("TASK 2");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }));
 
         pool.shutdown();
     }
