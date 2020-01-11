@@ -1,6 +1,7 @@
 package io.weli.beanutils;
 
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import java.util.Arrays;
@@ -26,5 +27,21 @@ public class Play {
         PropertyUtils.setMappedProperty(course, "enrolledStudent(ST-1)", student);
 
         System.out.println(course);
+
+        {
+            Course course2 = new Course();
+            course2.setName("Computer Science");
+            course2.setCodes(Arrays.asList("CS"));
+            course2.setEnrolledStudent("ST-1", new Student());
+
+            CourseEntity courseEntity = new CourseEntity();
+
+            // Remember this will copy the properties with the same name only.
+            // Therefore, it will not copy the property enrolledStudent in Course
+            // class because there is no property with the same name in CourseEntity class.
+            BeanUtils.copyProperties(courseEntity, course2);
+            System.out.print(course2);
+            System.out.print(courseEntity);
+        }
     }
 }

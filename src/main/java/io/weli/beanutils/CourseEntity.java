@@ -1,13 +1,14 @@
 package io.weli.beanutils;
 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Course {
+public class CourseEntity {
     private String name;
     private List<String> codes;
-    private Map<String, Student> enrolledStudent = new HashMap<>();
+    private Map<String, Student> students = new HashMap<>();
 
     public String getName() {
         return name;
@@ -25,22 +26,12 @@ public class Course {
         this.codes = codes;
     }
 
-    public Map<String, Student> getEnrolledStudent() {
-        return enrolledStudent;
+    public Map<String, Student> getStudents() {
+        return students;
     }
 
-    public void setEnrolledStudent(Map<String, Student> enrolledStudent) {
-        this.enrolledStudent = enrolledStudent;
-    }
-
-    private void append(StringBuilder builder, String text) {
-        builder.append(text + "\n");
-    }
-
-    public void setEnrolledStudent(String k, Student student) {
-        Map<String, Student> enroll = new HashMap<>();
-        enroll.put(k, student);
-        this.enrolledStudent = enroll;
+    public void setStudents(Map<String, Student> students) {
+        this.students = students;
     }
 
     @Override
@@ -48,7 +39,11 @@ public class Course {
         StringBuilder builder = new StringBuilder();
         append(builder, "Name: " + name);
         append(builder, "Codes: " + codes.toString());
-        append(builder, "Enrolled Student: " + enrolledStudent.toString());
+        append(builder, "Students: " + students.toString());
         return builder.toString();
+    }
+
+    private void append(StringBuilder builder, String text) {
+        builder.append(text + "\n");
     }
 }
