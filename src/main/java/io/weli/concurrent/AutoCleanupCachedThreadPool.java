@@ -1,13 +1,15 @@
 package io.weli.concurrent;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class AutoCleanupCachedThreadPool {
@@ -16,6 +18,35 @@ public class AutoCleanupCachedThreadPool {
     private static final List<Task> tasks = Collections.synchronizedList(new ArrayList<>());
     private static final Just<ExecutorService> autoCleanupTask = new Just(Executors.newSingleThreadExecutor());
     private static final ReentrantLock lock = new ReentrantLock();
+    private static final AtomicLong retries = new AtomicLong(Long.MIN_VALUE);
+    private static final AtomicLong timeout = new AtomicLong(Long.MAX_VALUE);
+    private static final Random random = new Random(System.currentTimeMillis());
+
+    private static void setTaskTimeout(long milli) {
+        timeout.set(milli);
+    }
+
+    // 清理timeout task
+    static {
+        Executors.newSingleThreadExecutor().submit(() -> {
+            scheduled(1000, () -> {
+                try {
+                    for (Task t : tasks) {
+                        System.out.print("+");
+                        System.out.print("{ " + t.getDuration() + " }");
+                        if (t.getDuration() > timeout.get()) {
+                            System.out.print("{ CANCEL }");
+                            t.getFuture().cancel(true);
+                            t.markDone();
+                            // TODO : 添加retries的支持
+                        }
+                    }
+                } catch (ConcurrentModificationException e) {
+                    System.out.print("::: IGNORED CLEAN-UP TASK ConcurrentModificationException :::");
+                }
+            });
+        });
+    }
 
     public static void cleanup() {
         List<Task> toBeDeleted = new ArrayList<>();
@@ -56,7 +87,7 @@ public class AutoCleanupCachedThreadPool {
         try {
             while (true) {
                 try {
-                    Thread.sleep(milli);
+                    Thread.sleep(milli + random.nextInt(100));
                     job.doJob();
                 } catch (InterruptedException e) {
                     System.out.println("[][][][][][] 强制退出 [][][][][][]");
@@ -86,59 +117,73 @@ public class AutoCleanupCachedThreadPool {
 
 
     static class Task implements Runnable {
-        private long duration;
+        private Future future;
+        private Job job;
+        private volatile int retriedTimes;
 
+        long start = System.currentTimeMillis();
+
+        private volatile boolean done = false;
+
+        public void markDone() {
+            done = true;
+        }
+
+        public void increaseRetriedTimes() {
+            retriedTimes++;
+        }
+
+        // TODO: 支持retry.
+        public int getRetriedTimes() {
+            return retriedTimes;
+        }
+
+        public Task(Job job) {
+            this.job = job;
+        }
 
         public boolean isDone() {
-            return job.isDone();
+            return done;
+        }
+
+        public void setFuture(Future future) {
+            this.future = future;
+        }
+
+        public Future getFuture() {
+            return future;
+        }
+
+        public long getDuration() {
+            return System.currentTimeMillis() - start;
         }
 
         @FunctionalInterface
         interface Job {
-            long start = System.currentTimeMillis();
-            Just<Long> duration = new Just(0);
-
             void doJob() throws Exception;
-
-            Just<Boolean> done = new Just<>(Boolean.FALSE);
-
-            default void markDone() {
-                done.set(Boolean.TRUE);
-                duration.set(System.currentTimeMillis() - start);
-            }
-
-            default boolean isDone() {
-                return done.get();
-            }
-
-            default long duration() {
-                return duration.get();
-            }
-        }
-
-        private Job job;
-
-        public Task(Job job) {
-            this.job = job;
         }
 
         @Override
         public void run() {
             try {
                 job.doJob();
+            } catch (InterruptedException e) {
+                System.out.println("<><><><> INTERRUPT <><><><>");
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                job.markDone();
+                markDone();
             }
         }
     }
 
     public static void submit(Task.Job job) {
         Task task = new Task(job);
+        System.out.print("[[[ " + task + " ]]]");
         tasks.add(task);
         try {
-            pool.submit(task);
+            Future f = pool.submit(task);
+            task.setFuture(f);
         } catch (RejectedExecutionException e) {
             System.out.println("全局容器已经shutdown()");
         }
@@ -156,11 +201,27 @@ public class AutoCleanupCachedThreadPool {
     public static void main(String[] args) throws Exception {
         System.out.println(":::START:::");
 
+        AutoCleanupCachedThreadPool.setTaskTimeout(3000); // 3秒钟
+        AutoCleanupCachedThreadPool.scheduleAutoCleanup(1000);
+
+        AutoCleanupCachedThreadPool.submit(() -> {
+            while (true) {
+                Thread.sleep(1000);
+                System.out.print("{{{死循环任务}}}");
+            }
+        });
+
+
+        AutoCleanupCachedThreadPool.submit(() -> {
+            System.out.println(Thread.currentThread().getId() + " 干就完了");
+            System.out.println("{}{}{}{}{}当前任务数： " + AutoCleanupCachedThreadPool.taskNumber());
+            System.out.println(Thread.currentThread().getId() + " 没毛病");
+        });
 
         new Thread(() -> {
             while (true) {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -179,13 +240,13 @@ public class AutoCleanupCachedThreadPool {
         AutoCleanupCachedThreadPool.cleanup();
 
         Thread.sleep(2000);
-        AutoCleanupCachedThreadPool.scheduleAutoCleanup(1000);
-        Thread.sleep(5000);
+
         AutoCleanupCachedThreadPool.shutdownAutoCleanup();
         Thread.sleep(3000);
         AutoCleanupCachedThreadPool.scheduleAutoCleanup(1000);
 
 
     }
+
 
 }
