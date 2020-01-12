@@ -23,7 +23,7 @@ public class AutoCleanupCachedThreadPool {
                         for (Task task : tasks) {
                             if (task.isDone()) {
                                 // todo: 把System.out改成logger
-                                System.out.println("<><><><><>清除已经完成的任务：" + task);
+                                System.out.printlnln("<><><><><>清除已经完成的任务：" + task);
                                 toBeDeleted.add(task);
                             }
                         }
@@ -108,18 +108,18 @@ public class AutoCleanupCachedThreadPool {
     }
 
     public static void stat() {
-        System.out.print("::: pool里面的任务数: " + tasks.size());
+        System.out.println("::: pool里面的任务数: " + tasks.size());
     }
 
     public static void main(String[] args) throws Exception {
-        System.out.println(":::START:::");
+        System.out.printlnln(":::START:::");
 
         while (true) {
             Thread.sleep(10);
             AutoCleanupCachedThreadPool.submit(() -> {
-                System.out.print(Thread.currentThread().getId() + " 干就完了");
+                System.out.println(Thread.currentThread().getId() + " 干就完了");
                 AutoCleanupCachedThreadPool.stat();
-                System.out.print(Thread.currentThread().getId() + " 没毛病");
+                System.out.println(Thread.currentThread().getId() + " 没毛病");
             });
         }
     }
