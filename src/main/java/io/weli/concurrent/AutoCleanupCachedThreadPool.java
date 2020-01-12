@@ -35,18 +35,16 @@ public class AutoCleanupCachedThreadPool {
         }
     }
 
-    public static synchronized void scheduleAutoCleanup(long milli) {
+    public static void scheduleAutoCleanup(long milli) {
         lock.lock();
-        if (!autoCleanupTask.get().isShutdown()) {
-            autoCleanupTask.get().submit(() -> scheduled(milli, () -> cleanup()));
-        } else {
+        if (autoCleanupTask.get().isShutdown()) {
             autoCleanupTask.set(Executors.newSingleThreadExecutor());
-            autoCleanupTask.get().submit(() -> scheduled(milli, () -> cleanup()));
         }
+        autoCleanupTask.get().submit(() -> scheduled(milli, AutoCleanupCachedThreadPool::cleanup));
         lock.unlock();
     }
 
-    public static synchronized void shutdownAutoCleanup() {
+    public static void shutdownAutoCleanup() {
         lock.lock();
         autoCleanupTask.get().shutdownNow();
         System.out.println("!!! SHUTDOWN NOW !!!");
@@ -173,7 +171,6 @@ public class AutoCleanupCachedThreadPool {
                 });
             }
         }).start();
-
 
 
         Thread.sleep(2000);
