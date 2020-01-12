@@ -23,7 +23,7 @@ public class AutoCleanupCachedThreadPool {
                         for (Task task : tasks) {
                             if (task.isDone()) {
                                 // todo: 把System.out改成logger
-                                System.out.printlnln("<><><><><>清除已经完成的任务：" + task);
+                                System.out.println("<><><><><>清除已经完成的任务：" + task);
                                 toBeDeleted.add(task);
                             }
                         }
@@ -112,7 +112,7 @@ public class AutoCleanupCachedThreadPool {
     }
 
     public static void main(String[] args) throws Exception {
-        System.out.printlnln(":::START:::");
+        System.out.println(":::START:::");
 
         while (true) {
             Thread.sleep(10);
