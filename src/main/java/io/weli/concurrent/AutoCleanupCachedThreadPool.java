@@ -201,51 +201,39 @@ public class AutoCleanupCachedThreadPool {
     public static void main(String[] args) throws Exception {
         System.out.println(":::START:::");
 
-        AutoCleanupCachedThreadPool.setTaskTimeout(3000); // 3秒钟
+        AutoCleanupCachedThreadPool.setTaskTimeout(1000);
         AutoCleanupCachedThreadPool.scheduleAutoCleanup(1000);
 
         AutoCleanupCachedThreadPool.submit(() -> {
             while (true) {
-                Thread.sleep(1000);
                 System.out.print("{{{死循环任务}}}");
+                Thread.sleep(5000);
             }
         });
 
-
         AutoCleanupCachedThreadPool.submit(() -> {
+            Thread.sleep(10000);
             System.out.println(Thread.currentThread().getId() + " 干就完了");
             System.out.println("{}{}{}{}{}当前任务数： " + AutoCleanupCachedThreadPool.taskNumber());
             System.out.println(Thread.currentThread().getId() + " 没毛病");
         });
 
-        new Thread(() -> {
-            while (true) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                AutoCleanupCachedThreadPool.submit(() -> {
-                    System.out.println(Thread.currentThread().getId() + " 干就完了");
-                    System.out.println("{}{}{}{}{}当前任务数： " + AutoCleanupCachedThreadPool.taskNumber());
-                    System.out.println(Thread.currentThread().getId() + " 没毛病");
-                });
-            }
-        }).start();
+        AutoCleanupCachedThreadPool.submit(() -> {
+            Thread.sleep(1000);
+            System.out.println(Thread.currentThread().getId() + " 干就完了");
+            System.out.println("{}{}{}{}{}当前任务数： " + AutoCleanupCachedThreadPool.taskNumber());
+            System.out.println(Thread.currentThread().getId() + " 没毛病");
+        });
 
 
         Thread.sleep(2000);
-
-
         AutoCleanupCachedThreadPool.cleanup();
-
         Thread.sleep(2000);
-
         AutoCleanupCachedThreadPool.shutdownAutoCleanup();
-        Thread.sleep(3000);
+        Thread.sleep(2000);
         AutoCleanupCachedThreadPool.scheduleAutoCleanup(1000);
-
-
+        Thread.sleep(2000);
+        AutoCleanupCachedThreadPool.shutdownAutoCleanup();
     }
 
 
