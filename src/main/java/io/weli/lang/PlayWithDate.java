@@ -1,4 +1,4 @@
-package lang;
+package io.weli.lang;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -35,6 +35,7 @@
         <dep.assertj.ver>3.12.2</dep.assertj.ver>
         <rx.java.jdbc.version>0.7.11</rx.java.jdbc.version>
         <springboot.version>2.1.3.RELEASE</springboot.version>
+        <commons-beanutils.ver>1.9.4</commons-beanutils.ver>
     </properties>
 
     <dependencyManagement>
@@ -141,6 +142,12 @@
             <!-- use 2.9.1 for Java 7 projects -->
             <version>${dep.assertj.ver}</version>
 <!--            <scope>test</scope>-->
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>${commons-beanutils.ver}</version>
         </dependency>
     </dependencies>
 </project>
