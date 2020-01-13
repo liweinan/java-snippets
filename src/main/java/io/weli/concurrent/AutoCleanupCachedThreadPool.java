@@ -220,6 +220,7 @@ public class AutoCleanupCachedThreadPool {
 
     public static void submit(Task.Job job) {
         Task task = new Task(job);
+        task.markInProgress();
         System.out.println("提交任务：" + task);
         tasksInProgress.add(task);
         try {
@@ -328,7 +329,6 @@ public class AutoCleanupCachedThreadPool {
                         System.out.println("{随机超时任务2，本次时长：" + duration + " }");
                         Thread.sleep(duration);
                         System.out.println("{随机超时任务2执行完成}");
-
                     });
                 }
             }
@@ -344,30 +344,6 @@ public class AutoCleanupCachedThreadPool {
             System.out.println(":::测试完成:::");
             Thread.sleep(2000);
         }
-//
-//        AutoCleanupCachedThreadPool.enableTimeoutTasksReservation();
-//        AutoCleanupCachedThreadPool.setTaskTimeoutInterval(500);
-//
-//        AutoCleanupCachedThreadPool.submit(() -> {
-//            Thread.sleep(1000);
-//            System.out.println(Thread.currentThread().getId() + " 干就完了");
-//            System.out.println("{}{}{}{}{}当前任务数： " + AutoCleanupCachedThreadPool.taskNumber());
-//            System.out.println(Thread.currentThread().getId() + " 没毛病");
-//        });
-//        AutoCleanupCachedThreadPool.submit(() -> {
-//            Thread.sleep(1000);
-//            System.out.println(Thread.currentThread().getId() + " 干就完了");
-//            System.out.println("{}{}{}{}{}当前任务数： " + AutoCleanupCachedThreadPool.taskNumber());
-//            System.out.println(Thread.currentThread().getId() + " 没毛病");
-//        });
-//        AutoCleanupCachedThreadPool.submit(() -> {
-//            Thread.sleep(1000);
-//            System.out.println(Thread.currentThread().getId() + " 干就完了");
-//            System.out.println("{}{}{}{}{}当前任务数： " + AutoCleanupCachedThreadPool.taskNumber());
-//            System.out.println(Thread.currentThread().getId() + " 没毛病");
-//        });
-//
-//        System.out.println("=== timeoutTask 数量： " + AutoCleanupCachedThreadPool.taskNumber() + " ===");
     }
 
     private static void submit2(Task.Job t) {
