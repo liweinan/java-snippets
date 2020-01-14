@@ -2,7 +2,6 @@ package io.weli.test;
 
 import org.testng.annotations.Test;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 //https://www.baeldung.com/java-safevarargs
@@ -58,6 +57,5 @@ public class SafeVarArgTest {
     public void testBrokenBury() {
         brokenBury();
     }
-
 
 }
