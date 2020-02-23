@@ -3,6 +3,8 @@ package io.alchemystudio.lang;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ExecCmd {
     // https://stackoverflow.com/questions/5711084/java-runtime-getruntime-getting-output-from-executing-a-command-line-program
@@ -21,8 +23,17 @@ public class ExecCmd {
         String line = null;
         System.out.println("<OUTPUT>");
 
-        while ((line = br.readLine()) != null)
+        Pattern dockerHostPattern = Pattern.compile(".*DOCKER_HOST=\"(.*)\".*");
+
+        while ((line = br.readLine()) != null) {
             System.out.println(line);
+            Matcher m = dockerHostPattern.matcher(line);
+            System.out.println(m.matches());
+            if (m.matches()) {
+                System.out.println("docker host: " + m.group(1));
+            }
+        }
+
 
         System.out.println("</OUTPUT>");
         int exitVal = proc.waitFor();
