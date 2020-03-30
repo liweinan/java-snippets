@@ -37,6 +37,7 @@
         <springboot.version>2.1.3.RELEASE</springboot.version>
         <commons-beanutils.ver>1.9.4</commons-beanutils.ver>
         <bc.ver>1.46</bc.ver>
+        <resteasy.ver>4.5.3.Final</resteasy.ver>
     </properties>
 
     <dependencyManagement>
@@ -111,13 +112,29 @@
         </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jaxrs</artifactId>
-            <version>3.0.13.Final</version>
+            <artifactId>resteasy-core</artifactId>
+            <version>${resteasy.ver}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-core-spi</artifactId>
+            <version>${resteasy.ver}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-links</artifactId>
+            <version>${resteasy.ver}</version>
         </dependency>
         <dependency>
             <groupId>org.bytedeco</groupId>
             <artifactId>javacpp</artifactId>
             <version>1.4.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.27.0-GA</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -129,13 +146,13 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${dep.junit.ver}</version>
-<!--            <scope>test</scope>-->
+            <!--            <scope>test</scope>-->
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${dep.testng.ver}</version>
-<!--            <scope>test</scope>-->
+            <!--            <scope>test</scope>-->
         </dependency>
 
         <dependency>
@@ -148,7 +165,7 @@
             <artifactId>assertj-core</artifactId>
             <!-- use 2.9.1 for Java 7 projects -->
             <version>${dep.assertj.ver}</version>
-<!--            <scope>test</scope>-->
+            <!--            <scope>test</scope>-->
         </dependency>
         <!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
         <dependency>
