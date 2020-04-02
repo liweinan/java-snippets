@@ -1,0 +1,42 @@
+package io.alchemystudio.lang.proxy;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
+public class BasicProxyHandler implements InvocationHandler {
+
+    private Object original;
+
+    public BasicProxyHandler(Object original) {
+        this.original = original;
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        System.out.println("method: " + method.getName());
+        method.invoke(original, args);
+        System.out.println("done");
+        return null;
+    }
+
+    interface Foo {
+        void echo(String val);
+    }
+
+    static class FooImpl implements Foo {
+        public void echo(String val) {
+            System.out.println(val);
+        }
+    }
+
+    public static void main(String[] args) {
+        Foo foo = new FooImpl();
+
+        var p = (Foo) Proxy.newProxyInstance(
+                BasicProxyHandler.class.getClassLoader(),
+                new Class[]{Foo.class},
+                new BasicProxyHandler(foo));
+        p.echo("Hello, world!");
+    }
+}
