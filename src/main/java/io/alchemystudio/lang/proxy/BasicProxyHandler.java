@@ -33,10 +33,11 @@ public class BasicProxyHandler implements InvocationHandler {
     public static void main(String[] args) {
         Foo foo = new FooImpl();
 
-        var p = (Foo) Proxy.newProxyInstance(
+        Foo proxy = (Foo) Proxy.newProxyInstance(
                 BasicProxyHandler.class.getClassLoader(),
                 new Class[]{Foo.class},
                 new BasicProxyHandler(foo));
-        p.echo("Hello, world!");
+        proxy.echo("Hello, world!");
+        System.out.println(proxy.getClass());
     }
 }
