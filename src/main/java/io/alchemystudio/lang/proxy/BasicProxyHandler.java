@@ -15,9 +15,9 @@ public class BasicProxyHandler implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         System.out.println("method: " + method.getName());
-        method.invoke(original, args);
+        Object returnVal = method.invoke(original, args);
         System.out.println("done");
-        return null;
+        return returnVal;
     }
 
     interface Foo {
