@@ -3,6 +3,8 @@ package io.alchemystudio.lang.proxy;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+// 展示如何从proxy里面提取handler。
+// 这样就可以在handler里面封装metadata。
 public class InjectFieldProxyHandler extends BasicProxyHandler {
 
     public InjectFieldProxyHandler(Object original) {
