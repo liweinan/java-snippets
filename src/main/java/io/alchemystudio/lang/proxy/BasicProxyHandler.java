@@ -8,6 +8,14 @@ public class BasicProxyHandler implements InvocationHandler {
 
     private Object original;
 
+    public Object getOriginal() {
+        return original;
+    }
+
+    public void setOriginal(Object original) {
+        this.original = original;
+    }
+
     public BasicProxyHandler(Object original) {
         this.original = original;
     }
