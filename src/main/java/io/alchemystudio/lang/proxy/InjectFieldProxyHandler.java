@@ -38,9 +38,11 @@ public class InjectFieldProxyHandler extends BasicProxyHandler {
 
         proxy.echo("Hello, world!");
 
-        InjectFieldProxyHandler handler = (InjectFieldProxyHandler) Proxy.getInvocationHandler(proxy);
-        handler.setMetadata(System.currentTimeMillis());
+        if (Proxy.isProxyClass(proxy.getClass())) {
+            InjectFieldProxyHandler handler = (InjectFieldProxyHandler) Proxy.getInvocationHandler(proxy);
+            handler.setMetadata(System.currentTimeMillis());
+            System.out.println(handler.getMetadata());
+        }
 
-        System.out.println(handler.getMetadata());
     }
 }
