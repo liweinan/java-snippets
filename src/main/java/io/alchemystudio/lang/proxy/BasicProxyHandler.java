@@ -8,6 +8,9 @@ public class BasicProxyHandler implements InvocationHandler {
 
     private Object original;
 
+    public BasicProxyHandler() {
+    }
+
     public Object getOriginal() {
         return original;
     }
