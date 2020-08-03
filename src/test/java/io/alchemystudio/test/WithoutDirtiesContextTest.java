@@ -1,4 +1,4 @@
-package io.alchemystudio;
+package io.alchemystudio.test;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
