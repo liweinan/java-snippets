@@ -39,6 +39,7 @@
         <bc.ver>1.46</bc.ver>
         <resteasy.ver>4.5.3.Final</resteasy.ver>
         <yasson.ver>2.0.0-M2</yasson.ver>
+        <lombok.ver>1.18.12</lombok.ver>
     </properties>
 
     <dependencyManagement>
@@ -65,6 +66,12 @@
             <groupId>org.eclipse</groupId>
             <artifactId>yasson</artifactId>
             <version>${yasson.ver}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.ver}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
