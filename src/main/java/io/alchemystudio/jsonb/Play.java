@@ -22,6 +22,7 @@ public class Play {
 // serialize an object to JSON
         String jsonString = jsonb.toJson(shape); // output : {"area" : 12, "type" : "RECTANGLE"}
 // deserialize a JSON string to an object
+        System.out.println(jsonString);
 
         Shape s = jsonb.fromJson("{\"area\" : 12, \"type\": \"TRIANGLE\"}", Shape.class);
         System.out.println(s);
