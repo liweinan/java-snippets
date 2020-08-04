@@ -38,6 +38,7 @@
         <commons-beanutils.ver>1.9.4</commons-beanutils.ver>
         <bc.ver>1.46</bc.ver>
         <resteasy.ver>4.5.3.Final</resteasy.ver>
+        <yasson.ver>2.0.0-M2</yasson.ver>
     </properties>
 
     <dependencyManagement>
@@ -58,6 +59,12 @@
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk16</artifactId>
             <version>${bc.ver}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.eclipse/yasson -->
+        <dependency>
+            <groupId>org.eclipse</groupId>
+            <artifactId>yasson</artifactId>
+            <version>${yasson.ver}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

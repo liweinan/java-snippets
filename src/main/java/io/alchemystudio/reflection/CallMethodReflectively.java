@@ -15,7 +15,7 @@ public class CallMethodReflectively {
                         .getDeclaredMethod("getMessages", List.class);
         method.setAccessible(true);
 
-        Object cmr = Class.forName("io.alchemystudio.reflection.CallMethodReflectively").newInstance();
+        Object cmr = Class.forName("io.alchemystudio.reflection.CallMethodReflectively").getDeclaredConstructor().newInstance();
 
         List<String> msgs = new ArrayList<>();
         msgs.add("Hello");
