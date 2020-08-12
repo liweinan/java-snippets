@@ -2,7 +2,7 @@
 
 (ns joy.java
   (:import [java.util HashMap]
-           [java.util.io.alchemystudio.concurrent.atomic AtomicLong]))
+           [java.util.io.weli.concurrent.atomic AtomicLong]))
 
 (HashMap. {"happy?" true})
 (AtomicLong. 42)
