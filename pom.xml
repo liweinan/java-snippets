@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>java-snippets</groupId>
+    <groupId>io.weli</groupId>
     <artifactId>java-snippets</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -40,21 +40,16 @@
         <resteasy.ver>4.5.3.Final</resteasy.ver>
         <yasson.ver>2.0.0-M2</yasson.ver>
         <lombok.ver>1.18.12</lombok.ver>
+        <rxjava.ver>3.0.5</rxjava.ver>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-parent</artifactId>
-                <version>${springboot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <dependencies>
+        <!--            https://search.maven.org/artifact/io.reactivex.rxjava3/rxjava/3.0.5/jar-->
+        <dependency>
+            <groupId>io.reactivex.rxjava3</groupId>
+            <artifactId>rxjava</artifactId>
+            <version>${rxjava.ver}</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk16 -->
         <dependency>
             <groupId>org.bouncycastle</groupId>
@@ -187,4 +182,16 @@
             <version>${commons-beanutils.ver}</version>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-parent</artifactId>
+                <version>${springboot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>
