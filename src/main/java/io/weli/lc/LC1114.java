@@ -1,4 +1,4 @@
-package io.alchemystudio.lc;
+package io.weli.lc;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Semaphore;
