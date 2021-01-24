@@ -2,7 +2,11 @@ package io.weli.lc;
 
 public class UnionFind {
     private int count;
-    private int[] parent;
+    private final int[] parent;
+
+    public int getCount() {
+        return count;
+    }
 
     public UnionFind(int n) {
         this.count = n;
