@@ -26,7 +26,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <dep.jackson-core.version>[2.9.9,)</dep.jackson-core.version>
         <dep.jackson-databind.version>[2.9.9,)</dep.jackson-databind.version>
-        <dep.jetty.version>3.2.9.Final</dep.jetty.version>
+        <dep.jetty.version>3.2.10.Final</dep.jetty.version>
         <dep.jaxb-impl.version>2.2.6</dep.jaxb-impl.version>
         <dep.jgroups.version>3.6.10.Final</dep.jgroups.version>
         <dep.bouncycastle.version>1.46</dep.bouncycastle.version>
