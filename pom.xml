@@ -30,7 +30,7 @@
         <dep.jaxb-impl.version>2.2.6</dep.jaxb-impl.version>
         <dep.jgroups.version>3.3.4.Final</dep.jgroups.version>
         <dep.bouncycastle.version>1.46</dep.bouncycastle.version>
-        <dep.junit.ver>4.13.1</dep.junit.ver>
+        <dep.junit.ver>4.13.2</dep.junit.ver>
         <dep.testng.ver>7.0.0-beta7</dep.testng.ver>
         <dep.assertj.ver>3.12.2</dep.assertj.ver>
         <rx.java.jdbc.version>0.7.11</rx.java.jdbc.version>
