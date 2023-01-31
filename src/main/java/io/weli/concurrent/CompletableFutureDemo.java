@@ -2,7 +2,9 @@ package io.weli.concurrent;
 
 import java.util.concurrent.CompletableFuture;
 
-import static org.jgroups.util.Util.assertEquals;
+import static org.junit.Assert.assertEquals;
+
+//import static org.jgroups.util.Util.assertEquals;
 
 public class CompletableFutureDemo {
     public static void main(String[] args) throws Exception {
