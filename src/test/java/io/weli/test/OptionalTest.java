@@ -9,9 +9,9 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.jgroups.util.Util.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
+//import static org.jgroups.util.Util.assertTrue;
+
 
 // https://www.baeldung.com/java-optional
 public class OptionalTest {
