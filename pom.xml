@@ -39,7 +39,7 @@
         <bc.ver>1.46</bc.ver>
         <resteasy.ver>6.2.2.Final</resteasy.ver>
         <yasson.ver>2.0.0-M2</yasson.ver>
-        <lombok.ver>1.18.22</lombok.ver>
+        <lombok.ver>1.18.24</lombok.ver>
         <rxjava.ver>3.0.5</rxjava.ver>
     </properties>
 
