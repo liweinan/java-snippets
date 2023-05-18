@@ -34,7 +34,7 @@
         <dep.testng.ver>7.7.1</dep.testng.ver>
         <dep.assertj.ver>3.24.2</dep.assertj.ver>
         <rx.java.jdbc.version>0.7.11</rx.java.jdbc.version>
-        <springboot.version>3.0.6</springboot.version>
+        <springboot.version>3.0.7</springboot.version>
         <commons-beanutils.ver>1.9.4</commons-beanutils.ver>
         <bc.ver>1.46</bc.ver>
         <resteasy.ver>6.2.4.Final</resteasy.ver>
