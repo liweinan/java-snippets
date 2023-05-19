@@ -31,7 +31,7 @@
         <dep.jgroups.version>5.2.14.Final</dep.jgroups.version>
         <dep.bouncycastle.version>1.46</dep.bouncycastle.version>
         <dep.junit.ver>4.13.2</dep.junit.ver>
-        <dep.testng.ver>7.7.1</dep.testng.ver>
+        <dep.testng.ver>7.8.0</dep.testng.ver>
         <dep.assertj.ver>3.24.2</dep.assertj.ver>
         <rx.java.jdbc.version>0.7.11</rx.java.jdbc.version>
         <springboot.version>3.0.7</springboot.version>
