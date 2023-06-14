@@ -14,16 +14,16 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>17</source>
-                    <target>17</target>
+                    <source>19</source>
+                    <target>19</target>
                 </configuration>
             </plugin>
         </plugins>
     </build>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>19</maven.compiler.source>
+        <maven.compiler.target>19</maven.compiler.target>
         <dep.jackson-core.version>[2.9.9,)</dep.jackson-core.version>
         <dep.jackson-databind.version>[2.9.9,)</dep.jackson-databind.version>
         <dep.jetty.version>3.2.10.Final</dep.jetty.version>
@@ -41,6 +41,7 @@
         <yasson.ver>3.0.3</yasson.ver>
         <lombok.ver>1.18.28</lombok.ver>
         <rxjava.ver>3.1.6</rxjava.ver>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
