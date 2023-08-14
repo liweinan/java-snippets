@@ -44,6 +44,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>weli's java-snippets package</name>
+            <url>https://maven.pkg.github.com/liweinan/java-snippets</url>
+        </repository>
+    </distributionManagement>
+
     <dependencies>
         <!--            https://search.maven.org/artifact/io.reactivex.rxjava3/rxjava/3.0.5/jar-->
         <dependency>
