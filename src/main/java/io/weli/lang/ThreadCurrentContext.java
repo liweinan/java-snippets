@@ -4,6 +4,10 @@ public class ThreadCurrentContext
 {
     public static void main(String[] args) {
         var cl = Thread.currentThread().getContextClassLoader();
-        System.out.println(cl);
+
+
+
+
+        System.out.println(cl.getName());
     }
 }
