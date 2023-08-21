@@ -41,7 +41,7 @@
         <dep.testng.ver>7.8.0</dep.testng.ver>
         <dep.assertj.ver>3.24.2</dep.assertj.ver>
         <dep.sisu.ver>0.3.5</dep.sisu.ver>
-        <dep.guice.ver>4.0</dep.guice.ver>
+        <dep.guice.ver>7.0.0</dep.guice.ver>
         <rx.java.jdbc.version>0.7.11</rx.java.jdbc.version>
         <springboot.version>3.1.2</springboot.version>
         <commons-beanutils.ver>1.9.4</commons-beanutils.ver>
