@@ -211,9 +211,10 @@
             <artifactId>guice</artifactId>
             <version>${dep.guice.ver}</version>
         </dependency>
+<!--        https://bugs.jython.org/issue2355-->
         <dependency>
             <groupId>org.python</groupId>
-            <artifactId>jython</artifactId>
+            <artifactId>jython-standalone</artifactId>
             <version>${version.org.python.jython}</version>
         </dependency>
     </dependencies>
