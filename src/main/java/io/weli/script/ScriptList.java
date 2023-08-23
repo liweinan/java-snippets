@@ -4,6 +4,20 @@ import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 import java.util.List;
 
+/*
+[INFO]
+[INFO] -----------------------< io.weli:java-snippets >------------------------
+[INFO] Building java-snippets 1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- exec-maven-plugin:3.0.0:java (default-cli) @ java-snippets ---
+Engine Name:jython
+Engine Version:2.7.3
+Language Name:python
+Language Version:2.7
+Engine Short Names:[python, jython]
+Mime Types:[text/python, application/python, text/x-python, application/x-python]
+ */
 public class ScriptList {
     public static void main(String[] args) {
         ScriptEngineManager manager = new ScriptEngineManager();
