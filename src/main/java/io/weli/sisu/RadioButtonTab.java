@@ -1,6 +1,6 @@
 package io.weli.sisu;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 import javax.swing.*;
 import java.util.Enumeration;
 
