@@ -1,4 +1,4 @@
-package io.weli.common;
+package io.weli.commons;
 
 import java.util.Random;
 

@@ -1,4 +1,4 @@
-package io.weli.common;
+package io.weli.commons;
 
 public class SystemClassPaths {
     public static void main(String[] args) {
