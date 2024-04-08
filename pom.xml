@@ -38,7 +38,7 @@
         <dep.jgroups.version>5.3.4.Final</dep.jgroups.version>
         <dep.bouncycastle.version>1.46</dep.bouncycastle.version>
         <dep.junit.ver>4.13.2</dep.junit.ver>
-        <dep.testng.ver>7.9.0</dep.testng.ver>
+        <dep.testng.ver>7.10.0</dep.testng.ver>
         <dep.assertj.ver>3.25.3</dep.assertj.ver>
         <dep.sisu.ver>0.3.5</dep.sisu.ver>
         <dep.guice.ver>7.0.0</dep.guice.ver>
