@@ -39,7 +39,7 @@
         <dep.bouncycastle.version>1.46</dep.bouncycastle.version>
         <dep.junit.ver>4.13.2</dep.junit.ver>
         <dep.testng.ver>7.10.1</dep.testng.ver>
-        <dep.assertj.ver>3.25.3</dep.assertj.ver>
+        <dep.assertj.ver>3.26.0</dep.assertj.ver>
         <dep.sisu.ver>0.3.5</dep.sisu.ver>
         <dep.guice.ver>7.0.0</dep.guice.ver>
         <version.org.python.jython>2.7.3</version.org.python.jython>
