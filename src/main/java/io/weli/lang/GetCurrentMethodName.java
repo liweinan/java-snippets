@@ -21,5 +21,11 @@ public class GetCurrentMethodName {
     public static void main(String[] args) {
         var inst = new GetCurrentMethodName();
         inst.foo();
+        System.out.println("-----------");
+        inst.getCurrentMethodName();
+    }
+
+    public void getCurrentMethodName() {
+        System.out.println(Thread.currentThread().getStackTrace()[2].getMethodName());
     }
 }
