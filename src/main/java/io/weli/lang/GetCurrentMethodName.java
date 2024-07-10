@@ -6,6 +6,8 @@ package io.weli.lang;
  * bar
  * foo
  * main
+ * -----------
+ * main
  */
 public class GetCurrentMethodName {
     public void foo() {
