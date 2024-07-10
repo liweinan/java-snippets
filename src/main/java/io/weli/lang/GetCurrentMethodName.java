@@ -1,5 +1,12 @@
 package io.weli.lang;
 
+
+/**
+ * getStackTrace
+ * bar
+ * foo
+ * main
+ */
 public class GetCurrentMethodName {
     public void foo() {
         bar();
@@ -9,7 +16,6 @@ public class GetCurrentMethodName {
         for (var s : Thread.currentThread().getStackTrace()) {
             System.out.println(s.getMethodName());
         }
-
     }
 
     public static void main(String[] args) {
