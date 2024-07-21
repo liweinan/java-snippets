@@ -23,5 +23,8 @@ public class PlayWithDate {
         System.out.printf("getDayOfWeek: %s\n", saturday.getDayOfWeek());
         System.out.printf("getDay: %s\n", saturday.getDayOfWeek().getValue());
 
+        System.out.println("--------------------------------------");
+
+        System.out.printf("today: %s\n", LocalDateTime.now().getDayOfWeek());
     }
 }
