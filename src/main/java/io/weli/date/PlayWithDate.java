@@ -26,5 +26,9 @@ public class PlayWithDate {
         System.out.println("--------------------------------------");
 
         System.out.printf("today: %s\n", LocalDateTime.now().getDayOfWeek());
+
+
+        System.out.println("--------------------------------------");
+        System.out.printf("now: %s", LocalDateTime.now());
     }
 }
