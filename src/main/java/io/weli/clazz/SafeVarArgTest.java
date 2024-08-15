@@ -1,4 +1,4 @@
-package io.weli.test;
+package io.weli.clazz;
 
 import org.testng.annotations.Test;
 
