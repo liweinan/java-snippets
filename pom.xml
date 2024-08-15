@@ -37,7 +37,7 @@
         <dep.jaxb-impl.version>4.0.3</dep.jaxb-impl.version>
         <dep.jgroups.version>5.3.7.Final</dep.jgroups.version>
         <dep.bouncycastle.version>1.46</dep.bouncycastle.version>
-        <dep.junit.ver>4.13.2</dep.junit.ver>
+        <dep.junit.ver>5.8.0</dep.junit.ver>
         <dep.testng.ver>7.10.1</dep.testng.ver>
         <dep.assertj.ver>3.26.0</dep.assertj.ver>
         <dep.sisu.ver>0.3.5</dep.sisu.ver>
@@ -180,19 +180,30 @@
 <!--            <version>${version.org.springframework}</version>-->
 <!--        </dependency>-->
         <!-- https://mvnrepository.com/artifact/junit/junit -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${dep.junit.ver}</version>
-            <!--            <scope>test</scope>-->
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>junit</groupId>-->
+<!--            <artifactId>junit</artifactId>-->
+<!--            <version>${dep.junit.ver}</version>-->
+<!--            &lt;!&ndash;            <scope>test</scope>&ndash;&gt;-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${dep.testng.ver}</version>
             <!--            <scope>test</scope>-->
         </dependency>
-
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${dep.junit.ver}</version>
+<!--            <scope>test</scope>-->
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${dep.junit.ver}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.htmlparser</groupId>
             <artifactId>htmlparser</artifactId>

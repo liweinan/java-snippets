@@ -2,7 +2,8 @@ package io.weli.concurrent;
 
 import java.util.concurrent.CompletableFuture;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 //import static org.jgroups.util.Util.assertEquals;
 
