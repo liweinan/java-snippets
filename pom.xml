@@ -37,7 +37,7 @@
         <dep.jaxb-impl.version>4.0.3</dep.jaxb-impl.version>
         <dep.jgroups.version>5.3.7.Final</dep.jgroups.version>
         <dep.bouncycastle.version>1.46</dep.bouncycastle.version>
-        <dep.junit.ver>5.10.3</dep.junit.ver>
+        <dep.junit.ver>5.11.0</dep.junit.ver>
         <dep.testng.ver>7.10.1</dep.testng.ver>
         <dep.assertj.ver>3.26.0</dep.assertj.ver>
         <dep.sisu.ver>0.3.5</dep.sisu.ver>
@@ -61,6 +61,18 @@
             <url>https://maven.pkg.github.com/liweinan/java-snippets</url>
         </repository>
     </distributionManagement>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-parent</artifactId>
+                <version>${springboot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <!--            https://search.maven.org/artifact/io.reactivex.rxjava3/rxjava/3.0.5/jar-->
@@ -196,14 +208,14 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>${dep.junit.ver}</version>
-<!--            <scope>test</scope>-->
+            <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${dep.junit.ver}</version>
+<!--        <dependency>-->
+<!--            <groupId>org.junit.jupiter</groupId>-->
+<!--            <artifactId>junit-jupiter-engine</artifactId>-->
+<!--            <version>${dep.junit.ver}</version>-->
 <!--            <scope>test</scope>-->
-        </dependency>
+<!--        </dependency>-->
         <dependency>
             <groupId>org.htmlparser</groupId>
             <artifactId>htmlparser</artifactId>
@@ -240,15 +252,21 @@
         </dependency>
     </dependencies>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-parent</artifactId>
-                <version>${springboot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>${dep.junit.ver}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
 </project>
