@@ -1,4 +1,4 @@
-package io.weli.lang.completable;
+package io.weli.test;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
