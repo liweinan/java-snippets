@@ -15,18 +15,18 @@
     <artifactId>java-snippets</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-<!--    <build>-->
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-compiler-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <source>19</source>-->
-<!--                    <target>19</target>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--    </build>-->
+    <!--    <build>-->
+    <!--        <plugins>-->
+    <!--            <plugin>-->
+    <!--                <groupId>org.apache.maven.plugins</groupId>-->
+    <!--                <artifactId>maven-compiler-plugin</artifactId>-->
+    <!--                <configuration>-->
+    <!--                    <source>19</source>-->
+    <!--                    <target>19</target>-->
+    <!--                </configuration>-->
+    <!--            </plugin>-->
+    <!--        </plugins>-->
+    <!--    </build>-->
 
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
@@ -52,6 +52,7 @@
         <lombok.ver>1.18.34</lombok.ver>
         <rxjava.ver>3.1.8</rxjava.ver>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <graaljs.version>24.1.0</graaljs.version>
     </properties>
 
     <distributionManagement>
@@ -221,14 +222,31 @@
             <artifactId>guice</artifactId>
             <version>${dep.guice.ver}</version>
         </dependency>
-<!--        https://bugs.jython.org/issue2355-->
+        <!--        https://bugs.jython.org/issue2355-->
         <dependency>
             <groupId>org.python</groupId>
             <artifactId>jython-standalone</artifactId>
             <version>${version.org.python.jython}</version>
         </dependency>
+<!--        https://golb.hplar.ch/2020/04/java-javascript-engine.html-->
+<!--        https://github.com/oracle/graaljs-->
+        <dependency>
+            <groupId>org.graalvm.polyglot</groupId>
+            <artifactId>polyglot</artifactId>
+            <version>${graaljs.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.graalvm.polyglot</groupId>
+            <artifactId>js</artifactId>
+            <version>${graaljs.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.graalvm.js</groupId>
+            <artifactId>js-scriptengine</artifactId>
+            <version>${graaljs.version}</version>
+        </dependency>
     </dependencies>
-
 
 
     <build>
@@ -236,13 +254,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-<!--                <dependencies>-->
-<!--                    <dependency>-->
-<!--                        <groupId>org.junit.jupiter</groupId>-->
-<!--                        <artifactId>junit-jupiter-engine</artifactId>-->
-<!--                        <version>${dep.junit.ver}</version>-->
-<!--                    </dependency>-->
-<!--                </dependencies>-->
+                <!--                <dependencies>-->
+                <!--                    <dependency>-->
+                <!--                        <groupId>org.junit.jupiter</groupId>-->
+                <!--                        <artifactId>junit-jupiter-engine</artifactId>-->
+                <!--                        <version>${dep.junit.ver}</version>-->
+                <!--                    </dependency>-->
+                <!--                </dependencies>-->
             </plugin>
         </plugins>
     </build>
