@@ -56,5 +56,11 @@ public class ScriptList {
         System.out.println("x: " + x);
         System.out.println("Goodbye ");
 
+        // JS engine.
+        ScriptEngine graalEngine = new ScriptEngineManager().getEngineByName("graal.js");
+        graalEngine.eval("print('---');");
+        graalEngine.eval("print('Hello World!');");
+
+
     }
 }
