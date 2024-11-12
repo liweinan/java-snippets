@@ -47,7 +47,7 @@
         <springboot.version>3.3.5</springboot.version>
         <commons-beanutils.ver>1.9.4</commons-beanutils.ver>
         <bc.ver>1.46</bc.ver>
-        <resteasy.ver>6.2.10.Final</resteasy.ver>
+        <resteasy.ver>6.2.11.Final</resteasy.ver>
         <yasson.ver>3.0.3</yasson.ver>
         <lombok.ver>1.18.34</lombok.ver>
         <rxjava.ver>3.1.9</rxjava.ver>
