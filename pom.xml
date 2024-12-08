@@ -48,7 +48,7 @@
         <commons-beanutils.ver>1.9.4</commons-beanutils.ver>
         <bc.ver>1.46</bc.ver>
         <resteasy.ver>6.2.11.Final</resteasy.ver>
-        <yasson.ver>3.0.3</yasson.ver>
+        <yasson.ver>3.0.4</yasson.ver>
         <lombok.ver>1.18.36</lombok.ver>
         <rxjava.ver>3.1.10</rxjava.ver>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
