@@ -37,7 +37,7 @@
         <dep.jaxb-impl.version>4.0.5</dep.jaxb-impl.version>
         <dep.jgroups.version>5.4.0.Final</dep.jgroups.version>
         <dep.bouncycastle.version>1.46</dep.bouncycastle.version>
-        <dep.junit.ver>5.11.3</dep.junit.ver>
+        <dep.junit.ver>5.11.4</dep.junit.ver>
         <dep.testng.ver>7.10.2</dep.testng.ver>
         <dep.assertj.ver>3.26.3</dep.assertj.ver>
         <dep.sisu.ver>0.3.5</dep.sisu.ver>
