@@ -9,12 +9,12 @@ public class PlayWithTimer {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                System.out.println("task start");
+                System.out.println("task run");
             }
         };
-        timer.schedule(task, 1000L);
+        timer.schedule(task, 1000L, 1000L);
 
-        Thread.sleep(2000L);
+        Thread.sleep(3000L);
         System.out.println("task end");
     }
 }
