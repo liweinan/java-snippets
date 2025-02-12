@@ -35,7 +35,7 @@
         <dep.jackson-databind.version>[2.9.9,)</dep.jackson-databind.version>
         <dep.jetty.version>3.2.10.Final</dep.jetty.version>
         <dep.jaxb-impl.version>4.0.5</dep.jaxb-impl.version>
-        <dep.jgroups.version>5.4.2.Final</dep.jgroups.version>
+        <dep.jgroups.version>5.4.3.Final</dep.jgroups.version>
         <dep.bouncycastle.version>1.46</dep.bouncycastle.version>
         <dep.junit.ver>5.11.4</dep.junit.ver>
         <dep.testng.ver>7.11.0</dep.testng.ver>
