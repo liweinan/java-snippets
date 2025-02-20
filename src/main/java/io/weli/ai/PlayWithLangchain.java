@@ -31,7 +31,7 @@ public class PlayWithLangchain {
     public static void main(String[] args) throws Exception {
         EmbeddingModel embeddingModel = OllamaEmbeddingModel.builder()
                 .baseUrl("http://localhost:11434")
-                .modelName("llama3")
+                .modelName("deepseek-r1")
                 .build();
         EmbeddingStore embeddingStore = new InMemoryEmbeddingStore();
         URL fileUrl = PlayWithLangchain.class.getResource("/dictionary.txt");
@@ -47,17 +47,19 @@ public class PlayWithLangchain {
         Embedding queryEmbedding = embeddingModel.embed("What is the Shadowmire ?").content();
         List<EmbeddingMatch<TextSegment>> relevant = embeddingStore.findRelevant(queryEmbedding, 1);
         EmbeddingMatch<TextSegment> embeddingMatch = relevant.get(0);
+
         String information = embeddingMatch.embedded().text();
+
         Prompt prompt = PromptTemplate.from("""
                 Tell me about {{name}}?
-                
+
                 Use the following information to answer the question:
                 {{information}}
                 """).apply(Map.of("name", "Shadowmire","information", information));
         // Initialize the language model for generating the response
         OllamaLanguageModel model = OllamaLanguageModel.builder()
                 .baseUrl("http://localhost:11434")
-                .modelName("llama3")
+                .modelName("deepseek-r1")
                 .timeout(Duration.of(100, ChronoUnit.SECONDS))
                 .build();
 
