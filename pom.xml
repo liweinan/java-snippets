@@ -53,7 +53,7 @@
         <rx.java.jdbc.version>0.7.11</rx.java.jdbc.version>
         <rxjava.ver>3.1.10</rxjava.ver>
         <springboot.version>3.4.3</springboot.version>
-        <version.langchain>0.33.0</version.langchain>
+        <version.langchain>0.36.2</version.langchain>
         <version.org.python.jython>2.7.4</version.org.python.jython>
         <yasson.ver>3.0.4</yasson.ver>
     </properties>
