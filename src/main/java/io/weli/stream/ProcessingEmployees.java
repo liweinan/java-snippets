@@ -23,9 +23,15 @@ public class ProcessingEmployees {
         System.out.println("Complete Employee list: ");
         list.forEach(System.out::println);
 
+        // ------------------------------------------------------------------------------------
+
         Predicate<Employee> fourToSixThousand = employee -> employee.getSalary() >= 4000 && employee.getSalary() <= 6000;
 
         System.out.printf("%n Employees earning $4000-$6000 per month sorted by salary:%n");
+
+
+        // ------------------------------------------------------------------------------------
+
 
         list.stream()
                 .filter(fourToSixThousand)
@@ -40,8 +46,24 @@ public class ProcessingEmployees {
                         .findFirst()
                         .get());
 
-        Function<Employee, String> byFirstName = Employee::getFirstName;
 
+        // ------------------------------------------------------------------------------------
+
+        Function<Employee, String> byFirstName = Employee::getFirstName;
+        Function<Employee, String> byLastName = Employee::getLastName;
+
+        Comparator<Employee> lastThenFirst = Comparator.comparing(byLastName).thenComparing(byFirstName);
+
+        System.out.printf("%nEmployees in ascending order by last name then first:%n");
+
+        list.stream().sorted(lastThenFirst).forEach(System.out::println);
+
+        // ------------------------------------------------------------------------------------
+
+        System.out.printf("%nEmployees in descending order by last name then first:%n");
+        list.stream()
+                .sorted(lastThenFirst.reversed())
+                .forEach(System.out::println);
 
     }
 }
