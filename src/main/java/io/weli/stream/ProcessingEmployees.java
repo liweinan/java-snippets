@@ -3,8 +3,10 @@ package io.weli.stream;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class ProcessingEmployees {
     public static void main(String[] args) {
@@ -64,6 +66,33 @@ public class ProcessingEmployees {
         list.stream()
                 .sorted(lastThenFirst.reversed())
                 .forEach(System.out::println);
+
+
+        // ------------------------------------------------------------------------------------
+        // group Employees by department
+
+        System.out.printf("%nEmployees by department:%n");
+
+        Map<String, List<Employee>> groupedByDepartment = list.stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment));
+
+        // key and values
+        groupedByDepartment.forEach((department, employeesInDepartment) -> {
+            System.out.printf("Department name: %s%n", department);
+            employeesInDepartment.forEach(employee -> System.out.printf("   %s%n", employee));
+        });
+
+        // ------------------------------------------------------------------------------------
+        // count number of Employees in each department
+        System.out.printf("%nCount of Employees by department:%n");
+
+        // ------------------------------------------------------------------------------------
+        // count number of Employees in each department
+        System.out.printf("%nCount of Employees by department:%n");
+        Map<String, Long> employeeCountByDepartment =
+                list.stream()
+                        .collect(Collectors.groupingBy(Employee::getDepartment, Collectors.counting())); // collect
+
 
     }
 }
