@@ -92,7 +92,9 @@ public class ProcessingEmployees {
         Map<String, Long> employeeCountByDepartment =
                 list.stream()
                         .collect(Collectors.groupingBy(Employee::getDepartment, Collectors.counting())); // collect
-
+        employeeCountByDepartment
+                .forEach((department, count) ->
+                        System.out.printf("Department name: %s has %d employee(s)%n", department, count));
 
     }
 }
