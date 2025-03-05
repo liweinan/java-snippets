@@ -17,5 +17,16 @@ public class StreamOfLines {
 
         System.out.println("wordCounts: " + wordCounts);
         wordCounts.forEach((key, value) -> System.out.println(key + " : " + value));
+
+        // display the words grouped by starting letter
+        wordCounts.entrySet()
+                .stream()
+                .collect(Collectors.groupingBy(entry -> entry.getKey().charAt(0), Collectors.toList()))
+                .forEach((letter, wordList) -> {
+                    System.out.printf("%n%C%n", letter);
+                    wordList.stream()
+                            .forEach(word ->
+                                    System.out.printf("%13s: %d%n", word.getKey(), word.getValue()));
+                });
     }
 }
