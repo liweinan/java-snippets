@@ -16,5 +16,9 @@ public class PlayWithLog {
         // 1 - 0.x 的区间是 (0..1)
         // 其log值肯定是负数。
         System.out.println(Math.log(1 - ThreadLocalRandom.current().nextDouble()));
+
+
+        System.out.println(Math.sqrt(9));
+
     }
 }
