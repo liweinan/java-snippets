@@ -3,8 +3,7 @@ package io.weli.lang.sort;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -21,5 +20,15 @@ public class Play {
         io.weli.lang.sort.MinMax.miniMaxSum(arr);
 
         bufferedReader.close();
+
+        var l = new ArrayList<Integer>();
+        l.add(4);
+        l.add(2);
+        l.add(3);
+        l.add(1);
+        Collections.sort(l);
+        Collections.sort(l, Collections.reverseOrder());
+        System.out.println("------------------");
+        l.stream().forEach(System.out::println);
     }
 }
