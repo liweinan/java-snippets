@@ -16,8 +16,8 @@ public class Play {
 
     public static void main(String[] args) {
         Shape shape = new Shape();
-        shape.setArea(12);
-        shape.setType("RECTANGLE");
+//        shape.setArea(12);
+//        shape.setType("RECTANGLE");
         Jsonb jsonb = JsonbBuilder.create();
 // serialize an object to JSON
         String jsonString = jsonb.toJson(shape); // output : {"area" : 12, "type" : "RECTANGLE"}

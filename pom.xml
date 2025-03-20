@@ -44,10 +44,10 @@
         <dep.testng.ver>7.11.0</dep.testng.ver>
         <graaljs.version>24.2.0</graaljs.version>
         <lombok.ver>1.18.36</lombok.ver>
-        <maven.compiler.source>19</maven.compiler.source>
-        <maven.compiler.target>19</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
 <!--        https://stackoverflow.com/questions/38882080/specifying-java-version-in-maven-differences-between-properties-and-compiler-p-->
-        <maven.compiler.release>19</maven.compiler.release>
+        <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <resteasy.ver>6.2.12.Final</resteasy.ver>
         <rx.java.jdbc.version>0.7.11</rx.java.jdbc.version>
@@ -264,9 +264,12 @@
             <artifactId>langchain4j-embeddings</artifactId>
             <version>${version.langchain}</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>24</version>
+        </dependency>
     </dependencies>
-
-
     <build>
         <plugins>
             <plugin>
@@ -284,9 +287,21 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>19</source>
-                    <target>19</target>
-                    <compilerVersion>19</compilerVersion>
+                    <source>21</source>
+                    <target>21</target>
+                    <compilerVersion>21</compilerVersion>
+                </configuration>
+            </plugin>
+<!--            Java 21 is needed-->
+<!--            https://www.baeldung.com/javafx-->
+<!--            https://openjfx.io/openjfx-docs//index.html#maven-->
+<!--            mvn clean javafx:run-->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>io.weli.javafx.HelloWorld</mainClass>
                 </configuration>
             </plugin>
         </plugins>
