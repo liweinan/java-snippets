@@ -44,6 +44,7 @@
         <dep.testng.ver>7.11.0</dep.testng.ver>
         <graaljs.version>24.2.0</graaljs.version>
         <lombok.ver>1.18.36</lombok.ver>
+        <java_level>21</java_level>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
 <!--        https://stackoverflow.com/questions/38882080/specifying-java-version-in-maven-differences-between-properties-and-compiler-p-->
@@ -56,6 +57,9 @@
         <version.langchain>0.36.2</version.langchain>
         <version.org.python.jython>2.7.4</version.org.python.jython>
         <yasson.ver>3.0.4</yasson.ver>
+        <javafx.version>0.0.8</javafx.version>
+        <ver.mapstruct>1.6.3</ver.mapstruct>
+        <lombok.mapstruct.ver>0.2.0</lombok.mapstruct.ver>
     </properties>
 
     <distributionManagement>
@@ -267,13 +271,13 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>24</version>
+            <version>${java_level}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.mapstruct</groupId>-->
-<!--            <artifactId>mapstruct</artifactId>-->
-<!--            <version>1.6.0.Beta1</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${ver.mapstruct}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -292,9 +296,26 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>21</source>
-                    <target>21</target>
-                    <compilerVersion>21</compilerVersion>
+                    <source>${java_level}</source>
+                    <target>${java_level}</target>
+                    <compilerVersion>${java_level}</compilerVersion>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${ver.mapstruct}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.ver}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>${lombok.mapstruct.ver}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
 <!--            Java 21 is needed-->
@@ -304,7 +325,7 @@
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.8</version>
+                <version>${javafx.version}</version>
                 <configuration>
                     <mainClass>io.weli.javafx.HelloWorld</mainClass>
                 </configuration>

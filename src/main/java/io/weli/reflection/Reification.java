@@ -18,21 +18,17 @@ public class Reification {
     }
 
     public static void main(String[] args) throws Exception {
-        Method fooMethod = Reification.class.getMethod("foo", null);
+        Method fooMethod = Reification.class.getMethod("foo", (Class<?>) null);
         System.out.println(fooMethod);
         System.out.println(fooMethod.getReturnType()); // reified type
         System.out.println(fooMethod.getGenericReturnType());
         System.out.println(fooMethod.getGenericReturnType().getClass());
 
-        Method barMethod = Reification.class.getMethod("bar", null);
+        Method barMethod = Reification.class.getMethod("bar", (Class<?>) null);
         System.out.println(barMethod);
         System.out.println(barMethod.getReturnType());
 
         List<Integer> list = new ArrayList<Integer>();
-        if (list instanceof List<?>) {
-            System.out.println("true");
-        }  else {
-            System.out.println("false");
-        }
+        System.out.println("true");
     }
 }
