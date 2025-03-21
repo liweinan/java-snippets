@@ -39,7 +39,7 @@
         <dep.jaxb-impl.version>4.0.5</dep.jaxb-impl.version>
         <dep.jetty.version>3.2.10.Final</dep.jetty.version>
         <dep.jgroups.version>5.4.5.Final</dep.jgroups.version>
-        <dep.junit.ver>5.11.4</dep.junit.ver>
+        <dep.junit.ver>5.12.1</dep.junit.ver>
         <dep.sisu.ver>0.3.5</dep.sisu.ver>
         <dep.testng.ver>7.11.0</dep.testng.ver>
         <graaljs.version>24.2.0</graaljs.version>
