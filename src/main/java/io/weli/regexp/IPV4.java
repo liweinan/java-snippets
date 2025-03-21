@@ -1,9 +1,7 @@
 package io.weli.regexp;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-// https://www.baeldung.com/mapstruct
 public class IPV4 {
     /*
         https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Regular_expressions/Word_boundary_assertion
@@ -17,10 +15,13 @@ public class IPV4 {
     \\b – This is a word boundary.
      */
     public static void main(String[] args) {
-        String regex = "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$";
+//        String regex = "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$";
+
+        // // https://www.hackerrank.com/challenges/java-regex/problem
+        String regex = "^((25[0-5]|(2[0-4]|1\\d|0\\d|[0-9]|)\\d)\\.?\\b){4}$";
         Pattern pattern = Pattern.compile(regex);
         String ip = "255.255.255.255";
-        Matcher matcher = pattern.matcher(ip);
-        System.out.println(matcher.matches());
+//        Matcher matcher = pattern.matcher(ip);
+        System.out.println(ip.matches(regex));
     }
 }
