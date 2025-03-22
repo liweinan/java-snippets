@@ -47,7 +47,7 @@
         <java_level>25-ea+8</java_level>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
-<!--        https://stackoverflow.com/questions/38882080/specifying-java-version-in-maven-differences-between-properties-and-compiler-p-->
+        <!--        https://stackoverflow.com/questions/38882080/specifying-java-version-in-maven-differences-between-properties-and-compiler-p-->
         <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <resteasy.ver>6.2.12.Final</resteasy.ver>
@@ -199,7 +199,13 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>${dep.junit.ver}</version>
-            <scope>test</scope>
+            <!--            <scope>test</scope>-->
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${dep.junit.ver}</version>
+            <!--                    <scope>test</scope>-->
         </dependency>
         <dependency>
             <groupId>org.htmlparser</groupId>
@@ -235,8 +241,8 @@
             <artifactId>jython-standalone</artifactId>
             <version>${version.org.python.jython}</version>
         </dependency>
-<!--        https://golb.hplar.ch/2020/04/java-javascript-engine.html-->
-<!--        https://github.com/oracle/graaljs-->
+        <!--        https://golb.hplar.ch/2020/04/java-javascript-engine.html-->
+        <!--        https://github.com/oracle/graaljs-->
         <dependency>
             <groupId>org.graalvm.polyglot</groupId>
             <artifactId>polyglot</artifactId>
@@ -284,13 +290,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <!--                <dependencies>-->
-                <!--                    <dependency>-->
-                <!--                        <groupId>org.junit.jupiter</groupId>-->
-                <!--                        <artifactId>junit-jupiter-engine</artifactId>-->
-                <!--                        <version>${dep.junit.ver}</version>-->
-                <!--                    </dependency>-->
-                <!--                </dependencies>-->
+                <configuration>
+                    <argLine>--enable-preview</argLine>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>${dep.junit.ver}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -318,10 +327,10 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-<!--            Java 21 is needed-->
-<!--            https://www.baeldung.com/javafx-->
-<!--            https://openjfx.io/openjfx-docs//index.html#maven-->
-<!--            mvn clean javafx:run-->
+            <!--            Java 21 is needed-->
+            <!--            https://www.baeldung.com/javafx-->
+            <!--            https://openjfx.io/openjfx-docs//index.html#maven-->
+            <!--            mvn clean javafx:run-->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
