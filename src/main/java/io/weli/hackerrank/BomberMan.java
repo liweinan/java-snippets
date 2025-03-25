@@ -64,13 +64,13 @@ public class BomberMan {
         // 0 = no bomb
         List<List<Integer>> bombMap = new ArrayList<>(rowSize);
 
-        // initialize the bombMap
+        // initialize the bombMap at first second
         for (int _i = 0; _i < rowSize; _i++) {
             bombMap.add(new ArrayList<>(colSize));
             for (int _j = 0; _j < colSize; _j++) {
                 char c = grid.get(_i).charAt(_j);
                 if (c == 'O') {
-                    bombMap.get(_i).add(3);
+                    bombMap.get(_i).add(2); // at first second, the initial bombs are 2 seconds to explode.
                 } else {
                     bombMap.get(_i).add(0);
                 }
