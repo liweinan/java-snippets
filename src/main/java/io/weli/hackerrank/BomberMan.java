@@ -31,17 +31,17 @@ public class BomberMan {
     // i % 2 == 0 -> full map are bombs
     public static List<String> bomberMan(int n, List<String> grid) {
         // Write your code here
-        // n % 2
         List<String> out = new ArrayList<>();
 
         int rowSize = grid.size();
-        System.out.println("rowSize: " + rowSize);
-
         int colSize = grid.get(0).length();
-        System.out.println("colSize: " + colSize);
 
+        if (n == 1) {
+            return grid; // just 1 second passed so there is no change.
+        }
+
+        // full of bombs at even seconds
         if (n % 2 == 0) {
-
             for (int _i = 0; _i < rowSize; _i++) {
                 StringBuilder sb = new StringBuilder();
                 for (int _j = 0; _j < colSize; _j++) {
@@ -49,19 +49,44 @@ public class BomberMan {
                 }
                 out.add(sb.toString());
             }
+
+            return out;
         }
 
-        System.out.println(out);
+        // calcuate the 3s status and the 5s statuses and record the statuses.
+        // first, register the initial bombs.
+        // then calc 2s, 3s, 4s, 5s
+        // remember the seconds of a bomb
+        // needs a method to explod bombs.
+        //
 
-        for (int i = 0; i < grid.size(); i++) {
-            grid.get(i);
+        // the integer is the second to explode.
+        // 0 = no bomb
+        List<List<Integer>> bombMap = new ArrayList<>(rowSize);
+
+        // initialize the bombMap
+        for (int _i = 0; _i < rowSize; _i++) {
+            bombMap.add(new ArrayList<>(colSize));
+            for (int _j = 0; _j < colSize; _j++) {
+                char c = grid.get(_i).charAt(_j);
+                if (c == 'O') {
+                    bombMap.get(_i).add(3);
+                } else {
+                    bombMap.get(_i).add(0);
+                }
+            }
         }
+
+        System.out.println("bombMap");
+        bombMap.stream().forEach((lst) -> {
+            System.out.println(lst);
+        });
 
         return out;
     }
 
     /*
-6 7 4
+6 7 3
 .......
 ...O...
 ....O..
@@ -100,7 +125,6 @@ OO.....
 
         bufferedReader.close();
 //        bufferedWriter.close();
-
 
     }
 }
