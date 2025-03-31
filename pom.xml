@@ -43,7 +43,7 @@
         <dep.sisu.ver>0.3.5</dep.sisu.ver>
         <dep.testng.ver>7.11.0</dep.testng.ver>
         <graaljs.version>24.2.0</graaljs.version>
-        <lombok.ver>1.18.36</lombok.ver>
+        <lombok.ver>1.18.38</lombok.ver>
         <java_level>25-ea+10</java_level>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
