@@ -97,10 +97,10 @@ public class BomberMan {
 
 //        return dumpBombMap(rowSize, colSize, bombMap);
 
-        if (n % 4 == 3) {
+        if (n % 4 == 3) { // 3, 7, 11 ...
             return first;
         } else {
-            return second;
+            return second; // 5, 9, 13 ...
         }
     }
 
