@@ -1,4 +1,4 @@
-package io.weli.lang;
+package io.weli.hackerrank;
 
 import java.util.HashMap;
 import java.util.Map;

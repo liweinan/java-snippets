@@ -1,4 +1,4 @@
-package io.weli.regexp;
+package io.weli.hackerrank;
 
 import java.util.regex.Pattern;
 

@@ -1,7 +1,4 @@
-package io.weli.lang.sort;
-
-import java.util.Arrays;
-import java.util.stream.IntStream;
+package io.weli.hackerrank;
 
 public class PlayPalindromeIndex2 {
 

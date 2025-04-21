@@ -1,4 +1,4 @@
-package io.weli.sandbox;
+package io.weli.hackerrank;
 
 import java.util.Arrays;
 
