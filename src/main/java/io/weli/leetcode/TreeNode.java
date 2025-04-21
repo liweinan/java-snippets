@@ -1,4 +1,4 @@
-package io.weli.lc;
+package io.weli.leetcode;
 
 import lombok.Getter;
 import lombok.Setter;

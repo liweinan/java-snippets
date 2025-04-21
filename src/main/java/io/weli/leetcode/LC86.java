@@ -1,4 +1,4 @@
-package io.weli.lc;
+package io.weli.leetcode;
 
 // https://leetcode-cn.com/problems/partition-list/
 public class LC86 {

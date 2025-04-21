@@ -1,4 +1,4 @@
-package io.weli.math;
+package io.weli.leetcode;
 
 /*
 

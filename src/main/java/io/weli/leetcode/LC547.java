@@ -1,4 +1,4 @@
-package io.weli.lc;
+package io.weli.leetcode;
 
 public class LC547 {
     static class Solution {
@@ -39,7 +39,7 @@ public class LC547 {
             }
 
             public static void main(String[] args) {
-                io.weli.lc.UnionFind uf = new io.weli.lc.UnionFind(5);
+                io.weli.leetcode.UnionFind uf = new io.weli.leetcode.UnionFind(5);
                 uf.union(1, 2);
 
             }

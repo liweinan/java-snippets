@@ -1,4 +1,4 @@
-package io.weli.sandbox;
+package io.weli.leetcode;
 
 import java.util.Arrays;
 

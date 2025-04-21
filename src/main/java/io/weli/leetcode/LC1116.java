@@ -1,4 +1,4 @@
-package io.weli.lc;
+package io.weli.leetcode;
 
 import java.util.concurrent.Semaphore;
 import java.util.function.IntConsumer;

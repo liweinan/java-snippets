@@ -1,8 +1,7 @@
-package io.weli.alg;
+package io.weli.leetcode;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 // https://leetcode.cn/problems/two-sum/

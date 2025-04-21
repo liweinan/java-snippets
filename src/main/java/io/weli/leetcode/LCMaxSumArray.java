@@ -1,7 +1,6 @@
-package io.weli.lang;
+package io.weli.leetcode;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 // https://leetcode.cn/problems/maximum-sum-of-distinct-subarrays-with-length-k/

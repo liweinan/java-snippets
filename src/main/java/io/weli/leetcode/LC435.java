@@ -1,4 +1,4 @@
-package io.weli.lc;
+package io.weli.leetcode;
 
 import java.util.Arrays;
 import java.util.Comparator;

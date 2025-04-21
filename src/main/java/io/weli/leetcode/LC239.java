@@ -1,4 +1,4 @@
-package io.weli.lc;
+package io.weli.leetcode;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;

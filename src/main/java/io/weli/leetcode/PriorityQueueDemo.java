@@ -1,7 +1,6 @@
-package io.weli.lc;
+package io.weli.leetcode;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.PriorityQueue;
 
 // https://riptutorial.com/fr/java/example/14749/l-utilisation-de-priorityqueue

@@ -1,4 +1,4 @@
-package io.weli.lc;
+package io.weli.leetcode;
 
 public class LC1128 {
     static class Solution {

@@ -1,4 +1,4 @@
-package io.weli.lc;
+package io.weli.leetcode;
 
 public class ListNode {
     int val;

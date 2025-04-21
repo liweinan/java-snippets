@@ -1,6 +1,4 @@
-package io.weli.lc;
-
-import java.lang.reflect.Array;
+package io.weli.leetcode;
 
 // https://leetcode-cn.com/problems/can-place-flowers/
 public class LC605 {
