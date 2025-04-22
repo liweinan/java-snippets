@@ -39,7 +39,8 @@
         <dep.jaxb-impl.version>4.0.5</dep.jaxb-impl.version>
         <dep.jetty.version>3.2.10.Final</dep.jetty.version>
         <dep.jgroups.version>5.4.5.Final</dep.jgroups.version>
-        <dep.junit.ver>5.12.2</dep.junit.ver>
+        <dep.junit.ver>5.11.4</dep.junit.ver>
+        <dep.junit.platform.ver>1.11.4</dep.junit.platform.ver>
         <dep.sisu.ver>0.3.5</dep.sisu.ver>
         <dep.testng.ver>7.11.0</dep.testng.ver>
         <graaljs.version>24.2.1</graaljs.version>
@@ -193,19 +194,49 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${dep.testng.ver}</version>
-            <!--            <scope>test</scope>-->
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${dep.junit.ver}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>${dep.junit.ver}</version>
-            <!--            <scope>test</scope>-->
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${dep.junit.ver}</version>
-            <!--                    <scope>test</scope>-->
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${dep.junit.ver}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>${dep.junit.platform.ver}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-reporting</artifactId>
+            <version>${dep.junit.platform.ver}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-engine</artifactId>
+            <version>${dep.junit.platform.ver}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.htmlparser</groupId>
@@ -215,9 +246,8 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <!-- use 2.9.1 for Java 7 projects -->
             <version>${dep.assertj.ver}</version>
-            <!--            <scope>test</scope>-->
+            <scope>test</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
         <dependency>
@@ -290,8 +320,21 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
                 <configuration>
-                    <argLine>--enable-preview</argLine>
+                    <argLine>--enable-preview -Xmx512m -Djava.util.concurrent.ForkJoinPool.common.parallelism=1</argLine>
+                    <includes>
+                        <include>**/*Test.java</include>
+                        <include>**/*Tests.java</include>
+                    </includes>
+                    <testFailureIgnore>false</testFailureIgnore>
+                    <printSummary>true</printSummary>
+                    <trimStackTrace>false</trimStackTrace>
+                    <parallel>none</parallel>
+                    <threadCount>1</threadCount>
+                    <systemPropertyVariables>
+                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                    </systemPropertyVariables>
                 </configuration>
                 <dependencies>
                     <dependency>
