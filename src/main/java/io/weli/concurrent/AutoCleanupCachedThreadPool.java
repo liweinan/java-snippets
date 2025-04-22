@@ -12,23 +12,55 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.TimeUnit;
 
-public class AutoCleanupCachedThreadPool {
+@SuppressWarnings({"unchecked", "rawtypes"})
+public class AutoCleanupCachedThreadPool implements AutoCloseable {
 
     private static final ExecutorService pool = Executors.newCachedThreadPool();
-    private static final List<Task> tasksInProgress = Collections.synchronizedList(new ArrayList());
-    private static final Just<ExecutorService> autoCleanupTask = new Just(Executors.newSingleThreadExecutor());
+    private static final List<Task> tasksInProgress = Collections.synchronizedList(new ArrayList<>());
+    private static final Just<ExecutorService> autoCleanupTask = new Just<>(Executors.newSingleThreadExecutor());
     private static final ReentrantLock lock = new ReentrantLock();
     private static final AtomicLong taskTimeoutInterval = new AtomicLong(Long.MAX_VALUE);
     private static final AtomicLong autoCleanupInterval = new AtomicLong(Long.MAX_VALUE);
     private static final Random random = new Random(System.currentTimeMillis());
 
-    private static final List<Task> timeoutTasks = Collections.synchronizedList(new ArrayList());
+    private static final List<Task> timeoutTasks = Collections.synchronizedList(new ArrayList<>());
 
     private static final AtomicBoolean enableTimeoutTasksReservation = new AtomicBoolean(Boolean.FALSE);
 
+    private final List<Task> tasks;
+    private final Just<ExecutorService> executorService;
+
+    public AutoCleanupCachedThreadPool() {
+        this.tasks = Collections.synchronizedList(new ArrayList<>());
+        this.executorService = new Just<>(Executors.newCachedThreadPool());
+    }
+
+    public AutoCleanupCachedThreadPool(int nThreads) {
+        this.tasks = Collections.synchronizedList(new ArrayList<>());
+        this.executorService = new Just<>(Executors.newFixedThreadPool(nThreads));
+    }
+
+    public void submit(Task task) {
+        tasks.add(task);
+        executorService.getObj().submit(task);
+    }
+
+    @Override
+    public void close() throws Exception {
+        List<Task> remainingTasks = new ArrayList<>(tasks);
+        for (Task task : remainingTasks) {
+            task.cancel();
+        }
+        executorService.getObj().shutdown();
+        if (!executorService.getObj().awaitTermination(800, TimeUnit.MILLISECONDS)) {
+            executorService.getObj().shutdownNow();
+        }
+    }
+
     public static void enableTimeoutTasksReservation() {
-        enableTimeoutTasksReservation.set(Boolean.TRUE);
+        enableTimeoutTasksReservation.set(true);
     }
 
     public static void disableTimeoutTasksReservation() {
@@ -41,7 +73,7 @@ public class AutoCleanupCachedThreadPool {
     }
 
     public static List<Task> popAllTimeoutTasks() {
-        List<Task> out = new ArrayList(timeoutTasks);
+        List<Task> out = new ArrayList<>(timeoutTasks);
         timeoutTasks.clear();
         for (Task t : out) {
             t.markInProgress();
@@ -59,25 +91,19 @@ public class AutoCleanupCachedThreadPool {
 
     // 清理timeout task
     static {
-        Executors.newSingleThreadExecutor().submit(() -> {
-            scheduled(1000, () -> {
-                try {
-                    for (Task t : tasksInProgress) {
-                        System.out.println("任务： " + t + " 时长：" + t.getDuration());
-                        if (t.getDuration() > taskTimeoutInterval.get()) {
-                            System.out.println("任务超时： " + t + " 时长：" + t.getDuration());
-                            t.getFuture().cancel(true);
-                            t.markDone();
-                            if (timeoutTasksReservationIsEnabled()) {
-                                addUntilSuccess(timeoutTasks, t);
-                            }
-                        }
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                ExecutorService service = autoCleanupTask.getObj();
+                if (service != null) {
+                    service.shutdown();
+                    if (!service.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+                        service.shutdownNow();
                     }
-                } catch (ConcurrentModificationException e) {
-                    e.printStackTrace();
                 }
-            });
-        });
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }));
     }
 
     private static void addUntilSuccess(List<Task> l, Task t) {
@@ -115,20 +141,19 @@ public class AutoCleanupCachedThreadPool {
 
     public static void enableAutoCleanupCompletedTasks() {
         lock.lock();
-        if (autoCleanupTask.get().isShutdown()) {
-            autoCleanupTask.set(Executors.newSingleThreadExecutor());
+        if (autoCleanupTask.getObj().isShutdown()) {
+            autoCleanupTask.setObj(Executors.newSingleThreadExecutor());
         }
-        autoCleanupTask.get().submit(() -> scheduled(autoCleanupInterval.get(), AutoCleanupCachedThreadPool::cleanupCompletedTasks));
+        autoCleanupTask.getObj().submit(() -> scheduled(autoCleanupInterval.get(), AutoCleanupCachedThreadPool::cleanupCompletedTasks));
         lock.unlock();
     }
 
     public static void disableAutoCleanupCompletedTasks() {
         lock.lock();
-        autoCleanupTask.get().shutdownNow();
+        autoCleanupTask.getObj().shutdownNow();
         System.out.println("关停已完成任务自动清理");
         lock.unlock();
     }
-
 
     private static void scheduled(long milli, Task.Job job) {
         try {
@@ -153,18 +178,17 @@ public class AutoCleanupCachedThreadPool {
             this.obj = obj;
         }
 
-        public T get() {
+        public T getObj() {
             return obj;
         }
 
-        public void set(T obj) {
+        public void setObj(T obj) {
             this.obj = obj;
         }
     }
 
-
     static class Task implements Runnable {
-        private Future future;
+        private Future<?> future;
         private Job job;
 
         long start = System.currentTimeMillis();
@@ -183,11 +207,11 @@ public class AutoCleanupCachedThreadPool {
             return done;
         }
 
-        public void setFuture(Future future) {
+        public void setFuture(Future<?> future) {
             this.future = future;
         }
 
-        public Future getFuture() {
+        public Future<?> getFuture() {
             return future;
         }
 
@@ -216,6 +240,10 @@ public class AutoCleanupCachedThreadPool {
                 markDone();
             }
         }
+
+        public void cancel() {
+            future.cancel(true);
+        }
     }
 
     public static void submit(Task.Job job) {
@@ -224,14 +252,13 @@ public class AutoCleanupCachedThreadPool {
         System.out.println("提交任务：" + task);
         tasksInProgress.add(task);
         try {
-            Future f = pool.submit(task);
+            Future<?> f = pool.submit(task);
             task.setFuture(f);
         } catch (RejectedExecutionException e) {
             System.out.println("任务提交失败：全局容器已经shutdown");
         }
     }
 
-    // 当前任务数
     public static int taskNumber() {
         return tasksInProgress.size();
     }
@@ -286,8 +313,6 @@ public class AutoCleanupCachedThreadPool {
 
         {
             System.out.println(":::测试二:::");
-//            System.out.println(":::重新启动已完成任务自动清除:::");
-//            AutoCleanupCachedThreadPool.enableAutoCleanupCompletedTasks();
             Thread.sleep(2000);
             System.out.println(":::打开超时任务存储:::");
             AutoCleanupCachedThreadPool.enableTimeoutTasksReservation();
@@ -304,13 +329,11 @@ public class AutoCleanupCachedThreadPool {
             AutoCleanupCachedThreadPool.cleanupCompletedTasks();
             Thread.sleep(2000);
 
-            // 提交随机超时任务2
             submit2(() -> {
                 int duration = random.nextInt(2000);
                 System.out.println("{随机超时任务2，本次时长：" + duration + " }");
                 Thread.sleep(duration);
                 System.out.println("{随机超时任务2执行完成}");
-
             });
 
             while (true) {
@@ -350,6 +373,4 @@ public class AutoCleanupCachedThreadPool {
         System.out.println("::: 提交随机超时任务2 :::");
         AutoCleanupCachedThreadPool.submit(t);
     }
-
-
 }

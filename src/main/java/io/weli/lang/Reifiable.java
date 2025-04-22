@@ -9,13 +9,11 @@ import java.util.List;
 public class Reifiable {
 
     public static void main(String[] args) {
-        List lst = new ArrayList();
-        lst.add(1);
-        lst.add("S");
-
-        List<?> list = lst;
-        for (Object o : list) {
-            System.out.println(o);
-        }
+        List<String> list = new ArrayList<>();
+        list.add("Hello");
+        list.add("World");
+        
+        System.out.println("List size: " + list.size());
+        System.out.println("List contents: " + list);
     }
 }

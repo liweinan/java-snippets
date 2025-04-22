@@ -7,6 +7,7 @@ import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URI;
 import java.net.URL;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
@@ -128,7 +129,7 @@ public class HttpChunkedEncoding implements Runnable {
                 Integer.toString(ss.getLocalPort()) +
                 "/foo";
         System.out.println(":::" + uri);
-        URL url = new URL(uri);
+        URL url = URI.create(uri).toURL();
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
 
         /*

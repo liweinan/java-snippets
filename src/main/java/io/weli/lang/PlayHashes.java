@@ -2,20 +2,27 @@ package io.weli.lang;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public class PlayHashes {
     public static void main(String[] args) {
-        var set = new HashSet();
+        Set<String> set = new HashSet<>();
+        set.add("Hello");
+        set.add("World");
+        set.add("Java");
+        set.add("Programming");
+        
+        System.out.println("Set size: " + set.size());
+        System.out.println("Set contents: " + set);
 
-        set.add(1);
-        set.add(2);
-        set.add(3);
-        set.add(3);
-
-        Stream.of(set).forEach(System.out::println);
-
-        var map = new HashMap();
-        map.put(1, 1);
+        Map<String, Integer> map = new HashMap<>();
+        map.put("One", 1);
+        map.put("Two", 2);
+        map.put("Three", 3);
+        
+        System.out.println("Map size: " + map.size());
+        System.out.println("Map contents: " + map);
     }
 }

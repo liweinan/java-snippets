@@ -29,10 +29,9 @@
     <!--    </build>-->
 
     <properties>
-        <bc.ver>1.46</bc.ver>
         <commons-beanutils.ver>1.10.1</commons-beanutils.ver>
         <dep.assertj.ver>3.27.3</dep.assertj.ver>
-        <dep.bouncycastle.version>1.46</dep.bouncycastle.version>
+        <dep.bouncycastle.version>1.70</dep.bouncycastle.version>
         <dep.guice.ver>7.0.0</dep.guice.ver>
         <dep.jackson-core.version>2.18.3</dep.jackson-core.version>
         <dep.jackson-databind.version>2.18.3</dep.jackson-databind.version>
@@ -58,7 +57,7 @@
         <version.langchain>0.36.2</version.langchain>
         <version.org.python.jython>2.7.4</version.org.python.jython>
         <yasson.ver>3.0.4</yasson.ver>
-        <javafx.version>0.0.8</javafx.version>
+        <javafx.plugin.version>0.0.8</javafx.plugin.version>
         <ver.mapstruct>1.6.3</ver.mapstruct>
         <lombok.mapstruct.ver>0.2.0</lombok.mapstruct.ver>
     </properties>
@@ -90,11 +89,11 @@
             <artifactId>rxjava</artifactId>
             <version>${rxjava.ver}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk16 -->
+        <!-- Consolidated bouncycastle dependency -->
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk16</artifactId>
-            <version>${bc.ver}</version>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>${dep.bouncycastle.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.eclipse/yasson -->
         <dependency>
@@ -133,12 +132,6 @@
             <artifactId>jgroups</artifactId>
             <version>${dep.jgroups.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk16</artifactId>
-            <version>${dep.bouncycastle.version}</version>
-            <!--<scope>provided</scope>-->
-        </dependency>
         <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -154,11 +147,6 @@
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-runtime</artifactId>
             <version>4.13.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.70</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
@@ -307,7 +295,17 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>${java_level}</version>
+            <version>25-ea+12</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>25-ea+12</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>25-ea+12</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -329,6 +327,26 @@
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest</artifactId>
             <version>2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>5.14.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <version>1.27.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.16.1</version>
+        </dependency>
+        <dependency>
+            <groupId>ai.djl.huggingface</groupId>
+            <artifactId>tokenizers</artifactId>
+            <version>0.30.0</version>
         </dependency>
     </dependencies>
     <build>
@@ -366,7 +384,6 @@
                 <configuration>
                     <source>${java_level}</source>
                     <target>${java_level}</target>
-                    <compilerVersion>${java_level}</compilerVersion>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.mapstruct</groupId>
@@ -393,7 +410,7 @@
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>${javafx.version}</version>
+                <version>${javafx.plugin.version}</version>
                 <configuration>
                     <mainClass>io.weli.javafx.HelloWorld</mainClass>
                 </configuration>

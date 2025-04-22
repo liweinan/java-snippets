@@ -2,13 +2,10 @@ package io.weli.sandbox;
 
 public class PlayWithObjectHolder {
 
-   public static void main(String[] args) throws Exception {
-
-      ObjectHolder<StringObject> holder = new ObjectHolder(new StringObject("foo"));
-
-      modifyObjectInHolder(holder);
-
-      System.out.println(holder.getObject().getStr());
+   public static void main(String[] args) {
+      StringObject stringObject = new StringObject("test");
+      ObjectHolder<StringObject> holder = new ObjectHolder<>(stringObject);
+      System.out.println(holder.getObject());
    }
 
    private static void modifyObjectInHolder(ObjectHolder<StringObject> holder) {

@@ -9,12 +9,16 @@ import java.util.List;
 public class WildcardUsages {
 
     public static void main(String[] args) {
-        List anything = new ArrayList();
-        anything.add(1);
-        anything.add(3.14);
-
-        List<?> wildcardList = new ArrayList<Object>();
-//        wildcardList.add(1); // type not safe
-//        wildcardList.add("foo"); // type not safe
+        List<String> stringList = new ArrayList<>();
+        stringList.add("Hello");
+        stringList.add("World");
+        
+        printList(stringList);
+    }
+    
+    private static void printList(List<?> list) {
+        for (Object item : list) {
+            System.out.println(item);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package io.weli.lang.forkjoin;
 
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class LinkFinderAction extends RecursiveAction {
    private static final long t0 = System.nanoTime();
    private String url;
    private LinkHandler cr;
+   private static final long serialVersionUID = 1L;
 
    public LinkFinderAction(String url, LinkHandler cr) {
       this.url = url;
@@ -28,11 +30,14 @@ public class LinkFinderAction extends RecursiveAction {
    }
 
    @Override
-   public void compute() {
+   protected void compute() {
+      if (url == null) {
+         return;
+      }
       if (!cr.visited(url)) {
          try {
             List<RecursiveAction> actions = new ArrayList<RecursiveAction>();
-            URL uriLink = new URL(url);
+            URL uriLink = URI.create(url).toURL();
             Parser parser = new Parser(uriLink.openConnection());
             NodeList list = parser.extractAllNodesThatMatch(new NodeClassFilter(LinkTag.class));
 

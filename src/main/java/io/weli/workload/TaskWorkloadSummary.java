@@ -9,8 +9,22 @@ import java.util.Map;
 public class TaskWorkloadSummary {
     private Task belongingTask;
     private int totalNumberOfPackages;
-    private Map<Status, Long> workloadPerStatusInMinutes = new HashMap();
+    private Map<Status, Long> workloadPerStatusInMinutes = new HashMap<>();
 
+    public static void main(String[] args) {
+        Map<Status, Long> workload = new HashMap<>();
+        workload.put(Status.PENDING, 5L);
+        workload.put(Status.RUNNING, 3L);
+        workload.put(Status.COMPLETED, 10L);
+        
+        System.out.println("Workload summary: " + workload);
+    }
+    
+    enum Status {
+        PENDING,
+        RUNNING,
+        COMPLETED
+    }
 
     public Task getBelongingTask() {
         return belongingTask;
@@ -27,5 +41,4 @@ public class TaskWorkloadSummary {
     public void setTotalNumberOfPackages(int totalNumberOfPackages) {
         this.totalNumberOfPackages = totalNumberOfPackages;
     }
-
 }

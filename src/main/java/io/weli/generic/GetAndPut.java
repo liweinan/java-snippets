@@ -8,25 +8,32 @@ import java.util.List;
  */
 public class GetAndPut {
 
-    public static interface Fruit {
-    }
-
-    public static class Apple implements Fruit {
-    }
-
-    public static class Pear implements Fruit {
-    }
+    static class Fruit {}
+    static class Apple extends Fruit {}
+    static class Orange extends Fruit {}
+    static class RedApple extends Apple {}
 
     public static void main(String[] args) {
-        List<? extends Fruit> badFruits = new ArrayList();
-//        badFruits.add(new Apple()); // type not safe
+        // Producer - extends (GET)
+        List<? extends Fruit> fruits = new ArrayList<Apple>();  // OK
+        Fruit fruit = fruits.get(0);                           // OK
+        // fruits.add(new Apple());                            // Error
+        // fruits.add(new Fruit());                            // Error
+        // fruits.add(new Object());                           // Error
 
-        List<? super Fruit> fruits = new ArrayList();
-        fruits.add(new Apple());
-        fruits.add(new Pear());
+        // Consumer - super (PUT)
+        List<? super Fruit> basket = new ArrayList<Object>();  // OK
+        basket.add(new Apple());                               // OK
+        basket.add(new Fruit());                               // OK
+        // basket.add(new Object());                           // Error
+        
+        // Demonstrating PECS - Producer Extends, Consumer Super
+        transfer(fruits, basket);                              // OK
+    }
 
-        List<? extends Fruit> buckets = (List<? extends Fruit>) fruits;
-        System.out.println(buckets.get(0));
-        System.out.println(buckets.get(1));
+    private static void transfer(List<? extends Fruit> source, List<? super Fruit> dest) {
+        for (Fruit f : source) {
+            dest.add(f);
+        }
     }
 }

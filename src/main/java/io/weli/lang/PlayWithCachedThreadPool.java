@@ -32,23 +32,18 @@ public class PlayWithCachedThreadPool {
     }
 
     public static void main(String[] args) throws Exception {
-        while (true) {
-            pool.submit(new MyTask(() -> {
-                Thread.sleep(1000);
-                Map m = new HashMap();
-                for (int i = 0; i < 100; i++)
-                    m.put(1, 2);
-                System.out.println("TASK 1");
-            }));
-            pool.submit(new MyTask(() -> {
-                Map m = new HashMap();
-                for (int i = 0; i < 100; i++)
-                    m.put(1, 2);
-                Thread.sleep(500);
-                System.out.println("TASK 2");
-            }));
-            Thread.sleep(5);
+        ExecutorService executor = Executors.newCachedThreadPool();
+        Map<String, Integer> results = new HashMap<>();
+        
+        for (int i = 0; i < 5; i++) {
+            final int taskId = i;
+            executor.submit(() -> {
+                results.put("Task " + taskId, taskId * 2);
+                System.out.println("Task " + taskId + " completed");
+            });
         }
-//        pool.shutdown();
+        
+        executor.shutdown();
+        System.out.println("Results: " + results);
     }
 }

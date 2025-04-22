@@ -21,21 +21,14 @@ public class ReplaceListEntity {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        List lst = new ArrayList<>();
-        Object foo = new Object();
-
-        lst.add(foo);
-
-
-        Object get = lst.get(0);
-        Wrapper wrapper = new Wrapper(get);
-
-        lst.set(0, wrapper);
-
-
-        System.out.println(lst.get(0));
-        System.out.println(((Wrapper) lst.get(0)).getObj());
-
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
+        list.add("Original");
+        
+        System.out.println("Before replacement: " + list);
+        
+        list.set(0, "Replaced");
+        
+        System.out.println("After replacement: " + list);
     }
 }

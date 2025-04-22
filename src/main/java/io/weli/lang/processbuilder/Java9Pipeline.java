@@ -1,25 +1,19 @@
 package io.weli.lang.processbuilder;
 
-import java.io.InputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
 public class Java9Pipeline {
-    public static void main(String[] args) throws Exception {
-        // $ ls /tmp | xargs echo
-        List pipe = Arrays.asList(
-                new ProcessBuilder("ls", "/tmp"),
-                new ProcessBuilder("xargs", "echo"));
+    public static void main(String[] args) throws IOException {
+        ProcessBuilder ls = new ProcessBuilder("ls");
+        ProcessBuilder grep = new ProcessBuilder("grep", "t");
+        ProcessBuilder wc = new ProcessBuilder("wc", "-l");
 
-        List processes = ProcessBuilder.startPipeline(pipe);
+        List<ProcessBuilder> builders = Arrays.asList(ls, grep, wc);
+        List<Process> processes = ProcessBuilder.startPipeline(builders);
 
-        Process last = (Process) processes.get(processes.size() - 1);
-
-        last.waitFor();
-
-        InputStream is = last.getInputStream();
-
-        // 直接输出到`System.out`
-        is.transferTo(System.out);
+        Process last = processes.get(processes.size() - 1);
+        last.getInputStream().transferTo(System.out);
     }
 }

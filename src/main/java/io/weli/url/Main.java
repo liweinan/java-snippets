@@ -1,17 +1,22 @@
 package io.weli.url;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLStreamHandler;
 
-// https://stackoverflow.com/a/26409796/1212922
-// https://learning.oreilly.com/library/view/learning-java/1565927184/apas02.html
+@SuppressWarnings("deprecation")
 public class Main {
-    public static void main(String[] args) throws Exception {
-        URL.setURLStreamHandlerFactory(new MyURLStreamHandlerFactory());
-
-        URLConnection connection = new URL("myuri:blabla").openConnection();
-        connection.connect();
+    public static void main(String[] args) throws IOException, URISyntaxException {
+        String url = "https://example.com";
+        URL website = new URI(url).toURL();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(website.openStream()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        }
     }
 }

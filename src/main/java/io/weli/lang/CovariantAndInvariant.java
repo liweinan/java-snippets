@@ -6,6 +6,7 @@ import java.util.List;
 /**
  * Created by weli on 5/22/16.
  */
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class CovariantAndInvariant {
 
     public static void main(String[] args) {
@@ -19,9 +20,9 @@ public class CovariantAndInvariant {
         /*
          * Generics are invariant
          */
-        List<String> strings = new ArrayList();
-        // compile time error
-//        List<Object> objects = strings;
+        List<String> strings = new ArrayList<>();
+        List<Object> objectsList = new ArrayList<>();
+        // objectsList = strings; // Compile error
 
         /*
          * Generic array creation is not allowed

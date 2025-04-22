@@ -3,35 +3,32 @@ package io.weli.alg;
 /**
  * @author <a href="mailto:l.weinan@gmail.com">Weinan Li</a>
  */
-public class SelectionSort extends BaseSort {
+@SuppressWarnings({"unchecked", "rawtypes"})
+public class SelectionSort<T extends Comparable<T>> extends BaseSort<T> {
 
     @Override
-    public void sort(Comparable[] comparable) {
-        int N = comparable.length;
-        for (int i = 0; i < N; i++) {
+    protected void sort(T[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n; i++) {
             int min = i;
-            for (int j = i + 1; j < N; j++) {
-                if (less(comparable[j], comparable[min]))
+            for (int j = i + 1; j < n; j++) {
+                if (less(arr[j], arr[min])) {
                     min = j;
+                }
             }
-            swap(comparable, i, min);
+            if (min != i) {
+                exch(arr, i, min);
+            }
         }
     }
 
     public static void main(String[] args) {
-        SelectionSort sort = new SelectionSort();
-        SortableObject[] data = DataProvider.unsortedObjects();
-        DataProvider.printData(data, false);
-
-        sort.sort(data);
-        DataProvider.printData(data, false);
-        SortHelper helper = new SortHelper(sort);
-
-        System.out.println(helper.isSorted(data));
-        helper.printCounter();
-
-        helper.setComparingData(data);
-        System.out.println(helper.isSortedFastImpl(0));
-        helper.printCounter();
+        Integer[] arr = {64, 34, 25, 12, 22, 11, 90};
+        SelectionSort<Integer> sorter = new SelectionSort<>();
+        sorter.sort(arr);
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+        System.out.println();
     }
 }

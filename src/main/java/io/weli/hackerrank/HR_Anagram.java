@@ -24,7 +24,7 @@ public class HR_Anagram {
         // Write your code here
         if (s.length() % 2 == 1) return -1;
 
-        Map<Character, Integer> map = new HashMap();
+        Map<Character, Integer> map = new HashMap<>();
         int ans = 0;
 
         for(int i = 0; i < s.length() / 2; i++) {
@@ -40,6 +40,33 @@ public class HR_Anagram {
     }
 
     public static void main(String[] args) {
-
+        String s1 = "listen";
+        String s2 = "silent";
+        
+        System.out.println("Are anagrams? " + isAnagram(s1, s2));
+    }
+    
+    private static boolean isAnagram(String s1, String s2) {
+        if (s1.length() != s2.length()) {
+            return false;
+        }
+        
+        Map<Character, Integer> charCount = new HashMap<>();
+        
+        // Count characters in s1
+        for (char c : s1.toCharArray()) {
+            charCount.merge(c, 1, Integer::sum);
+        }
+        
+        // Subtract counts for characters in s2
+        for (char c : s2.toCharArray()) {
+            Integer count = charCount.get(c);
+            if (count == null || count == 0) {
+                return false;
+            }
+            charCount.put(c, count - 1);
+        }
+        
+        return true;
     }
 }

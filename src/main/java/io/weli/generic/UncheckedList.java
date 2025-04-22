@@ -8,16 +8,17 @@ import java.util.List;
  */
 public class UncheckedList {
 
-    public static void acceptStringList(List<String> list) {
-        for (String item : list) {
-            System.out.println(item);
-        }
+    public static void main(String[] args) {
+        List<String> stringList = new ArrayList<>();
+        stringList.add("Hello");
+        stringList.add("World");
+        
+        acceptStringList(stringList);
     }
 
-    public static void main(String[] args) throws Exception {
-        List typeUnsafeList = new ArrayList();
-        typeUnsafeList.add(1);
-        typeUnsafeList.add("abc");
-        acceptStringList(typeUnsafeList);
+    private static void acceptStringList(List<String> list) {
+        for (String s : list) {
+            System.out.println(s);
+        }
     }
 }

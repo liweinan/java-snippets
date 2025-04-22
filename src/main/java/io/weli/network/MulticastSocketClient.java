@@ -3,8 +3,11 @@ package io.weli.network;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.MulticastSocket;
-import java.net.UnknownHostException;
+import java.net.NetworkInterface;
+import java.net.StandardProtocolFamily;
+import java.net.StandardSocketOptions;
 
 // 添加mcast地址：https://blogs.agilefaqs.com/2009/11/08/enabling-multicast-on-your-macos-unix/
 public class MulticastSocketClient {
@@ -12,31 +15,27 @@ public class MulticastSocketClient {
    final static String INET_ADDR = "224.0.0.3";
    final static int PORT = 8888;
 
-   public static void main(String[] args) throws UnknownHostException {
-      // Get the address that we are going to connect to.
-      InetAddress address = InetAddress.getByName(INET_ADDR);
-
-      // Create a buffer of bytes, which will be used to store
-      // the incoming bytes containing the information from the server.
-      // Since the message is small here, 256 bytes should be enough.
-      byte[] buf = new byte[256];
-
-      // Create a new Multicast socket (that will allow other sockets/programs
-      // to join it as well.
-      try (MulticastSocket clientSocket = new MulticastSocket(PORT)) {
-         //Joint the Multicast group.
-         clientSocket.joinGroup(address);
-
-         while (true) {
-            // Receive the information and print it.
-            DatagramPacket msgPacket = new DatagramPacket(buf, buf.length);
-            clientSocket.receive(msgPacket);
-
-            String msg = new String(buf, 0, buf.length);
-            System.out.println("Socket 1 received msg: " + msg);
-         }
-      } catch (IOException ex) {
-         ex.printStackTrace();
+   public static void main(String[] args) {
+      try {
+         InetAddress group = InetAddress.getByName(INET_ADDR);
+         MulticastSocket socket = new MulticastSocket(PORT);
+         
+         NetworkInterface networkInterface = NetworkInterface.getByInetAddress(
+            InetAddress.getLocalHost());
+         
+         socket.joinGroup(new InetSocketAddress(group, PORT), networkInterface);
+         
+         byte[] buf = new byte[256];
+         DatagramPacket packet = new DatagramPacket(buf, buf.length);
+         
+         socket.receive(packet);
+         String received = new String(packet.getData());
+         System.out.println("Received: " + received);
+         
+         socket.leaveGroup(new InetSocketAddress(group, PORT), networkInterface);
+         socket.close();
+      } catch (IOException e) {
+         e.printStackTrace();
       }
    }
 }

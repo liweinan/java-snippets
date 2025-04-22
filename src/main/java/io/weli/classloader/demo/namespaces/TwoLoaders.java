@@ -2,7 +2,9 @@ package io.weli.classloader.demo.namespaces;
 
 import io.weli.classloader.SimpleClassLoader2;
 import io.weli.classloader.demo.impl.ProductImpl;
+import java.lang.reflect.Constructor;
 
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class TwoLoaders {
 
     public static String getClazzPath(Class clazz) {
