@@ -21,16 +21,16 @@ The project uses JUnit Jupiter (5.11.4) for testing. To run all tests:
 mvn clean test
 ```
 
-### Proxy Configuration for Tests
+### Proxy Configuration
 
-Some tests may require proxy settings. You can configure proxy settings using system properties:
+Some features may require proxy settings. You can configure proxy settings using system properties:
 
 ```bash
-# Run tests with proxy enabled
-mvn test -Dproxy.enabled=true -Dproxy.host=localhost -Dproxy.port=7890
+# Run with proxy enabled
+java -Dproxy.enabled=true -Dproxy.host=localhost -Dproxy.port=7890 -jar target/java-snippets-1.0-SNAPSHOT.jar
 
-# Run tests without proxy (default)
-mvn test
+# Run without proxy (default)
+java -jar target/java-snippets-1.0-SNAPSHOT.jar
 ```
 
 Available proxy configuration properties:
