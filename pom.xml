@@ -354,7 +354,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.5</version>
+                <version>3.5.3</version>
                 <configuration>
                     <argLine>--enable-preview -Xmx512m -Djava.util.concurrent.ForkJoinPool.common.parallelism=1</argLine>
                     <includes>
