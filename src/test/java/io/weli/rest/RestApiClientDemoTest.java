@@ -1,13 +1,14 @@
 package io.weli.rest;
 
 import io.restassured.RestAssured;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
+@Disabled
 public class RestApiClientDemoTest {
     private static final String BASE_URL = "https://jsonplaceholder.typicode.com";
 
