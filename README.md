@@ -1,74 +1,108 @@
 # Java Snippets
 
-A collection of Java code snippets and examples covering various topics and use cases.
+A collection of Java code snippets and examples for learning and reference.
 
-## Requirements
+## Project Structure
+
+```
+src/
+├── main/
+│   ├── java/
+│   │   └── io/
+│   │       └── weli/
+│   │           ├── ai/          # AI related examples
+│   │           ├── alg/         # Algorithm examples
+│   │           ├── concurrent/  # Concurrency examples
+│   │           ├── generic/     # Generic programming examples
+│   │           ├── lang/        # Java language features
+│   │           ├── reflection/  # Reflection examples
+│   │           ├── rest/        # REST API examples
+│   │           └── ...
+│   └── resources/
+└── test/
+    └── java/
+        └── io/
+            └── weli/
+                └── ...
+```
+
+## Features
+
+- REST API client examples using RestAssured
+- Algorithm implementations and examples
+- Concurrency patterns and examples
+- Generic programming examples
+- Java language features exploration
+- Reflection API usage examples
+- AI integration examples
+- And more...
+
+## Getting Started
+
+### Prerequisites
 
 - Java 21 or later
-- Maven 3.8.0 or later
+- Maven 3.9.6 or later
 
-## Building the Project
+### Building
 
 ```bash
 mvn clean install
 ```
 
-## Running Tests
+### Running Examples
 
-The project uses JUnit Jupiter (5.11.4) for testing. To run all tests:
+#### REST API Client Demo
+
+To run the REST API client demo:
+
+```bash
+# Without proxy
+mvn clean compile exec:java -Dexec.mainClass="io.weli.rest.RestApiClientDemo"
+
+# With proxy
+mvn clean compile exec:java -Dexec.mainClass="io.weli.rest.RestApiClientDemo" -Dproxy.enabled=true -Dproxy.host=localhost -Dproxy.port=7890
+```
+
+The demo will:
+1. Fetch all posts
+2. Get a specific post
+3. Create a new post
+4. Update a post
+5. Get user information
+6. Delete a post
+
+#### Running Tests
 
 ```bash
 mvn clean test
 ```
 
-### Proxy Configuration
+## Proxy Configuration
 
-Some features may require proxy settings. You can configure proxy settings using system properties:
+The project supports proxy configuration for HTTP/HTTPS requests. You can configure the proxy settings in two ways:
 
-```bash
-# Run with proxy enabled
-java -Dproxy.enabled=true -Dproxy.host=localhost -Dproxy.port=7890 -jar target/java-snippets-1.0-SNAPSHOT.jar
+1. Using system properties:
+   ```bash
+   mvn clean compile exec:java -Dexec.mainClass="io.weli.rest.RestApiClientDemo" -Dproxy.enabled=true -Dproxy.host=localhost -Dproxy.port=7890
+   ```
 
-# Run without proxy (default)
-java -jar target/java-snippets-1.0-SNAPSHOT.jar
-```
+2. Programmatically in your code:
+   ```java
+   System.setProperty("http.proxyHost", "localhost");
+   System.setProperty("http.proxyPort", "7890");
+   System.setProperty("https.proxyHost", "localhost");
+   System.setProperty("https.proxyPort", "7890");
+   ```
 
-Available proxy configuration properties:
-- `proxy.enabled`: Enable/disable proxy (default: false)
-- `proxy.host`: Proxy server host (default: localhost)
-- `proxy.port`: Proxy server port (default: 7890)
+## Contributing
 
-## Dependencies
-
-The project includes various dependencies for different purposes:
-
-### Core Dependencies
-- RxJava 3.1.10
-- Jackson Core/Databind 2.18.3
-- Lombok 1.18.38
-- BouncyCastle 1.46
-- JGroups 5.4.5.Final
-- RESTEasy 6.2.12.Final
-
-### Testing Dependencies
-- JUnit Jupiter 5.11.4
-- JUnit Platform 1.11.4
-- TestNG 7.11.0
-- AssertJ 3.27.3
-- Spring Boot Test 3.4.4
-
-### Other Dependencies
-- GraalJS 24.2.1
-- LangChain4j 0.36.2
-- JavaFX (Java 21)
-- MapStruct 1.6.3
-
-## Project Structure
-
-- `src/main/java`: Main source code
-- `src/test/java`: Test source code
-- `src/main/resources`: Resource files
+Feel free to contribute by:
+1. Forking the repository
+2. Creating a new branch
+3. Making your changes
+4. Submitting a pull request
 
 ## License
 
-This project is licensed under the terms of the license specified in the project.
+This project is licensed under the MIT License - see the LICENSE file for details.
