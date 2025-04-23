@@ -2,6 +2,7 @@ package io.weli.testdome;
 
 // Game Platform
 /*
+https://www.testdome.com/library?page=1&skillArea=30&questionId=117604
 Example Case: Correct answer
 Speed reduced to zero or below: Correct answer
 Various inclines: Correct answer
@@ -11,8 +12,6 @@ public class GamePlatform {
         double currentSpeed = initialSpeed;
 
         for (int angle : inclinations) {
-            // Calculate speed change (proportional to tangent of the angle)
-//            double speedChange = currentSpeed * Math.tan(Math.toRadians(angle));
             currentSpeed -= angle;
 
             // If speed drops to 0 or below, return 0 immediately
