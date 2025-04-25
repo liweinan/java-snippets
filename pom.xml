@@ -300,7 +300,7 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics</artifactId>
-            <version>25-ea+12</version>
+            <version>25-ea+14</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
