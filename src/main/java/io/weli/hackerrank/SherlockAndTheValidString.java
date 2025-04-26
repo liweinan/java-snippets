@@ -74,6 +74,8 @@ public class SherlockAndTheValidString {
         System.out.println(SherlockAndTheValidString.isValid("abbcc"));
         System.out.println(SherlockAndTheValidString.isValid("aabc"));
         System.out.println(SherlockAndTheValidString.isValid("aabbbc"));
+        System.out.println(SherlockAndTheValidString.isValid("abbccc"));
+        System.out.println(SherlockAndTheValidString.isValid("abccdd"));
     }
 
 }
