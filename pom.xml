@@ -73,7 +73,7 @@
         <dep.jna.version>5.17.0</dep.jna.version>
         <dep.commons-compress.version>1.27.1</dep.commons-compress.version>
         <dep.commons-io.version>2.19.0</dep.commons-io.version>
-        <dep.huggingface-tokenizers.version>0.30.0</dep.huggingface-tokenizers.version>
+        <dep.huggingface-tokenizers.version>0.32.0</dep.huggingface-tokenizers.version>
         <dep.javafx-controls.version>25-ea+14</dep.javafx-controls.version>
         <dep.javafx-graphics.version>25-ea+14</dep.javafx-graphics.version>
         <dep.javafx-base.version>25-ea+14</dep.javafx-base.version>
