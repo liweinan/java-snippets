@@ -78,6 +78,8 @@
         <dep.javafx-graphics.version>25-ea+17</dep.javafx-graphics.version>
         <dep.javafx-base.version>25-ea+17</dep.javafx-base.version>
         <dep.maven-surefire-plugin.version>3.5.3</dep.maven-surefire-plugin.version>
+        <dep.reactor.version>3.6.5</dep.reactor.version>
+        <dep.mutiny.version>2.5.0</dep.mutiny.version>
     </properties>
 
     <distributionManagement>
@@ -371,6 +373,16 @@
             <groupId>ai.djl.huggingface</groupId>
             <artifactId>tokenizers</artifactId>
             <version>${dep.huggingface-tokenizers.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+            <version>${dep.reactor.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.smallrye.reactive</groupId>
+            <artifactId>mutiny</artifactId>
+            <version>${dep.mutiny.version}</version>
         </dependency>
     </dependencies>
     <build>
