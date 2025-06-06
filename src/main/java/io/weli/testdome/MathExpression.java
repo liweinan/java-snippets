@@ -3,7 +3,7 @@ package io.weli.testdome;
 import java.util.*;
 
 // https://www.testdome.com/library?page=1&skillArea=30&questionId=135032
-public class BalancedParentheses {
+public class MathExpression {
 
     public static boolean isBalanced(String parentheses) {
         Stack<Character> stack = new Stack<>();
@@ -51,8 +51,8 @@ public class BalancedParentheses {
 
     public static void main(String[] args) {
         String[] expressions = {
-            "(3+5)*(2-4)",
-            "{[()]}",
+//            "(3+5)*(2-4)",
+//            "{[()]}",
             "[3+5x(4-1]-39]"
         };
 
@@ -60,10 +60,10 @@ public class BalancedParentheses {
             System.out.printf("Expression: %s\tBalanced: %b\n", expr, isBalanced(expr));
         }
 
-        System.out.println("\n----------------------------------------\n");
-
-        for (String expr : expressions) {
-            System.out.printf("Expression: %s\tBalanced2: %b\n", expr, isBalanced2(expr));
-        }
+//        System.out.println("\n----------------------------------------\n");
+//
+//        for (String expr : expressions) {
+//            System.out.printf("Expression: %s\tBalanced2: %b\n", expr, isBalanced2(expr));
+//        }
     }
 }
