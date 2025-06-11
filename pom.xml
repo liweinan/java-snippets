@@ -61,7 +61,7 @@
         <ver.mapstruct>1.6.3</ver.mapstruct>
         <lombok.mapstruct.ver>0.2.0</lombok.mapstruct.ver>
         <!-- New version properties -->
-        <dep.postgresql.version>42.7.5</dep.postgresql.version>
+        <dep.postgresql.version>42.7.7</dep.postgresql.version>
         <dep.jboss-vfs.version>3.3.2.Final</dep.jboss-vfs.version>
         <dep.antlr4.version>4.13.2</dep.antlr4.version>
         <dep.javacpp.version>1.5.11</dep.javacpp.version>
