@@ -80,6 +80,7 @@
         <dep.maven-surefire-plugin.version>3.5.3</dep.maven-surefire-plugin.version>
         <dep.reactor.version>3.6.5</dep.reactor.version>
         <dep.mutiny.version>2.5.0</dep.mutiny.version>
+        <dep.jboss-logmanager.version>2.1.18.Final</dep.jboss-logmanager.version>
     </properties>
 
     <distributionManagement>
@@ -383,6 +384,12 @@
             <groupId>io.smallrye.reactive</groupId>
             <artifactId>mutiny</artifactId>
             <version>${dep.mutiny.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.logmanager</groupId>
+            <artifactId>jboss-logmanager</artifactId>
+            <version>${dep.jboss-logmanager.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
