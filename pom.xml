@@ -42,7 +42,7 @@
         <dep.junit.platform.ver>1.12.2</dep.junit.platform.ver>
         <dep.sisu.ver>0.3.5</dep.sisu.ver>
         <dep.testng.ver>7.11.0</dep.testng.ver>
-        <graaljs.version>24.2.1</graaljs.version>
+        <graaljs.version>24.2.2</graaljs.version>
         <lombok.ver>1.18.38</lombok.ver>
         <java_level>25-ea+12</java_level>
         <maven.compiler.source>21</maven.compiler.source>
