@@ -76,7 +76,7 @@
         <dep.huggingface-tokenizers.version>0.33.0</dep.huggingface-tokenizers.version>
         <dep.javafx-controls.version>25-ea+18</dep.javafx-controls.version>
         <dep.javafx-graphics.version>25-ea+20</dep.javafx-graphics.version>
-        <dep.javafx-base.version>25-ea+17</dep.javafx-base.version>
+        <dep.javafx-base.version>26-ea+9</dep.javafx-base.version>
         <dep.maven-surefire-plugin.version>3.5.3</dep.maven-surefire-plugin.version>
         <dep.reactor.version>3.6.5</dep.reactor.version>
         <dep.mutiny.version>2.5.0</dep.mutiny.version>
