@@ -78,7 +78,7 @@
         <dep.javafx-graphics.version>25-ea+20</dep.javafx-graphics.version>
         <dep.javafx-base.version>25-ea+17</dep.javafx-base.version>
         <dep.maven-surefire-plugin.version>3.5.3</dep.maven-surefire-plugin.version>
-        <dep.reactor.version>3.6.5</dep.reactor.version>
+        <dep.reactor.version>3.7.12</dep.reactor.version>
         <dep.mutiny.version>3.0.0</dep.mutiny.version>
         <dep.jboss-logmanager.version>2.1.18.Final</dep.jboss-logmanager.version>
     </properties>
