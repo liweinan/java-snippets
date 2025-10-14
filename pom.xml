@@ -64,7 +64,7 @@
         <dep.postgresql.version>42.7.8</dep.postgresql.version>
         <dep.jboss-vfs.version>3.3.2.Final</dep.jboss-vfs.version>
         <dep.antlr4.version>4.13.2</dep.antlr4.version>
-        <dep.javacpp.version>1.5.11</dep.javacpp.version>
+        <dep.javacpp.version>1.5.12</dep.javacpp.version>
         <dep.cglib.version>3.3.0</dep.cglib.version>
         <dep.htmlparser.version>2.1</dep.htmlparser.version>
         <dep.rest-assured.version>5.5.6</dep.rest-assured.version>
