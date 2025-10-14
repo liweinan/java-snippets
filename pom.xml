@@ -50,7 +50,7 @@
         <!--        https://stackoverflow.com/questions/38882080/specifying-java-version-in-maven-differences-between-properties-and-compiler-p-->
         <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <resteasy.ver>6.2.12.Final</resteasy.ver>
+        <resteasy.ver>7.0.0.Final</resteasy.ver>
         <rx.java.jdbc.version>0.7.11</rx.java.jdbc.version>
         <rxjava.ver>3.1.12</rxjava.ver>
         <springboot.version>3.5.6</springboot.version>
