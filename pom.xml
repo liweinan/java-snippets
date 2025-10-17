@@ -74,7 +74,7 @@
         <dep.commons-compress.version>1.28.0</dep.commons-compress.version>
         <dep.commons-io.version>2.19.0</dep.commons-io.version>
         <dep.huggingface-tokenizers.version>0.33.0</dep.huggingface-tokenizers.version>
-        <dep.javafx-controls.version>25-ea+18</dep.javafx-controls.version>
+        <dep.javafx-controls.version>26-ea+12</dep.javafx-controls.version>
         <dep.javafx-graphics.version>25-ea+20</dep.javafx-graphics.version>
         <dep.javafx-base.version>25-ea+17</dep.javafx-base.version>
         <dep.maven-surefire-plugin.version>3.5.3</dep.maven-surefire-plugin.version>
