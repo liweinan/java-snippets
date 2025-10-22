@@ -1,18 +1,11 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
-
 version: 2
 updates:
   - package-ecosystem: "maven"
     directory: "/"
     schedule:
-      interval: "daily"
-    rebase-strategy: disabled
-  - package-ecosystem: "github-actions"
-    # Workflow files stored in the
-    # default location of `.github/workflows`
-    directory: "/"
-    schedule:
-      interval: "daily"
+      interval: "weekly"
+    ignore:
+      # 忽略 JavaFX 依赖的自动更新
+      - dependency-name: "org.openjfx:javafx-controls"
+      - dependency-name: "org.openjfx:javafx-graphics"
+      - dependency-name: "org.openjfx:javafx-base"
