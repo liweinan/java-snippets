@@ -70,7 +70,7 @@
         <dep.rest-assured.version>5.5.6</dep.rest-assured.version>
         <dep.json-schema-validator.version>5.5.6</dep.json-schema-validator.version>
         <dep.hamcrest.version>3.0</dep.hamcrest.version>
-        <dep.jna.version>5.17.0</dep.jna.version>
+        <dep.jna.version>5.18.1</dep.jna.version>
         <dep.commons-compress.version>1.28.0</dep.commons-compress.version>
         <dep.commons-io.version>2.20.0</dep.commons-io.version>
         <dep.huggingface-tokenizers.version>0.35.0</dep.huggingface-tokenizers.version>
