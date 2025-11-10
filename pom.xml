@@ -39,7 +39,7 @@
         <dep.jetty.version>3.2.10.Final</dep.jetty.version>
         <dep.jgroups.version>5.5.0.Final</dep.jgroups.version>
         <dep.junit.ver>6.0.1</dep.junit.ver>
-        <dep.junit.platform.ver>6.0.0</dep.junit.platform.ver>
+        <dep.junit.platform.ver>6.0.1</dep.junit.platform.ver>
         <dep.sisu.ver>0.3.5</dep.sisu.ver>
         <dep.testng.ver>7.11.0</dep.testng.ver>
         <graaljs.version>25.0.1</graaljs.version>
