@@ -30,7 +30,7 @@
 
     <properties>
         <commons-beanutils.ver>1.11.0</commons-beanutils.ver>
-        <dep.assertj.ver>3.27.6</dep.assertj.ver>
+        <dep.assertj.ver>3.27.7</dep.assertj.ver>
         <dep.bouncycastle.version>1.70</dep.bouncycastle.version>
         <dep.guice.ver>7.0.0</dep.guice.ver>
         <dep.jackson-core.version>2.20.1</dep.jackson-core.version>
