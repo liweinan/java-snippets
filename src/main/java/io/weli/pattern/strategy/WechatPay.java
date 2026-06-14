@@ -1,5 +1,6 @@
 package io.weli.pattern.strategy;
 
+/** 具体策略：微信支付。 */
 public class WechatPay implements PayStrategy {
 
     @Override

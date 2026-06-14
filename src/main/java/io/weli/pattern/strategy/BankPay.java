@@ -1,5 +1,6 @@
 package io.weli.pattern.strategy;
 
+/** 具体策略：银行卡支付。 */
 public class BankPay implements PayStrategy {
 
     @Override
