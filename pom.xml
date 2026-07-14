@@ -68,7 +68,7 @@
         <dep.cglib.version>3.3.0</dep.cglib.version>
         <dep.htmlparser.version>2.1</dep.htmlparser.version>
         <dep.rest-assured.version>5.5.6</dep.rest-assured.version>
-        <dep.json-schema-validator.version>5.5.6</dep.json-schema-validator.version>
+        <dep.json-schema-validator.version>6.0.0</dep.json-schema-validator.version>
         <dep.hamcrest.version>3.0</dep.hamcrest.version>
         <dep.jna.version>5.18.1</dep.jna.version>
         <dep.commons-compress.version>1.28.0</dep.commons-compress.version>
