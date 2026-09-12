@@ -217,7 +217,7 @@ open leak-report/index.html
 | 找泄漏根 | 做不到 | Leak Suspects + Path to GC Roots |
 | 适合场景 | 线上快速瞄一眼 | 线下深度分析 |
 
-姊妹篇：`docs/jmap-troubleshooting-guide.md`
+总计划（第 6 日）：`docs/jdk-toolkit-learning-plan.md`。姊妹篇：`docs/jmap-troubleshooting-guide.md`
 
 ---
 

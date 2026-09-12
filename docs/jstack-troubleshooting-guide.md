@@ -330,4 +330,6 @@ grep -A2 'deadlock\|busy-loop\|blocked-thread\|Found.*deadlock' /tmp/jstack-demo
 ## 十四、相关文件
 
 - 示例代码：`src/main/java/io/weli/concurrent/JstackTroubleDemo.java`
-- 本手册：`docs/jstack-troubleshooting-guide.md`
+- 总计划（第 4 日）：`docs/jdk-toolkit-learning-plan.md`
+- 等价命令：`jcmd <pid> Thread.print`（`docs/jcmd-troubleshooting-guide.md`）
+- 内存排查：`docs/jmap-troubleshooting-guide.md`

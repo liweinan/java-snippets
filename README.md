@@ -35,6 +35,7 @@ src/
 - Java language features exploration
 - Reflection API usage examples
 - AI integration examples
+- JDK 诊断工具集（jps / jinfo / jstat / jcmd / jstack / jmap / MAT / jconsole / jhsdb）：见 `docs/jdk-toolkit-learning-plan.md`
 - And more...
 
 ## Getting Started
@@ -48,6 +49,23 @@ src/
 
 ```bash
 mvn clean install
+```
+
+### JDK diagnostic toolkit
+
+按排查顺序串起来的十日计划与分册手册：
+
+```
+docs/jdk-toolkit-learning-plan.md
+```
+
+轻量靶进程：
+
+```bash
+mvn -q compile -DskipTests
+java -Xms64m -Xmx128m -XX:+UseG1GC \
+  -Dtoolkit.demo.name=JvmToolkitDemo \
+  -cp target/classes io.weli.concurrent.JvmToolkitDemo
 ```
 
 ### Running Examples

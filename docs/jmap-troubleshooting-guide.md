@@ -238,4 +238,8 @@ kill "$PID"
 ## 十三、相关文件
 
 - 示例代码：`src/main/java/io/weli/concurrent/JmapHeapDemo.java`
-- 线程排查（姊妹篇）：`docs/jstack-troubleshooting-guide.md`
+- 总计划（第 5 日）：`docs/jdk-toolkit-learning-plan.md`
+- 线程排查：`docs/jstack-troubleshooting-guide.md`
+- GC 趋势：`docs/jstat-troubleshooting-guide.md`
+- `jmap -heap` 替代：`docs/jcmd-troubleshooting-guide.md`、`docs/jhsdb-troubleshooting-guide.md`
+- 堆转储分析：`docs/mat-troubleshooting-guide.md`
