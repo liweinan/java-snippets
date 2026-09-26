@@ -9,7 +9,7 @@
 | 类型 | 线程名 | 现象 | jstack 关键特征 |
 |------|--------|------|-----------------|
 | 死锁 | `deadlock-thread-1/2` | 两个线程互相等锁，永远卡住 | 末尾 `Found one Java-level deadlock` |
-| 阻塞 | `blocked-thread` | 等别人持有的锁 | `BLOCKED (on object monitor)` + `waiting to lock` |
+| 阻塞 | `blocked-thread` | 等别人持有的 **`synchronized` 监视器** | `BLOCKED (on object monitor)` + `waiting to lock` |
 | 死循环 | `busy-loop-thread` | CPU 飙高 | `RUNNABLE` 且 `cpu=` 时间远大于其他线程 |
 
 ---
@@ -110,8 +110,9 @@ for i in 1 2 3; do
 done
 ```
 
-- 栈不变 + `RUNNABLE` 在同一行 → 可能是死循环
-- 栈一直 `BLOCKED` / `WAITING` → 锁或 I/O 阻塞
+- 栈不变 + `RUNNABLE` 在同一行 → 可能是死循环（网络 read 也可能是 `RUNNABLE`，要看栈顶）
+- 栈一直 `BLOCKED` → 在等 `synchronized` 监视器
+- 栈一直 `WAITING` / `TIMED_WAITING` → `wait` / `park` / `sleep` / `join` 等，**不是** `BLOCKED`
 - 末尾出现 deadlock → 直接定位
 
 ---
@@ -141,10 +142,25 @@ done
 
 | jstack 状态 | 含义 | 常见原因 |
 |-------------|------|----------|
-| `RUNNABLE` | 正在运行或等 CPU | 正常计算、忙等死循环、网络 read 也可能显示 RUNNABLE |
-| `BLOCKED` | 等 synchronized 锁 | 锁被别的线程占用 |
-| `WAITING` | 无限期等待 | `Object.wait()`、`LockSupport.park()`、`join()` |
-| `TIMED_WAITING` | 限时等待 | `Thread.sleep()`、`wait(timeout)` |
+| `RUNNABLE` | 正在运行或等 CPU | 正常计算、忙等死循环；**网络 read / 磁盘 IO 也常显示 RUNNABLE** |
+| `BLOCKED` | 等进入 `synchronized`（对象监视器） | 监视器被别的线程占用，见 6.3 |
+| `WAITING` | 无限期等待 | `Object.wait()`、`LockSupport.park()`、`join()`；`ReentrantLock.lock()` 也多半是这个 |
+| `TIMED_WAITING` | 限时等待 | `Thread.sleep()`、`wait(timeout)`、`tryLock(timeout)` |
+
+### 6.3 `BLOCKED` 只等监视器，不是所有「卡住」
+
+`BLOCKED (on object monitor)` **只**表示：这条线程要进 `synchronized`，锁被别人占着，它在等对方退出同步块把监视器放掉。旁边会有 `waiting to lock <地址>`。
+
+下面这些**不是** `BLOCKED`：
+
+| 实际在等什么 | 常见状态 |
+|--------------|----------|
+| `Object.wait()` / `join()` / `LockSupport.park()` | `WAITING` |
+| `Thread.sleep()` / `wait(timeout)` / `tryLock(timeout)` | `TIMED_WAITING` |
+| `ReentrantLock.lock()`（内部是 park） | 一般是 `WAITING` |
+| 网络 read、磁盘 IO | 常显示 `RUNNABLE` |
+
+本 Demo 的 `blocked-thread` 是标准监视器等待；`lock-holder` 持锁在 `sleep`，它自己是 `TIMED_WAITING`，不是 `BLOCKED`。
 
 ---
 
@@ -272,7 +288,11 @@ ps -M 14422   # macOS 看线程
 
 ---
 
-## 十、main 线程为什么也在栈里
+## 十、输出里有哪些线程
+
+`jstack` / `jcmd Thread.print` 打的是**这一刻 JVM 里几乎所有 Java 线程**，不只是业务线程。按线程名分成三类，先过滤再读栈。
+
+### 10.1 `main`
 
 ```
 "main" ...
@@ -281,7 +301,32 @@ ps -M 14422   # macOS 看线程
 	at ...JstackTroubleDemo.main(JstackTroubleDemo.java:28)
 ```
 
-这是 Demo 故意 `Thread.sleep(Long.MAX_VALUE)` 让 JVM 不退出，**不是故障**。生产里 main 可能已结束，只剩业务线程。
+这是 Demo 故意 `Thread.sleep(Long.MAX_VALUE)` 让 JVM 不退出，**不是故障**。生产里 servlet 容器一类进程，`main` 往往早就结束，JVM 靠其它非 daemon 线程活着，输出里可以没有 `"main"`。
+
+### 10.2 业务线程
+
+你 `new Thread(..., "名字")` 或线程池起的，例如本 Demo 的 `deadlock-thread-1`、`blocked-thread`、`busy-loop-thread`，以及现场的 `pool-1-thread-N`、`http-nio-...`。排查时主要看这些。
+
+### 10.3 JVM / JDK 自己的线程
+
+栈顶多半在 `java.lang.*` 或本地帧，没有业务类名，扫一眼即可：
+
+| 线程名 | 大致职责 |
+|--------|----------|
+| `Reference Handler` / `Finalizer` / `Common-Cleaner` | 引用队列、finalize、cleaner |
+| `Signal Dispatcher` | 处理 OS 信号 |
+| `C1 CompilerThread` / `C2 CompilerThread` | JIT |
+| `GC Thread#` / `G1 Conc#` / `G1 Main Marker` 等 | GC |
+| `VM Thread` | VM 内部操作（部分 safepoint 相关） |
+| `Service Thread` / `Notification Thread` | 服务、JMX 通知 |
+| `Attach Listener` | `jstack` / `jcmd` 自己 attach 时会出现 |
+
+过滤示例：
+
+```bash
+# 只看本 Demo 业务线程 + deadlock 结论
+grep -E 'deadlock-|blocked-thread|lock-holder|busy-loop|"main"|Found.*deadlock' /tmp/jstack-demo.txt
+```
 
 ---
 
@@ -292,7 +337,9 @@ ps -M 14422   # macOS 看线程
 | `jstack: command not found` | 未装 JDK 或 PATH 不对 | 用 `$JAVA_HOME/bin/jstack` |
 | `Unable to open socket file` | 权限不足 | `sudo jstack <pid>` 或同用户运行 |
 | 输出里没有业务线程 | 抓错 PID | `jps -l` 再确认 |
-| 没有 deadlock 段但怀疑死锁 | 仅 synchronized 环路能检测 | 手动看 `locked` / `waiting to lock` 配对 |
+| 输出里全是 `GC Thread` / `C2 CompilerThread` | 正常，JVM 内部线程也会打印 | 按业务线程名 `grep`，见第十节 |
+| `ReentrantLock` 卡住但不是 `BLOCKED` | `lock()` 走 park，状态是 `WAITING` | 看栈顶是否在 `AbstractQueuedSynchronizer` |
+| 没有 deadlock 段但怀疑死锁 | 仅 synchronized 环路能自动检测 | 手动看 `locked` / `waiting to lock` 配对 |
 
 ---
 
