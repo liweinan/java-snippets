@@ -90,8 +90,8 @@ jmap -histo 24665 | head -30
 
 ### 本 Demo 的结论
 
-- **`[B` 字节最大**，但这一行叠了 `LEAKED_BUFFERS` 和 `STRING_LEAK` 两摊，见 5.1
-- **`java.lang.String` 实例数 ≈ round × 1000** → `STRING_LEAK`
+- **`[B` 只表示 `byte[]`，不是 `String`**。这一行叠了两摊 `byte[]`：`LEAKED_BUFFERS` 的大数组，以及 `STRING_LEAK` 里每条 String 的 `value`（Java 9+ 字符数据在独立的 `byte[]` 上）。`String` 对象本身在下一行 `java.lang.String`，见 5.1
+- **`java.lang.String` 实例数 ≈ round × 1000** → `STRING_LEAK` 的对象头 + 字段（不含 `value` 数组）
 - **`FillerArray` 没有对应字段** → VM 填空洞；大块尾巴跟 `LEAKED_BUFFERS` 走，小块尾巴跟 String 的 TLAB 走
 - 在真实故障里：若某业务 DTO、缓存 Map、char[] 长期霸榜 → 重点查对应代码路径
 
@@ -115,7 +115,7 @@ Demo 控制台当时：`leak round 108, buffers=108, strings=108000`。`jcmd GC.
 | `STRING_LEAK` | **`java.lang.String`** + **小块 `[B]`**（Latin-1 的 `value`） | String **120976 ≈ 108000 + JVM 自用**；小 `[B]` 个数 ≈ `122269 − 108 ≈ 12.2 万`，和 String 近 1:1；平均约 **50 字节**（`"leak-round-N-item-M"` 二十多个字符 + 数组头） |
 | （没有字段） | **`FillerArray`** | VM 填的死空间，应用拿不到引用 |
 
-`[B]` 为什么看起来「既像大数组又像 String」：histo **不按长度拆** `[B]`。用 **`#bytes / #instances`** 分开：512 KB 量级是 `LEAKED_BUFFERS`，几十字节是 String 的 `value`。String 对象本身只有约 `2903424 / 120976 ≈ 24` 字节（对象头 + 字段），**不含**后面的 `value` 数组。
+`[B]` **不包括** `String` 类。histo 里 `java.lang.String` 和 `[B]` 是两行：前者是 String 对象（约 `2903424 / 120976 ≈ 24` 字节，对象头 + 字段，里面只有指向 `value` 的引用），后者全是 `byte[]`。Java 9+ 的 compact string 把字符放在 `value` 这块 `byte[]` 上，所以 `STRING_LEAK` 会**另外**贡献一行小 `[B]`。histo **不按长度拆** `[B]`，用 **`#bytes / #instances`** 分开：512 KB 量级是 `LEAKED_BUFFERS`，几十字节是 String 的 `value`。
 
 #### `FillerArray` 为什么这份里也吃到 59 MB
 
@@ -132,7 +132,25 @@ Demo 每次 `new byte[512 * 1024]`：`1024` = 1 KB 的字节数，长度 `524288
             填成 FillerArray
 ```
 
-再塞第二个 512 KB 数组：512 + 512 = 1024，**头都贴不下**，所以一格通常只能住 **一条** `LEAKED_BUFFERS`，剩下大约小半格就是 filler。
+两个 **512 KB 有效载荷** 加起来正好 1 MB，但堆里的对象比有效载荷大，一格仍然装不下两条。
+
+`new byte[512 * 1024]` 只要 **524288** 字节的数据。HotSpot 64 位、压缩指针时，`byte[]` 还要：
+
+- mark word 8 字节
+- klass 4 字节
+- 数组 `length` 4 字节
+
+头一共 **16** 字节。对齐之后每个对象大约 **524304** 字节：
+
+```
+524304 × 2 = 1,048,608
+1 MB      = 1,048,576
+差额        = 32 字节
+```
+
+多出来的 32 字节已经越过 region 边界。普通对象又**不能骑在两格上**，所以一格只能放一条，剩下的半格用 `FillerArray` 填平。
+
+G1 还把「大于半个 region」的对象当 **humongous**。半格是 524288，对象是 524304，**刚好过线**，往往会整格专给这一条数组，更不会在同一格里再塞第二条。要填充，不是 512+512 算错了，是 **没把对象头算进 1 MB**。
 
 这份平均一块 `59611976 / 150 ≈ 388 KB`，和「半格 region」同一量级（不是整整 512 KB：还有对象头、对齐，以及少数 TLAB 小块把平均数拉低）。108 条大数组 ≈ 108 条这样的尾巴，所以 `FillerArray` 的 `#bytes`（59.6 MB）和 `[B]`（62.7 MB）会**一起爬**。59 MB 不是又泄漏了一份业务数据，是格子太大、数组只占一半的空隙被算进 histo。实例数只有 **150**，和 12 万 String 对不上。
 
