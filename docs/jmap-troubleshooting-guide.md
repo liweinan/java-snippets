@@ -107,7 +107,40 @@ Demo 控制台当时：`leak round 108, buffers=108, strings=108000`。`jcmd GC.
    3:        120976        2903424  java.lang.String (java.base@21.0.2)
 ```
 
-**不要**做成「`LEAKED_BUFFERS` = `FillerArray`、`STRING_LEAK` = `String`」。三行和两个字段是这样拆的：
+**不要**做成「`LEAKED_BUFFERS` = `FillerArray`、`STRING_LEAK` = `String`」。先看 VM 怎么存 `String`，再对 histo。
+
+#### VM 里 `String` 怎么存
+
+Java 8 及更早：字符在 `char[]`（histo 里是 `[C`），每个字符两字节。Java 9 起是 [JEP 254 Compact Strings](https://openjdk.org/jeps/254)：改成 **`byte[]` + 编码标志**，纯 Latin-1 的字符串每个字符只占 1 字节。实现见 JDK 21 [`String.java`](https://github.com/openjdk/jdk/blob/jdk-21-ga/src/java.base/share/classes/java/lang/String.java)（约 158–174 行）：
+
+```java
+// src/java.base/share/classes/java/lang/String.java: 158-174
+private final byte[] value;
+private final byte coder;   // LATIN1 = 0，UTF16 = 1
+private int hash;
+```
+
+堆上是**两个对象**，不是一块连续的「String 内存」：
+
+```
+java.lang.String                         byte[] value
++----------------------+                 +------------------+
+| mark / klass         |                 | mark / klass     |
+| value  ──────────────+---------------->| length           |
+| coder  (LATIN1/UTF16)|                 | 字符字节         |
+| hash                 |                 +------------------+
++----------------------+
+     histo: java.lang.String                  histo: [B]
+     本机约 24 字节/个                        本 Demo 约 50 字节/个
+```
+
+- **`java.lang.String`**：对象头 + 指向 `value` 的引用 + `coder` + `hash`。**不含**字符本身。
+- **`value` 的 `[B]`**：真正的字符数据。`coder == LATIN1` 时一字符一字节；有非 Latin-1 时改 UTF-16，一字符两字节（`value.length` 是字节数，不是 `String.length()`）。
+- 应用拿不到 `value` / `coder`（`private`）；histo / MAT 能看见，因为它们扫的是堆。
+
+本 Demo 的 `"leak-round-" + round + "-item-" + i` 全是 ASCII，走 **LATIN1**。所以 `STRING_LEAK` 在 histo 里拆成两行：约 12 万个 `String`（约 24 字节）+ 约 12 万个小 `[B]`（二十多个字符 + 数组头 ≈ 50 字节）。JDK 8 的同样泄漏会在 `[C]` 上看到字符数组，而不是小 `[B]`。
+
+三行和两个字段是这样拆的：
 
 | 源码字段 | histo 里是谁 | 这份数怎么对 |
 |----------|--------------|--------------|
@@ -115,13 +148,25 @@ Demo 控制台当时：`leak round 108, buffers=108, strings=108000`。`jcmd GC.
 | `STRING_LEAK` | **`java.lang.String`** + **小块 `[B]`**（Latin-1 的 `value`） | String **120976 ≈ 108000 + JVM 自用**；小 `[B]` 个数 ≈ `122269 − 108 ≈ 12.2 万`，和 String 近 1:1；平均约 **50 字节**（`"leak-round-N-item-M"` 二十多个字符 + 数组头） |
 | （没有字段） | **`FillerArray`** | VM 填的死空间，应用拿不到引用 |
 
-`[B]` **不包括** `String` 类。histo 里 `java.lang.String` 和 `[B]` 是两行：前者是 String 对象（约 `2903424 / 120976 ≈ 24` 字节，对象头 + 字段，里面只有指向 `value` 的引用），后者全是 `byte[]`。Java 9+ 的 compact string 把字符放在 `value` 这块 `byte[]` 上，所以 `STRING_LEAK` 会**另外**贡献一行小 `[B]`。histo **不按长度拆** `[B]`，用 **`#bytes / #instances`** 分开：512 KB 量级是 `LEAKED_BUFFERS`，几十字节是 String 的 `value`。
+因此 `[B]` **不是** `String` 类，但 **会包含** 每条 String 的 `value`。histo **不按长度拆** `[B]`，用 **`#bytes / #instances`** 分开：512 KB 量级是 `LEAKED_BUFFERS`，几十字节是 String 的 `value`。
 
 #### `FillerArray` 为什么这份里也吃到 59 MB
 
-`Ljdk.internal.vm.FillerArray;` 是 HotSpot 自己造的填充对象：空洞必须填平，堆才能按对象边界扫。JDK 16+ 从混在 `[I` 里拆出来，避免和业务 `int[]` 搞混。较新的 21 更新里名字可能是 `[Ljdk/internal/vm/FillerElement;`。
+`Ljdk.internal.vm.FillerArray;` 是 HotSpot 自己造的填充对象。较新的 21 更新里名字可能是 `[Ljdk/internal/vm/FillerElement;`。
 
-G1 把堆切成固定 **1 MB** 的 region（`region size 1024K`）。对象要放进格子里；一格装不满的部分不能空着给 `jmap` 扫，VM 就塞一个 `FillerArray` 把尾巴填平。
+**G1** 是 Garbage-First，HotSpot 的垃圾收集器，JDK 9 起默认开启。它不把堆当成一整块连续的新生代/老年代，而是切成许多大小相同的 **region**（一段连续虚拟内存）；分配和回收都以 region 为单位。Oracle 手册 **Heap Layout** 一节原文：
+
+> G1 partitions the heap into a set of equally sized heap regions, each a contiguous range of virtual memory as shown in Figure 7-1. A region is the unit of memory allocation and memory reclamation.
+
+见 [Garbage-First (G1) Garbage Collector — Heap Layout](https://docs.oracle.com/en/java/javase/26/gctuning/garbage-first-g1-garbage-collector1.html#GUID-15921907-B297-43A4-8C48-DC88035BC7CF)。同页 **Ergonomic Defaults** 写 region 默认按最大堆估成大约 2048 格，必须是 2 的幂，范围 1–512 MB（`-XX:G1HeapRegionSize`）。
+
+**本 Demo 的 1 MB 不是 G1 的普遍规定。** `-Xmx256m` 时 `jcmd GC.heap_info` 打出 `region size 1024K`；堆更大时格子经常是 2 MB、4 MB。
+
+空洞要填成合法对象，是因为 **GC 必须能从低地址扫到高地址**：一个对象后面还是一个对象。这不是「专门填给 jmap」。`jmap -histo` 只是顺着这条已经可解析的堆去数，所以会看到 `FillerArray`。HotSpot GC 工程师 Thomas Schatzl 的表述：*the garbage collector guarantees that after an object in the Java heap another valid Java object of some kind always follows.* 见 [The Case of Ljdk.vm.internal.FillerArray](https://tschatzl.github.io/2022/09/26/jdk-vm-internal-fillerarray.html)。
+
+以前用 `java.lang.Object` / `int[]`（`[I`）填洞。[JDK-8284435](https://bugs.openjdk.org/browse/JDK-8284435)（JDK 19）改成专用 klass，避免和业务数组搞混，并让指向死区的引用在调试时能被认出来。实现是 `CollectedHeap::fill_with_array()` 改用 `Universe::fillerArrayKlassObj()`，见 [openjdk/jdk@7020595](https://github.com/openjdk/jdk/commit/70205956313740e48e1fcb0c02c8f1488ab0d987)。TLAB 退还、G1 死对象之间的洞、humongous 最后一格的 leftover，都走这条填充。
+
+「512 KB 数组配大约半格 filler」是结合 **本机 1 MB region + 对象头** 推出来的，**不是规范原文**。histo 是快照：mixed GC 挤紧、或格子大于 1 MB 时，filler 可以变得很小（见下文约 2 MB 的那份）。
 
 Demo 每次 `new byte[512 * 1024]`：`1024` = 1 KB 的字节数，长度 `524288` = **512 KB**（和 `region size 1024K` 那个「1024 个 KB = 1 MB」不是一回事）。有效载荷 512 KB，加上数组头还要再大一点。一格 1 MB 里：
 
@@ -346,3 +391,14 @@ kill "$PID"
 - GC 趋势：`docs/jstat-troubleshooting-guide.md`
 - `jmap -heap` 替代：`docs/jcmd-troubleshooting-guide.md`、`docs/jhsdb-troubleshooting-guide.md`
 - 堆转储分析：`docs/mat-troubleshooting-guide.md`
+
+`String` 存储（5.1）：
+
+- [JEP 254: Compact Strings](https://openjdk.org/jeps/254)：内部表示从 `char[]` 改为 `byte[]` + encoding flag（Latin-1 或 UTF-16）
+- OpenJDK 21 [`java/lang/String.java`](https://github.com/openjdk/jdk/blob/jdk-21-ga/src/java.base/share/classes/java/lang/String.java)：`value`、`coder`、`hash` 字段
+
+G1 / `FillerArray` 出处（5.1）：
+
+- Oracle，《Garbage-First (G1) Garbage Collector》**Heap Layout**（Java SE 26）：https://docs.oracle.com/en/java/javase/26/gctuning/garbage-first-g1-garbage-collector1.html#GUID-15921907-B297-43A4-8C48-DC88035BC7CF ；同页 Humongous Objects：≥ 半个 region
+- OpenJDK [JDK-8284435](https://bugs.openjdk.org/browse/JDK-8284435) / [commit 7020595](https://github.com/openjdk/jdk/commit/70205956313740e48e1fcb0c02c8f1488ab0d987)：专用 filler klass；`CollectedHeap::fill_with_array()`
+- Thomas Schatzl，[The Case of Ljdk.vm.internal.FillerArray](https://tschatzl.github.io/2022/09/26/jdk-vm-internal-fillerarray.html)：堆必须可按对象边界解析；`jmap -histo` 会把 filler 单独列出来
